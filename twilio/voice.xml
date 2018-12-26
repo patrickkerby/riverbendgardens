@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response><Say voice="alice">Thanks for the call. Unfortunately this is an automated service, and the awesome folks at Riverbend Gardens don't receive calls at this number. </Say><Pause length="1"/><Say voice="alice">Send us an email and we'll help you out right away!</Say></Response>

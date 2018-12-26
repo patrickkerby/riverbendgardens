@@ -1,0 +1,11 @@
+/* Login Screen */
+body.login {
+	background: url('http://www.riverbendgardens.ca/wp-content/themes/riverbend/images/RB-login-bg.jpg') no-repeat;
+	background-size: cover;
+}
+
+body.login div#login h1 a {
+	background-size: auto !important;
+	width: 220px !important;
+	height: 200px !important;
+}
