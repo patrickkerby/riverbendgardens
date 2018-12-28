@@ -73,7 +73,7 @@ Template Name: CSA 2017
 	</div>
 	<div class="full-section part3">
 		<div class="wrapper">
-			<h2>We Partner with <span class="line1">awesome</span><strong>local businesses</strong><span class="line2">who share our values and care about building Edmonton?s food economy.</span></h2>
+			<!-- <h2>We Partner with <span class="line1">awesome</span><strong>local businesses</strong><span class="line2">who share our values and care about building Edmonton?s food economy.</span></h2> -->
 			<?php the_field('partners_description'); ?>
 			<div class="locations">
 				<ul>
@@ -124,11 +124,11 @@ Template Name: CSA 2017
 			<div class="info">
 				<?php the_field('pricing_details'); ?>
 			</div>
-		</div
+		</div>
 	</div>
 	<div id="signup" class="full-section part6">
-			<?php echo types_render_field("csa-section-6", array("output"=>"raw"));?>
-	</div>
+
+</div>
 	<div class="full-section part7">
 			<h4>Looking for more details?</h4>
 	<div class="outerContainer">

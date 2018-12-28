@@ -26,8 +26,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<?php wp_head(); ?>
-	<link rel="shortcut icon" href="https://riverbendcsa.ca/favicon.icns">
-	<link rel="stylesheet" type="text/css" href="https://riverbendcsa.ca/wp-content/themes/riverbend/foundation-icons/foundation-icons.css">
+	<link rel="shortcut icon" href="favicon.icns">
+	<link rel="stylesheet" type="text/css" href="app/themes/riverbend/foundation-icons/foundation-icons.css">
 	<meta name="google-site-verification" content="u1ou0Mch5lP6Rv2f3xO8L_VQJ6NSYBKQpp0nHWJ5kTs" />
     <!--[if lte IE 8]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>

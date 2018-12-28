@@ -14,8 +14,8 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<?php wp_head(); ?>
-	<script type="text/javascript" src="https://riverbendcsa.ca/wp-content/themes/riverbend/js/footable.min.js"></script>
-	<link rel="shortcut icon" href="https://riverbendcsa.ca/favicon.icns">
+	<script type="text/javascript" src="app/themes/riverbend/js/footable.min.js"></script>
+	<link rel="shortcut icon" href="favicon.icns">
 
 	<script type="text/javascript">
 ( function($) {

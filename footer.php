@@ -5,7 +5,7 @@
 ?>
 <footer id="footer">
 	<div class="footer-wrapper">
-		<img class="foot-logo" src="/wp-content/themes/riverbend/images/logo-sh.png" />
+		<img class="foot-logo" src="/app/themes/riverbend/images/logo-sh.png" />
 		<?php basis_maybe_show_footer_widgets(); ?>
 		<div class="secondary">
 		<section class="fine-print">
