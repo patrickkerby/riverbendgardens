@@ -36,17 +36,6 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGPJGB4"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<!-- Hotjar Tracking Code for www.riverbendcsa.ca -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:693981,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
 <?php
 /**
  * Allow the header to be hidden. The HTML Builder allows the user to hide the header in order to make a microsite or
