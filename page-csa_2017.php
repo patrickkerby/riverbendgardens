@@ -2,7 +2,12 @@
 /*
 Template Name: CSA 2017
 */
+
+$pagebreak = get_field('pagebreak_image');
+$mapimage = get_field('map_image');
+
 ?>
+
 
 <?php get_header(); ?>
 <section id="shop-banner"></section>
@@ -58,7 +63,7 @@ Template Name: CSA 2017
 	</div>
 	<div class="full-section part2">
 		<div class="wrapper">
-			<img class="alignnone size-full wp-image-4360" src="https://test.riverbendgardens.ca/wp-content/uploads/2015/01/map-20151.png" alt="Riverbend Gardens CSA 2019" width="609" height="534" />
+			<img class="alignnone size-full wp-image-4360" src="<?php echo $mapimage; ?>" alt="Riverbend Gardens CSA 2019" width="609" height="534" />
 			<ul>
 				<?php if( have_rows('csa_steps') ):
 				    while ( have_rows('csa_steps') ) : the_row();
@@ -89,7 +94,7 @@ Template Name: CSA 2017
 			</div>
 		</div>
 	<div id="banner-green">
-		<img class="aligncenter size-full wp-image-4087" src="https://test.riverbendgardens.ca/wp-content/uploads/2015/01/rbgplusyeg.png" alt="RBG Loves YEG!" />
+		<img class="aligncenter size-full wp-image-4087" src="<?php echo $pagebreak; ?>" alt="RBG Loves YEG!" />
 	</div>	
 	<div class="full-section part4">
 		<h3>Two Sizes:</h3>
