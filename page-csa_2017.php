@@ -85,31 +85,30 @@ $mapimage = get_field('map_image');
 					<?php if( have_rows('locations') ):
 					    while ( have_rows('locations') ) : the_row();
 					?>
-					<li><?php the_sub_field('pickup_location'); ?></li>
-					<?php    endwhile;
+					<li>if(<a href="<?php the_sub_field('location_website'); ?>" target="_blank" ><?php the_sub_field('pickup_location'); ?></a></li>
+					<?php endwhile;
 					else :
 					    // no rows found
 					endif; ?>
 				</ul>
 			</div>
 		</div>
-	<div id="banner-green">
-		<img class="aligncenter size-full wp-image-4087" src="<?php echo $pagebreak; ?>" alt="RBG Loves YEG!" />
-	</div>	
+		<div id="banner-green">
+			<img class="aligncenter size-full wp-image-4087" src="<?php echo $pagebreak; ?>" alt="RBG Loves YEG!" />
+		</div>
+	</div>
 	<div class="full-section part4">
 		<h3>Two Sizes:</h3>
-		<div class="wrapper">
-			<div class="half bigger">
-				<h4><strong>Bigger</strong> <span class="bignum"><?php the_field('csa_items_bigger'); ?></span> <span class="line1">items of peak-season Produce </span></h4>
-				<?php the_field('bigger_csa_description'); ?>
-			</div>
-			<div class="half smaller">
-				<h4><strong>Smaller</strong> <span class="bignum"><?php the_field('csa_items_bigger'); ?></span> <span class="line1">items of peak-season Produce</span></h4>
-				<?php the_field('smaller_csa_description'); ?>
-			</div>
-			<div id="slider">
-				<p><?php the_field('season_expectations'); ?></p>
-			</div>
+		<div class="bigger">
+			<h4><strong>Bigger</strong> <span class="bignum"><?php the_field('csa_items_bigger'); ?></span> <span class="line1">items of peak-season Produce </span></h4>
+			<?php the_field('bigger_csa_description'); ?>
+		</div>
+		<div class="smaller">
+			<h4><strong>Smaller</strong> <span class="bignum"><?php the_field('csa_items_bigger'); ?></span> <span class="line1">items of peak-season Produce</span></h4>
+			<?php the_field('smaller_csa_description'); ?>
+		</div>
+		<div id="slider">
+			<p><?php the_field('season_expectations'); ?></p>
 		</div>
 	</div>
 	<div class="full-section part5">

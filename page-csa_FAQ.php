@@ -8,11 +8,11 @@ Template Name: CSA FAQ
 <section id="shop-banner"></section>
 	<nav id="csa-nav">
 		<ul>
-			<li class="first"><a href="/csa">How it works</a></li>
-			<li class="second"><a href="/csa/about">What is a CSA?</a></li>
+			<li class="first"><a href="<?php echo home_url(); ?>">How it works</a></li>
+			<li class="second"><a href="/about">What is a CSA?</a></li>
 			<li class="third active"><a href="#">FAQ</a></li>
-			<li class="fourth"><a href="/csa/riverbend">Why Riverbend <span>Gardens?</span></a></li>
-			<li class="fifth"><a href="/csa/locations">Pick Up Locations</a></li>
+			<li class="fourth"><a href="/riverbend">Why Riverbend <span>Gardens?</span></a></li>
+			<li class="fifth"><a href="/locations">Pick Up Locations</a></li>
 		</ul>
 	</nav>
 	<div class="cbp-af-header">
@@ -59,17 +59,17 @@ Template Name: CSA FAQ
 			<h4>Looking for more details?</h4>
 	<div class="outerContainer">
 		<div class="innerContainer">
-			<a href="/csa">How it works</a>
+			<a href="<?php echo site_url(); ?>">How it works</a>
 		</div>
 	</div>
 	<div class="outerContainer">
 		<div class="innerContainer">
-			<a href="/csa/about">What is a CSA?</a>
+			<a href="/about">What is a CSA?</a>
 		</div>
 	</div>
 	<div class="outerContainer">
 		<div class="innerContainer">
-			<a href="/csa/riverbend">Why Riverbend Gardens?</a>
+			<a href="/riverbend">Why Riverbend Gardens?</a>
 		</div>
 	</div>
 </div>
