@@ -85,7 +85,7 @@ $mapimage = get_field('map_image');
 					<?php if( have_rows('locations') ):
 					    while ( have_rows('locations') ) : the_row();
 					?>
-					<li>if(<a href="<?php the_sub_field('location_website'); ?>" target="_blank" ><?php the_sub_field('pickup_location'); ?></a></li>
+					<li><a href="<?php the_sub_field('location_website'); ?>" target="_blank" ><?php the_sub_field('pickup_location'); ?></a></li>
 					<?php endwhile;
 					else :
 					    // no rows found
