@@ -8,3 +8,14 @@
     </nav>
   </div>
 </header>
+<div class="cbp-af-header">
+  <div class="cbp-af-inner">
+    <div class="wrapper">
+        <h4><span>I know about it already, </span>sign me up!</h4>
+        <nav>
+            <a href="/product/csa15week/">Full Season <span>(15 weeks)</span></a>
+          <a href="/product/weekly/" class="wk">Week-to-Week</a>
+        </nav>
+      </div>
+  </div>
+</div>
