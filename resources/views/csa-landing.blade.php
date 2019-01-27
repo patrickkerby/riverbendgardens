@@ -6,27 +6,33 @@
 @php
 $pagebreak = get_field('pagebreak_image');
 $mapimage = get_field('map_image');
+$season_length = get_field('season_length', 'option');
+$locations_count = get_field('locations_count', 'option');
+$pickup_dates = get_field('pickup_dates', 'options');
+
+if( have_rows('pickup_dates', 'option') ):
+	while( have_rows('pickup_dates', 'option') ): the_row();
+		$week = get_sub_field('week');
+	endwhile;
+endif;
+
+$first_week = $week[0]
+
 @endphp
   
   @section('content')
   @while(have_posts()) @php the_post() @endphp
-    @include('partials.page-header')
     @include('partials.content-page')
 
-	<nav id="csa-nav">
-		<ul>
-			<li class="first active"><a href="#">How it works</a></li>
-			<li class="second"><a href="/about">What is a CSA?</a></li>
-			<li class="third"><a href="/faq">FAQ</a></li>
-			<li class="fourth last"><a href="/riverbend">Why Riverbend <span>Gardens?</span></a></li>
-			<li class="fifth"><a href="/locations">Pick Up Locations</a></li>		</ul>
-  </nav>
-	<div class="full-section part1">
-		<div class="wrapper">
-			<h1><span class="bignum">15</span> <span class="vert">weeks</span><span class="line1">of the freshest</span> <span class="line2">veggies</span><span class="line3">grown right here in Edmonton</span></h1>
-			<div class="line4"><p>CSA season starts <?php the_field('start_date'); ?><strong>&bull;</strong> Pickup day is every Thursday!</p></div>
-		</div>
-	</div>
+	<section class="row">
+		<h3>Season Length: <span>{{ $season_length }} Weeks</span></h3>
+		<h3>Season Start: <span>{{ $first_week }}</span></h3>
+		<h3>Available in: <span>Two sizes</span></h3>
+		<h3>Pickup day: <span>Thursdays</span></h3>
+		<h3>Pickup Locations: <span>{{ $locations_count }}</span></h3>
+	
+	</section>
+
 	<div class="full-section part2">
 		<div class="wrapper">
 			<img class="alignnone size-full wp-image-4360" src="<?php echo $mapimage; ?>" alt="Riverbend Gardens CSA 2019" width="609" height="534" />

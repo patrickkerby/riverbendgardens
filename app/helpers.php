@@ -136,3 +136,64 @@ function display_sidebar()
     isset($display) || $display = apply_filters('sage/display_sidebar', false);
     return $display;
 }
+
+/*
+* Remove tabs from product details page
+*/
+add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
+
+function woo_remove_product_tabs( $tabs ) {
+    unset( $tabs['additional_information'] ); // Remove the additional information tab
+return $tabs;
+}
+
+/* unique single product templates */
+
+add_filter( 'woocommerce_locate_template', 'so_25789472_locate_template', 10, 3 );
+
+function so_25789472_locate_template( $template, $template_name, $template_path ){
+
+    // on single posts with weekly category and only for single-product/something.php templates
+    if( is_product() && has_term( 'weekly', 'product_cat' ) && strpos( $template_name, 'single-product/') !== false ){
+
+        // replace single-product with single-product-weekly in template name
+        $weekly_template_name = str_replace("single-product/", "single-product-weekly/", $template_name );
+
+        // look for templates in the single-product-weekly/ folder
+        $weekly_template = locate_template(
+            array(
+                trailingslashit( $template_path ) . $weekly_template_name,
+                $weekly_template_name
+            )
+        );
+
+        // if found, replace template with that in the single-product-weekly/ folder
+        if ( $weekly_template ) {
+            $template = $weekly_template;
+        }
+    }
+    return $template;
+}
+
+// Change placeholder in the notes section of checkout
+add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
+
+// Our hooked in function - $fields is passed via the filter!
+function custom_override_checkout_fields( $fields ) {
+     $fields['order']['order_comments']['placeholder'] = 'Any notes or comments you would like us to see?';
+     return $fields;
+}
+
+/** 
+ * Manipulate default state and countries
+ */
+add_filter( 'default_checkout_state', 'change_default_checkout_state' );
+ 
+function change_default_checkout_state() {
+  return 'AB'; // state code
+}
+
+// Add ACF options page
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page();
+}

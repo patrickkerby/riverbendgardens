@@ -1,0 +1,67 @@
+//The following sets variable font sizes for home page section.
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+
+      @media screen and (min-width: $min-vw) {
+        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+      }
+
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}
+
+$min_width: 600px;
+$max_width: 900px;
+$min_font: 13px;
+$max_font: 20px;
+
+p,
+ul,
+ul li,
+a,
+div,
+label,
+input[type="submit"] {
+  font: {
+    family: Venti;
+    size: 21px;
+    weight: 500;
+  }
+}
+
+h1,
+h1 a,
+h2,
+h2 a,
+h3,
+h3 a {
+  font: {
+    family: shackleton-narrow, serif;
+    weight: 400;
+  }
+}
+
+//Webfont Loading
+body {
+  opacity: 1;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  -webkit-transition: -webkit-transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.wf-loading body {
+  opacity: 0;
+}

@@ -2,9 +2,58 @@
 @import "~bootstrap/scss/functions";
 
 $theme-colors: (
-  primary: #525ddc
+  primary: #74af43
 );
+
+$forest-green: ( #416f1a );
+$dark-green: ( #74af43 );
+$bright-green: ( #7db84b );
+$light-green: ( #d8ffb7 );
 
 /** Bootstrap navbar fix (https://git.io/fADqW) */
 $navbar-dark-toggler-icon-bg: none;
 $navbar-light-toggler-icon-bg: none;
+
+@font-face {
+  font-family: "Venti";
+  src:
+    url("../fonts/VentiCF-Medium.woff2") format("woff2"),
+    url("../fonts/VentiCF-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Venti";
+  src:
+    url("../fonts/VentiCF-DemiBold.woff2") format("woff2"),
+    url("../fonts/VentiCF-DemiBold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Venti";
+  src:
+    url("../fonts/VentiCF-Bold.woff2") format("woff2"),
+    url("../fonts/VentiCF-Bold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Venti";
+  src:
+    url("../fonts/VentiCF-Black.woff2") format("woff2"),
+    url("../fonts/VentiCF-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+
+$font-family-sans-serif: Venti, Arial, sans-serif;
+
+@mixin slowfade() {
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}

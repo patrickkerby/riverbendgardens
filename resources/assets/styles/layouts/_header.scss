@@ -1,7 +1,121 @@
+.banner .nav a {
+  @extend .nav-link;
+}
+
 .banner .nav li {
   @extend .nav-item;
 }
 
-.banner .nav a {
-  @extend .nav-link;
+.banner {
+  height: 48vh;
+  min-height: 520px;
+  background-color: #f7f7f7;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+
+  @include slowfade();
+
+  .nav-primary {
+    background-color: $dark-green;
+    position: relative;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      a {
+        color: $white;
+
+        @include fluid-type($min_width, $max_width, $min_font, $max_font);
+
+        font-weight: 800;
+        text-transform: uppercase;
+        padding: 30px 30px;
+      }
+
+      @include media-breakpoint-down(md) {
+        a {
+          padding: 30px 20px;
+        }
+      }
+    }
+
+    .current_page_item a {
+      color: $forest-green;
+    }
+
+    .right {
+      &.push {
+        margin-left: auto;
+      }
+
+      a {
+        font-size: 14px;
+        color: $light-green;
+      }
+
+      @include media-breakpoint-down(md) {
+        a {
+          padding: 30px 20px 30px 0;
+        }
+      }
+    }
+
+    ul.sub-menu {
+      background-color: $bright-green;
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      position: absolute;
+      left: 0;
+      top: 100%;
+
+      li {
+        flex-direction: row;
+
+        a {
+          color: $forest-green;
+          font-size: 16px;
+          padding: 15px 30px;
+          text-transform: none;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        &::after {
+          content: " ";
+          width: 0;
+          height: 0;
+          border-left: 50px solid transparent;
+          border-right: 50px solid transparent;
+          border-top: 54px solid $bright-green;
+          position: absolute;
+          right: -50px;
+        }
+      }
+    }
+  }
+
+  img {
+    width: 180px;
+    align-self: center;
+    margin-top: auto;
+  }
+
+  h1 {
+    margin-bottom: auto;
+    align-self: center;
+    color: $white;
+    font-size: 46px;
+    line-height: 38px;
+    text-transform: uppercase;
+    text-align: center;
+
+    span {
+      font-size: 30px;
+    }
+  }
 }
