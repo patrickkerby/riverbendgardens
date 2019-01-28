@@ -36,11 +36,15 @@ a,
 div,
 label,
 input[type="submit"] {
-  font: {
-    family: Venti;
-    size: 21px;
-    weight: 500;
-  }
+  font-family: Venti, sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+}
+
+p {
+  font-size: 19px;
+  color: #8b8b8b;
+  line-height: 28px;
 }
 
 h1,
@@ -49,9 +53,44 @@ h2,
 h2 a,
 h3,
 h3 a {
-  font: {
-    family: shackleton-narrow, serif;
-    weight: 400;
+  font-family: shackleton-narrow, serif;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 47px;
+  color: $bright-green;
+}
+
+h3 {
+  color: $light-orange;
+  font-family: $font-family-sans-serif;
+  font-size: 23px;
+  line-height: 30px;
+  margin-bottom: 45px;
+}
+
+section {
+  margin-top: 90px;
+  margin-bottom: 90px;
+}
+
+//Bootstrap Tooltip
+.tooltip {
+  .tooltip-inner {
+    background: $bright-green;
+    color: $white;
+    font-size: 16px;
+  }
+
+  .arrow {
+    background: $bright-green;
+    border-top: $bright-green !important;
+    border-color: $bright-green !important;
+    border-bottom-color: $bright-green !important;
+    border-left-color: $bright-green !important;
+    border-right-color: $bright-green !important;
+    border-top-color: $bright-green !important;
   }
 }
 

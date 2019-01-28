@@ -119,3 +119,11 @@
     }
   }
 }
+
+.cbp-af-header {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -16px;
+  z-index: 2;
+}

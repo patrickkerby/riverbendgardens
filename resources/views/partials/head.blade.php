@@ -11,5 +11,7 @@
     })(window,document,'script','dataLayer','GTM-PGPJGB4');</script>
     <!-- End Google Tag Manager -->
   <meta name="google-site-verification" content="u1ou0Mch5lP6Rv2f3xO8L_VQJ6NSYBKQpp0nHWJ5kTs" />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
   @php wp_head() @endphp
 </head>

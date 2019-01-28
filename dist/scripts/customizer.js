@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "23a094c5f79f8bb67d2c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ca0a11b73de38d957e78"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -727,6 +727,17 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = jQuery;
+
+/***/ }),
+/* 1 */
 /*!********************************************************************************************************************************************!*\
   !*** /Users/patrickkerby/Documents/sites/valet/riverbendgardens/web/app/themes/riverbend/node_modules/html-entities/lib/html5-entities.js ***!
   \********************************************************************************************************************************************/
@@ -925,17 +936,6 @@ function createIndexes(alphaIndex, charIndex) {
 
 module.exports = Html5Entities;
 
-
-/***/ }),
-/* 1 */
-/*!*************************!*\
-  !*** external "jQuery" ***!
-  \*************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = jQuery;
 
 /***/ }),
 /* 2 */
@@ -1846,8 +1846,8 @@ ansiHTML.reset()
 module.exports = {
   XmlEntities: __webpack_require__(/*! ./lib/xml-entities.js */ 13),
   Html4Entities: __webpack_require__(/*! ./lib/html4-entities.js */ 14),
-  Html5Entities: __webpack_require__(/*! ./lib/html5-entities.js */ 0),
-  AllHtmlEntities: __webpack_require__(/*! ./lib/html5-entities.js */ 0)
+  Html5Entities: __webpack_require__(/*! ./lib/html5-entities.js */ 1),
+  AllHtmlEntities: __webpack_require__(/*! ./lib/html5-entities.js */ 1)
 };
 
 
@@ -2381,7 +2381,7 @@ module.exports = __webpack_require__(/*! ./scripts/customizer.js */42);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(/*! jquery */ 1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(/*! jquery */ 0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 
 

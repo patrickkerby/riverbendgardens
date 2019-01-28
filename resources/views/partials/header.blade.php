@@ -35,7 +35,7 @@ $hero_product = get_field('shop_header_image', 'option');
   </nav>
   @if (!empty($logo))			
     <img src="{{$logo}}" />
-<h1>Riverbend Gardens <br><span>- CSA {{ date("Y") }} -</span></h1>
+    <h1>Riverbend Gardens <br><span>- CSA {{ date("Y") }} -</span></h1>
 
   @elseif ( is_front_page() )
     {{-- Do not display title --}}
@@ -58,13 +58,3 @@ $hero_product = get_field('shop_header_image', 'option');
   @endif
 
 </header>
-<div class="cbp-af-header">
-  <div class="cbp-af-inner">
-    <div class="wrapper">
-        <nav>
-            <a href="/product/csa15week/">Full Season <span>(15 weeks)</span></a>
-            <a href="/product/weekly/" class="wk">Week-to-Week</a>
-        </nav>
-      </div>
-  </div>
-</div>

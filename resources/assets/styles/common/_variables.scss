@@ -9,6 +9,9 @@ $forest-green: ( #416f1a );
 $dark-green: ( #74af43 );
 $bright-green: ( #7db84b );
 $light-green: ( #d8ffb7 );
+$dark-orange: (#e26025);
+$light-orange: (#e47644);
+$light_grey: (#f2f2f2);
 
 /** Bootstrap navbar fix (https://git.io/fADqW) */
 $navbar-dark-toggler-icon-bg: none;
@@ -56,4 +59,10 @@ $font-family-sans-serif: Venti, Arial, sans-serif;
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
+}
+
+@mixin fullwidth() {
+  position: relative;
+  width: 100vw;
+  left: calc(-1 * (100vw - 100%) / 2);
 }
