@@ -22,5 +22,5 @@
 
   map.scrollZoom.disable();
   map.addControl(new mapboxgl.NavigationControl());
-
+  
 </script>

@@ -301,10 +301,10 @@ $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 			$images = get_field('gallery');
 			
 			if( $images ): @endphp
-					<div class="row">
+					<div class="row gallery">
 							@php foreach( $images as $image ): @endphp
 									<div class="col-md-3 col-sm-6">
-											<a href="@php echo $image['url']; @endphp">
+											<a href="@php echo $image['url']; @endphp" target="_blank">
 													 <img src="@php echo $image['sizes']['thumbnail']; @endphp" alt="@php echo $image['alt']; @endphp" />
 											</a>
 											<p>@php echo $image['caption']; @endphp</p>

@@ -18,6 +18,9 @@ $light_grey: (#f8f8f8);
 $navbar-dark-toggler-icon-bg: none;
 $navbar-light-toggler-icon-bg: none;
 
+$slick-loader-path: "~slick-carousel/slick/";
+$slick-font-path:   "#{$slick-loader-path}/fonts/";
+
 @font-face {
   font-family: "Venti";
   src:
