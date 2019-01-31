@@ -11,7 +11,8 @@ $bright-green: ( #7db84b );
 $light-green: ( #d8ffb7 );
 $dark-orange: (#e26025);
 $light-orange: (#e47644);
-$light_grey: (#f2f2f2);
+$grey: (#dadada);
+$light_grey: (#f8f8f8);
 
 /** Bootstrap navbar fix (https://git.io/fADqW) */
 $navbar-dark-toggler-icon-bg: none;
@@ -54,6 +55,7 @@ $navbar-light-toggler-icon-bg: none;
 }
 
 $font-family-sans-serif: Venti, Arial, sans-serif;
+$font-family-serif: shackleton-narrow, serif;
 
 @mixin slowfade() {
   -webkit-transition: all 0.4s;

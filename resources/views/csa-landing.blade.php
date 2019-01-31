@@ -11,6 +11,19 @@ $locations_count = get_field('locations_count', 'option');
 $pickup_dates = get_field('pickup_dates', 'options');
 $first_week = get_field('first_pickup_day', 'options');
 $product_intro = get_field('product_intro');
+$partners_description = get_field('partners_description');
+
+//Product Sizing and Pricing
+$csa_items_bigger = get_field('csa_items_bigger');
+$csa_description_bigger = get_field('bigger_csa_description');
+$price_weekly_bigger = get_field('price_per_week_bigger');
+$price_season_bigger = get_field('full_season_price_bigger');
+$price_season_bigger_perweek = get_field('full_season_per_week_cost_bigger');
+$csa_items_smaller = get_field('csa_items_smaller');
+$csa_description_smaller = get_field('smaller_csa_description');
+$price_weekly_smaller = get_field('price_per_week_smaller');
+$price_season_smaller = get_field('full_season_price_smaller');
+$price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 
 @endphp
   
@@ -33,20 +46,20 @@ $product_intro = get_field('product_intro');
 		</div>
 		
 	<section class="season_details">
-		<h3>Season Length: <span>{{ $season_length }} Weeks</span></h3>
-		<h3 data-toggle="tooltip" title="Tooltip on top">Season Start: <span>{{ $first_week }}</span></h3>
-		<h3>Available in: <span>Two sizes</span></h3>
-		<h3>Pickup day: <span>Thursdays</span></h3>
-		<h3>Pickup Locations: <span>{{ $locations_count }} YEG & Area</span></h3>
+		<h5>Season Length: <span>{{ $season_length }} Weeks</span></h5>
+		<h5 data-toggle="tooltip" title="Tooltip on top">Season Start: <span>{{ $first_week }}</span></h5>
+		<h5>Available in: <span>Two sizes</span></h5>
+		<h5>Pickup day: <span>Thursdays</span></h5>
+		<h5>Pickup Locations: <span>{{ $locations_count }} YEG & Area</span></h5>
 	</section>
 	<section class="intro row justify-content-center">
 		<div class="col-md-9">
-		<h2>{{ $product_intro	 }}</h2>
+		<h2>{{ $product_intro	}}</h2>
 		</div>
 	</section>
 	<section id="map" class="map row no-gutters">
 		<div class="partners-description col-md-4">
-				@php the_field('partners_description'); @endphp
+			@php the_field('partners_description'); @endphp
 		</div>
 	</section>
 	<section class="locations row">
@@ -57,7 +70,9 @@ $product_intro = get_field('product_intro');
 			<button data-toggle="collapse" class="btn btn-link collapsed" data-target="#collapseEmployee" role="button" aria-expanded="false" aria-controls="collapseEmployee">Employee-only Pickups</button>
 		</div>
 		<div class="location-cards col-sm-9" id="locations">
-			<ul id="collapsePublic" class="collapse show" data-parent="#locations">
+			<div id="collapsePublic" class="collapse show" data-parent="#locations">
+				<h5>Public Pickup Locations</h5>
+				<ul>
 				@php
 					if( have_rows('location_details', 'options') ):
 					$count = 0;	
@@ -66,7 +81,7 @@ $product_intro = get_field('product_intro');
 						if( get_sub_field('pickup_type') == 'public' ):
 							
 							$name = get_sub_field('name'); 
-							$description = get_sub_field('description'); 
+							$description = get_sub_field('description');
 							
 							// trigger for modal
 							 echo '<li><a href="#" data-toggle="modal" data-target="#pickupModal-'.$count.'">'.$name.'</a></li>';
@@ -97,8 +112,11 @@ $product_intro = get_field('product_intro');
 						// no rows found
 					endif;
 					@endphp
-			</ul>
-			<ul id="collapseSchool" class="collapse collapseSchool" data-parent="#locations">
+				</ul>
+			</div>
+			<div id="collapseSchool" class="collapse collapseSchool" data-parent="#locations">
+					<h5>School Fundraiser Pickup Locations</h5>
+					<ul>
 					@php
 					if( have_rows('location_details', 'options') ):
 					$count = 0;	
@@ -138,8 +156,11 @@ $product_intro = get_field('product_intro');
 						// no rows found
 					endif;
 					@endphp
-			</ul>
-			<ul id="collapseEmployee" class="collapse collapseEmployee" data-parent="#locations">
+				</ul>
+			</div>
+			<div id="collapseEmployee" class="collapse collapseEmployee" data-parent="#locations">
+					<h5>Employee-only Pickup Locations</h5>
+					<ul>
 					@php
 					if( have_rows('location_details', 'options') ):
 					$count = 0;	
@@ -167,6 +188,7 @@ $product_intro = get_field('product_intro');
 									</div>
 									<div class="modal-body">
 										<p>{{$description}}</p>
+									<a href="">Sign up for Full Season at {{ $name }}</a>
 									</div>										
 								</div>
 							</div>
@@ -179,77 +201,119 @@ $product_intro = get_field('product_intro');
 						// no rows found
 					endif;
 					@endphp
-			</ul>				
+				</ul>
+			</div>				
 		</div>
 	</section>
-	<div class="full-section part4">
-		<h3>Two Sizes:</h3>
-		<div class="bigger">
-			<h4><strong>Bigger</strong> <span class="bignum"><?php the_field('csa_items_bigger'); ?></span> <span class="line1">items of peak-season Produce </span></h4>
-			<?php the_field('bigger_csa_description'); ?>
-		</div>
-		<div class="smaller">
-			<h4><strong>Smaller</strong> <span class="bignum"><?php the_field('csa_items_bigger'); ?></span> <span class="line1">items of peak-season Produce</span></h4>
-			<?php the_field('smaller_csa_description'); ?>
-		</div>
-		<div id="slider">
-			<p><?php the_field('season_expectations'); ?></p>
-		</div>
-	</div>
-	<div class="full-section part5">
-		<div class="wrapper">
-			<h2>Price &amp; Value</h2>
-			<div class="price"><span class="title smaller">Smaller</span>
-				<span class="title bigger">Bigger</span>
-				<hr />
-				<h3>Full Season (15 weeks)</h3>
-				<h4><span class="dolla">$</span><?php the_field('full_season_price_smaller'); ?> <span><?php the_field('full_season_per_week_cost_smaller'); ?> / week</span></h4>
-				<h4><span class="dolla">$</span><?php the_field('full_season_price_bigger'); ?> <span><?php the_field('full_season_per_week_cost_bigger'); ?> / week</span></h4>
-				<hr />
-				<h3>Week to Week</h3>
-				<h4><span class="dolla"><?php the_field('price_per_week_smaller'); ?></span> <span>per week</span></h4>
-				<h4><span class="dolla"><?php the_field('price_per_week_bigger'); ?></span> <span>per week</h4>
+	<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
+		<h5>How does it work?</h5>	
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+		</ol>
+		<div class="carousel-inner col-md-6">
+			<div class="carousel-item active">	
+			<h2>So how does this work? <br>What makes it so great?</h2>
 			</div>
-			<div class="info">
-				<?php the_field('pricing_details'); ?>
+			
+			@php if( have_rows('csa_steps') ):
+				while ( have_rows('csa_steps') ) : the_row(); 
+				$csa_step = get_sub_field('csa_step'); 
+			@endphp
+		
+			<div class="carousel-item">	
+				<p>{{ $csa_step }}</p>
 			</div>
+			
+			@php endwhile;
+				else :
+					// no rows found
+				endif;
+			@endphp
 		</div>
-	</div>
-	<div class="full-section part2">
-			<div class="wrapper">
-				<ul>
-					<?php if( have_rows('csa_steps') ):
-							while ( have_rows('csa_steps') ) : the_row();
-					?>
-					<li><?php the_sub_field('csa_step'); ?></li>
-					<?php    endwhile;
-					else :
-							// no rows found
-					endif; ?>
-				</ul>
-			</div>
-		</div>
-	<div id="signup" class="full-section part6">
+	</section>
 
-</div>
-	<div class="full-section part7">
-			<h4>Looking for more details?</h4>
-	<div class="outerContainer">
-		<div class="innerContainer">
-			<a href="/faq">Frequently Asked Questions</a>
+	<section class="row sizes">
+		<h2 class="col-12">Available in two sizes:</h2>
+		<div class="col-md-6">
+			<div class="ghost">
+				<h3>Smaller Bounty</h3>
+				<h4>{{ $csa_items_smaller }} items of peak-season produce</h4>
+				@php the_field('smaller_csa_description'); @endphp
+				<div class="row pricing">
+					<div class="col-md-6">
+						<div>
+							<h5>Week-to-week</h5>
+							<p><span>${{ $price_weekly_smaller }}</span> per week</p>
+							<a href="" class="button">Purchase</a> 
+							{{-- @TODO add ACF for product page --}}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div>
+							<h5>Full Season</h5>
+							<p><span>${{ $price_season_smaller }}</span> ${{ $price_season_smaller_perweek }} per week</p>
+							<a href="" class="button">Purchase</a> 
+							{{-- @TODO add ACF for product page --}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="col-md-6">	
+			<div class="ghost">
+				<h3>Bigger Bounty</h3>
+				<h4>{{ $csa_items_bigger }} items of peak-season produce</h4>
+				@php the_field('bigger_csa_description'); @endphp
+				<div class="row pricing">
+					<div class="col-md-6">
+						<div>
+							<h5>Week-to-week</h5>
+							<p><span>${{ $price_weekly_bigger }}</span> per week</p>
+							<a href="" class="button">Purchase</a> 
+							{{-- @TODO add ACF for product page --}}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div>
+							<h5>Full Season</h5>
+							<p><span>${{ $price_season_bigger }}</span> ${{ $price_season_bigger_perweek }} per week</p>
+							<a href="" class="button">Purchase</a> 
+							{{-- @TODO add ACF for product page --}}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="outerContainer">
-		<div class="innerContainer">
-			<a href="/about">What is a CSA?</a>
+		<div class="row season_expectations justify-content-center">
+				<div class="col-md-8">@php the_field('season_expectations'); @endphp</div>
 		</div>
-	</div>
-	<div class="outerContainer">
-		<div class="innerContainer">
-			<a href="/riverbend">Why Riverbend Gardens?</a>
-		</div>
-	</div>
-</div>
+	</section>	
+	<section class="row gallery">
 
+			@php 
+
+			$images = get_field('gallery');
+			
+			if( $images ): @endphp
+					<div class="row">
+							@php foreach( $images as $image ): @endphp
+									<div class="col-md-3 col-sm-6">
+											<a href="@php echo $image['url']; @endphp">
+													 <img src="@php echo $image['sizes']['thumbnail']; @endphp" alt="@php echo $image['alt']; @endphp" />
+											</a>
+											<p>@php echo $image['caption']; @endphp</p>
+									</div>
+							@php endforeach; @endphp
+					</div>
+			@php endif;		
+			@endphp
+
+	</section>
 @endwhile
 @endsection
