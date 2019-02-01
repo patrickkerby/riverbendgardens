@@ -44,7 +44,9 @@ add_action('after_setup_theme', function () {
      * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
      */
     register_nav_menus([
-        'primary_navigation' => __('Primary Navigation', 'sage')
+        'primary_navigation' => __('Primary Navigation', 'sage'),
+        'footer_navigation' => __('Footer Primary Navigation', 'sage'),
+        'footer__secondary_navigation' => __('Footer Secondary Navigation', 'sage')
     ]);
 
     /**
@@ -70,6 +72,12 @@ add_action('after_setup_theme', function () {
      * @see resources/assets/styles/layouts/_tinymce.scss
      */
     add_editor_style(asset_path('styles/main.css'));
+    
+    /**
+     * Add WooCommerce Support
+     */
+    add_theme_support('woocommerce');
+    remove_all_actions('woocommerce_sidebar');
 }, 20);
 
 /**

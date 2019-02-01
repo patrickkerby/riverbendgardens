@@ -25,6 +25,12 @@ $price_weekly_smaller = get_field('price_per_week_smaller');
 $price_season_smaller = get_field('full_season_price_smaller');
 $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 
+//Product Purchase Pages
+$product_page_weekly = get_field('weekly_product_bigger');
+$product_page_season = get_field('season_product_bigger');
+//@TODO figure out how to get the size attribute set, then make variables for bigger and smaller
+
+
 @endphp
   
   @section('content')
@@ -225,11 +231,9 @@ $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 				while ( have_rows('csa_steps') ) : the_row(); 
 				$csa_step = get_sub_field('csa_step'); 
 			@endphp
-		
 			<div class="carousel-item">	
 				<p>{{ $csa_step }}</p>
 			</div>
-			
 			@php endwhile;
 				else :
 					// no rows found
@@ -250,16 +254,14 @@ $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 						<div>
 							<h5>Week-to-week</h5>
 							<p><span>${{ $price_weekly_smaller }}</span> per week</p>
-							<a href="" class="button">Purchase</a> 
-							{{-- @TODO add ACF for product page --}}
+							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div>
 							<h5>Full Season</h5>
 							<p><span>${{ $price_season_smaller }}</span> ${{ $price_season_smaller_perweek }} per week</p>
-							<a href="" class="button">Purchase</a> 
-							{{-- @TODO add ACF for product page --}}
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
 				</div>
@@ -275,16 +277,14 @@ $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 						<div>
 							<h5>Week-to-week</h5>
 							<p><span>${{ $price_weekly_bigger }}</span> per week</p>
-							<a href="" class="button">Purchase</a> 
-							{{-- @TODO add ACF for product page --}}
+							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div>
 							<h5>Full Season</h5>
 							<p><span>${{ $price_season_bigger }}</span> ${{ $price_season_bigger_perweek }} per week</p>
-							<a href="" class="button">Purchase</a> 
-							{{-- @TODO add ACF for product page --}}
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
 				</div>
@@ -294,7 +294,7 @@ $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 				<div class="col-md-8">@php the_field('season_expectations'); @endphp</div>
 		</div>
 	</section>	
-	<section class="row gallery">
+	<section class="row photos no-gutters">
 
 			@php 
 
@@ -307,7 +307,6 @@ $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 											<a href="@php echo $image['url']; @endphp" target="_blank">
 													 <img src="@php echo $image['sizes']['thumbnail']; @endphp" alt="@php echo $image['alt']; @endphp" />
 											</a>
-											<p>@php echo $image['caption']; @endphp</p>
 									</div>
 							@php endforeach; @endphp
 					</div>

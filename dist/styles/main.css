@@ -16512,7 +16512,7 @@ section {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 90px 0;
+  padding: 120px 0;
   text-align: center;
 }
 
@@ -16554,7 +16554,7 @@ section {
 /* line 119, resources/assets/styles/common/_global.scss */
 
 .carousel .carousel-indicators {
-  bottom: 60px;
+  bottom: 90px;
 }
 
 /* line 122, resources/assets/styles/common/_global.scss */
@@ -16895,6 +16895,112 @@ body {
   z-index: 2;
 }
 
+/* line 1, resources/assets/styles/layouts/_footer.scss */
+
+footer {
+  background: #f8f8f8;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-bottom: 90px;
+}
+
+/* line 8, resources/assets/styles/layouts/_footer.scss */
+
+footer img {
+  max-width: 180px;
+  margin-top: -90px;
+}
+
+/* line 14, resources/assets/styles/layouts/_footer.scss */
+
+footer .social a {
+  padding: 10px;
+}
+
+/* line 17, resources/assets/styles/layouts/_footer.scss */
+
+footer .social a img {
+  margin: 0 10px;
+}
+
+/* line 23, resources/assets/styles/layouts/_footer.scss */
+
+footer nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  margin: 20px 0 0 0;
+}
+
+/* line 29, resources/assets/styles/layouts/_footer.scss */
+
+footer .nav-footer {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+/* line 32, resources/assets/styles/layouts/_footer.scss */
+
+footer .nav-footer ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+/* line 36, resources/assets/styles/layouts/_footer.scss */
+
+footer .nav-footer ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+}
+
+/* line 41, resources/assets/styles/layouts/_footer.scss */
+
+footer .nav-footer ul li a {
+  color: #416f1a;
+  font-size: 26px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 5px;
+}
+
+/* line 52, resources/assets/styles/layouts/_footer.scss */
+
+footer .nav-secondary-footer {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+/* line 56, resources/assets/styles/layouts/_footer.scss */
+
+footer .nav-secondary-footer ul li a {
+  font-size: 16px;
+  font-weight: 800;
+  padding: 0 24px;
+}
+
 /* line 2, resources/assets/styles/layouts/_pages.scss */
 
 .season_details {
@@ -17152,6 +17258,24 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   width: 100%;
+}
+
+/* line 189, resources/assets/styles/layouts/_pages.scss */
+
+.photos {
+  position: relative;
+  width: 100vw;
+  left: calc(-1 * (100vw - 100%) / 2);
+  padding: 0 45px;
+  margin-bottom: 120px;
+}
+
+/* line 195, resources/assets/styles/layouts/_pages.scss */
+
+.photos img {
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
 }
 
 /* line 1, resources/assets/styles/layouts/_tinymce.scss */

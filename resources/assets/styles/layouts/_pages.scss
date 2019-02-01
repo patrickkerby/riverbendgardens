@@ -185,3 +185,16 @@
     }
   }
 }
+
+.photos {
+  @include fullwidth();
+
+  padding: 0 45px;
+  margin-bottom: 120px;
+
+  img {
+    width: 100%;
+    height: auto;
+    margin: 10px 0;
+  }
+}
