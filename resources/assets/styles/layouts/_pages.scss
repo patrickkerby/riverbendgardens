@@ -48,6 +48,10 @@
     background: $white;
     padding: 45px;
     overflow: scroll;
+
+    h3 {
+      margin-bottom: 45px;
+    }
   }
 }
 
@@ -55,6 +59,8 @@
   color: $grey;
   border-top: solid 3px #aaa;
   padding-top: 35px;
+  display: flex;
+  flex-direction: column;
 
   h4 {
     color: #8b8b8b;
@@ -108,7 +114,7 @@
     margin-bottom: 45px;
   }
 
-  h3 {
+  h3 { /* stylelint-disable-line */
     font-family: $font-family-serif;
     font-size: 36px;
     color: #555;
@@ -197,4 +203,279 @@
     height: auto;
     margin: 10px 0;
   }
+}
+
+div.faq {
+  div.accordion {
+    margin-bottom: 90px;
+
+    h3 { /* stylelint-disable-line */
+      margin: 35px 0 10px 0;
+
+      button.faq {
+        color: $dark-orange;
+        font-size: 24px;
+        padding: 0;
+        text-align: left;
+      }
+    }
+
+    div.collapse {
+      margin-bottom: 45px;
+    }
+  }
+}
+
+.woocommerce-product-gallery img,
+.size-woocommerce_thumbnail,
+.woocommerce-placeholder {
+  margin: 0 !important;
+}
+
+.woocommerce .woocommerce-breadcrumb {
+  display: none;
+}
+
+.woocommerce-product-gallery {
+  img {
+    padding: 8px;
+  }
+}
+
+.single-product .product .single_add_to_cart_button.button {
+  background-color: $bright-green;
+  color: $white;
+
+  &:hover {
+    background-color: $dark-green;
+    transition: all 0.4s fade;
+  }
+}
+
+.woocommerce .product .add_to_cart_button.button,
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt {
+  background-color: $bright-green;
+  color: $white;
+
+  &:hover {
+    background-color: $dark-green;
+  }
+}
+
+.woocommerce #respond input#submit.alt.disabled,
+.woocommerce #respond input#submit.alt.disabled:hover,
+.woocommerce #respond input#submit.alt:disabled,
+.woocommerce #respond input#submit.alt:disabled:hover,
+.woocommerce #respond input#submit.alt:disabled[disabled],
+.woocommerce #respond input#submit.alt:disabled[disabled]:hover,
+.woocommerce a.button.alt.disabled,
+.woocommerce a.button.alt.disabled:hover,
+.woocommerce a.button.alt:disabled,
+.woocommerce a.button.alt:disabled:hover,
+.woocommerce a.button.alt:disabled[disabled],
+.woocommerce a.button.alt:disabled[disabled]:hover,
+.woocommerce button.button.alt.disabled,
+.woocommerce button.button.alt.disabled:hover,
+.woocommerce button.button.alt:disabled,
+.woocommerce button.button.alt:disabled:hover,
+.woocommerce button.button.alt:disabled[disabled],
+.woocommerce button.button.alt:disabled[disabled]:hover,
+.woocommerce input.button.alt.disabled,
+.woocommerce input.button.alt.disabled:hover,
+.woocommerce input.button.alt:disabled,
+.woocommerce input.button.alt:disabled:hover,
+.woocommerce input.button.alt:disabled[disabled],
+.woocommerce input.button.alt:disabled[disabled]:hover {
+  background: $bright-green;
+}
+
+.woocommerce div.product form.cart div.quantity {
+  margin: 0 23px 0 0;
+}
+
+.woocommerce .quantity .qty {
+  height: 48px;
+}
+
+.woocommerce .product_meta {
+  display: none;
+}
+
+.woocommerce a.remove {
+  line-height: 1.25em;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li img.stripe-icon,
+#add_payment_method #payment ul.payment_methods li img.stripe-icon {
+  height: 40px;
+  margin-left: 5px;
+}
+
+.woocommerce form .form-row.automatewoo-optin {
+  width: 100%;
+}
+
+//style the weekly product differently. Full width, no images, etc.
+// images are removed via conditional in template partials.
+.postid-59432 div#product-59432.product div.summary {
+  width: 100%;
+}
+
+.postid-59432 .woocommerce-product-details__short-description {
+  border-bottom: solid 3px $light_grey;
+  padding: 45px 0;
+  margin-bottom: 45px;
+}
+
+.product-type-composite div.component {
+  background: $light_grey;
+  border-radius: 4px;
+  margin-bottom: 45px;
+  padding: 30px;
+}
+
+.postid-59432 .component h4 {
+  @extend h2;
+
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+//begin styles from old site. @TODO improve this entire page. make with flex or grid.
+.component_options {
+  width: 50%;
+}
+
+div.component_options .component_options_select_wrapper,
+table.variations td.value {
+  position: relative;
+}
+
+p.component_section_title {
+  width: 30%;
+  float: left;
+  margin-bottom: 15px !important;
+
+  @extend h3;
+
+  color: #4b4b4b;
+}
+
+.component.options-style-dropdowns .component_options_select_wrapper {
+  margin-left: 0 !important;
+}
+
+.component .component_options,
+.component .component_content {
+  padding-left: 0 !important;
+}
+
+.composite_form:not(.paged) .component:not(.first) .component_title_wrapper,
+.composite_form:not(.paged) .composite_wrap {
+  padding: 0 !important;
+}
+
+.clear_component_options_wrapper {
+  display: none !important;
+}
+
+.woocommerce table,
+.woocommerce table td {
+  border: none;
+  width: auto;
+}
+
+.woocommerce table.variations {
+  float: left;
+  width: 100%;
+  margin: 0;
+}
+
+.woocommerce table td {
+  padding: 0 10px;
+  margin: 0;
+}
+
+.woocommerce .product_cat-weekly table td.label {
+  width: 30%;
+
+  @extend h3;
+
+  color: #4b4b4b;
+  font-weight: 500 !important;
+}
+
+.woocommerce table td.value {
+  text-align: left;
+  width: auto;
+}
+
+.woocommerce table td.value select#size {
+  margin-bottom: 0;
+}
+
+.component .woocommerce-variation-price {
+  position: absolute !important;
+  top: -100px;
+  right: 0;
+}
+
+.single_variation span.price .amount {
+  float: right;
+  text-align: right;
+  margin: 20px 0;
+}
+
+.postid-34475 span.price .amount,
+.postid-59432 span.price .amount {
+  font-size: 1.4rem;
+}
+
+.woocommerce select {
+  -webkit-appearance: none !important;
+  height: 38px;
+  line-height: 38px;
+  border: solid 2px #ddd;
+  color: #888;
+  border-radius: 3px;
+  padding: 0 5px 0 10px;
+  position: relative;
+  width: 100%;
+}
+
+div.component_options .component_options_select_wrapper::after,
+table.variations td.value::after {
+  border-style: solid;
+  border-width: 0.11em 0.11em 0 0;
+  content: "";
+  display: inline-block;
+  width: 0.38em;
+  height: 0.38em;
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  transform: rotate(135deg);
+  vertical-align: top;
+}
+
+table.variations td.value::after {
+  right: 25px;
+}
+
+.component_section_title.clear_component_options_wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+div#composite_data_59432 {
+  position: fixed;
+  bottom: 45px;
+  right: 45px;
+  background: #fff;
+  padding: 25px;
+  box-shadow: 3px 6px 38px #dadada;
 }

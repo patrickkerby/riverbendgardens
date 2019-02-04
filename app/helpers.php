@@ -140,40 +140,40 @@ function display_sidebar()
 /*
 * Remove tabs from product details page
 */
-add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
+// add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
 
-function woo_remove_product_tabs( $tabs ) {
-    unset( $tabs['additional_information'] ); // Remove the additional information tab
-return $tabs;
-}
+// // function woo_remove_product_tabs( $tabs ) {
+// //     unset( $tabs['additional_information'] ); // Remove the additional information tab
+// // return $tabs;
+// // }
 
 /* unique single product templates */
 
-add_filter( 'woocommerce_locate_template', 'so_25789472_locate_template', 10, 3 );
+// add_filter( 'woocommerce_locate_template', 'so_25789472_locate_template', 10, 3 );
 
-function so_25789472_locate_template( $template, $template_name, $template_path ){
+// function so_25789472_locate_template( $template, $template_name, $template_path ){
 
-    // on single posts with weekly category and only for single-product/something.php templates
-    if( is_product() && has_term( 'weekly', 'product_cat' ) && strpos( $template_name, 'single-product/') !== false ){
+//     // on single posts with weekly category and only for single-product/something.php templates
+//     if( is_product() && has_term( 'weekly', 'product_cat' ) && strpos( $template_name, 'single-product/') !== false ){
 
-        // replace single-product with single-product-weekly in template name
-        $weekly_template_name = str_replace("single-product/", "single-product-weekly/", $template_name );
+//         // replace single-product with single-product-weekly in template name
+//         $weekly_template_name = str_replace("single-product/", "single-product-weekly/", $template_name );
 
-        // look for templates in the single-product-weekly/ folder
-        $weekly_template = locate_template(
-            array(
-                trailingslashit( $template_path ) . $weekly_template_name,
-                $weekly_template_name
-            )
-        );
+//         // look for templates in the single-product-weekly/ folder
+//         $weekly_template = locate_template(
+//             array(
+//                 trailingslashit( $template_path ) . $weekly_template_name,
+//                 $weekly_template_name
+//             )
+//         );
 
-        // if found, replace template with that in the single-product-weekly/ folder
-        if ( $weekly_template ) {
-            $template = $weekly_template;
-        }
-    }
-    return $template;
-}
+//         // if found, replace template with that in the single-product-weekly/ folder
+//         if ( $weekly_template ) {
+//             $template = $weekly_template;
+//         }
+//     }
+//     return $template;
+// }
 
 // Change placeholder in the notes section of checkout
 add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );

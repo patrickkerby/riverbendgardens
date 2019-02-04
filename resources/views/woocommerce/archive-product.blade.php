@@ -22,19 +22,9 @@ the readme will list any important changes.
     do_action('woocommerce_before_main_content');
   @endphp
 
-  <header class="woocommerce-products-header">
-    @if(apply_filters('woocommerce_show_page_title', true))
-      <h1 class="woocommerce-products-header__title page-title">{!! woocommerce_page_title(false) !!}</h1>
-    @endif
-
-    @php
-      do_action('woocommerce_archive_description');
-    @endphp
-  </header>
-
   @if(woocommerce_product_loop())
+    <section>
     @php
-      do_action('woocommerce_before_shop_loop');
       woocommerce_product_loop_start();
     @endphp
 
@@ -56,6 +46,7 @@ the readme will list any important changes.
     @php
       do_action('woocommerce_no_products_found');
     @endphp
+    </section>
   @endif
 
   @php
@@ -64,3 +55,4 @@ the readme will list any important changes.
     do_action('get_footer', 'shop');
   @endphp
 @endsection
+

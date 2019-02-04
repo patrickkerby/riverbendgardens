@@ -4,10 +4,11 @@ footer {
   flex-direction: column;
   align-items: center;
   padding-bottom: 90px;
+  width: 100%;
 
   img {
-    max-width: 180px;
-    margin-top: -90px;
+    max-width: 180px !important;
+    margin: -90px 0 0 0;
   }
 
   .social {

@@ -14,6 +14,8 @@ $news_title = get_the_title( get_option('page_for_posts', true) );
 
 $hero_product = get_field('shop_header_image', 'option');
 
+$sub_title = get_field('sub_title');
+
 @endphp
 
 @if ( is_front_page() )
@@ -38,23 +40,34 @@ $hero_product = get_field('shop_header_image', 'option');
     <h1>Riverbend Gardens <br><span>- CSA {{ date("Y") }} -</span></h1>
 
   @elseif ( is_front_page() )
-    {{-- Do not display title --}}
+  <div class="col-md-7">@php echo $sub_title; @endphp </div>
+  {{-- Do not display title --}}
     
   @elseif ( is_home() )
     <h1 class="page-title"><?php echo $news_title; ?></h1>    	        				        			    
+    <div class="col-md-7">@php echo $sub_title; @endphp </div>
 
   @elseif ( is_shop() )
     <h1 class="page-title"><?php echo $shop_title; ?></h1>    	        				        			    
+    <div class="row subtitle justify-content-center">
+      <div class="col-md-7">@php the_field('sub_title', get_option('woocommerce_shop_page_id')); @endphp </div>
+    </div>
 
   @elseif ( is_product() )
-    <h1 class="page-title"><?php echo $shop_title; ?></h1>    	        				        			    
+    <h1 class="page-title"><?php echo the_title(); ?></h1>
+    <div class="row subtitle justify-content-center">  	        				        			    
+      <div class="col-md-7">@php echo $sub_title; @endphp </div>
+    </div>
 
   @elseif ( is_tax() )
     <h1 class="page-title"><?php echo $termname; ?></h1> 
     <div class="description"><?php echo term_description(); ?></div>   	        				        			    
 
   @else
-    <h1 class="page-title"><?php the_title() ?></h1>    	        				        			    
+    <h1 class="page-title"><?php the_title(); ?></h1>
+    <div class="row subtitle justify-content-center">
+      <div class="col-md-7">@php echo $sub_title; @endphp </div>
+    </div>    	        				        			    
   @endif
 
 </header>

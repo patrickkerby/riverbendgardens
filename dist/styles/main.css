@@ -140,7 +140,10 @@ hr {
 
 h1,
 h2,
+.postid-59432 .component h4,
 h3,
+p.component_section_title,
+.woocommerce .product_cat-weekly table td.label,
 h4,
 h5,
 h6 {
@@ -519,7 +522,10 @@ template {
 
 h1,
 h2,
+.postid-59432 .component h4,
 h3,
+p.component_section_title,
+.woocommerce .product_cat-weekly table td.label,
 h4,
 h5,
 h6,
@@ -546,6 +552,7 @@ h1,
 /* line 17, node_modules/bootstrap/scss/_type.scss */
 
 h2,
+.postid-59432 .component h4,
 .h2 {
   font-size: 2rem;
 }
@@ -553,6 +560,8 @@ h2,
 /* line 18, node_modules/bootstrap/scss/_type.scss */
 
 h3,
+p.component_section_title,
+.woocommerce .product_cat-weekly table td.label,
 .h3 {
   font-size: 1.75rem;
 }
@@ -15976,7 +15985,10 @@ a.text-dark:focus {
 
   p,
   h2,
-  h3 {
+  .postid-59432 .component h4,
+  h3,
+  p.component_section_title,
+  .woocommerce .product_cat-weekly table td.label {
     orphans: 3;
     widows: 3;
   }
@@ -15984,7 +15996,10 @@ a.text-dark:focus {
   /* line 79, node_modules/bootstrap/scss/_print.scss */
 
   h2,
-  h3 {
+  .postid-59432 .component h4,
+  h3,
+  p.component_section_title,
+  .woocommerce .product_cat-weekly table td.label {
     page-break-after: avoid;
   }
 
@@ -16446,42 +16461,63 @@ input[type="submit"] {
 
 /* line 44, resources/assets/styles/common/_global.scss */
 
-p {
+p,
+ul li {
   font-size: 19px;
   color: #8b8b8b;
   line-height: 28px;
 }
 
-/* line 50, resources/assets/styles/common/_global.scss */
+/* line 51, resources/assets/styles/common/_global.scss */
+
+img {
+  margin: 45px;
+}
+
+/* line 54, resources/assets/styles/common/_global.scss */
+
+img.alignright {
+  margin-right: 0;
+}
+
+/* line 59, resources/assets/styles/common/_global.scss */
 
 h1,
 h1 a,
 h2,
+.postid-59432 .component h4,
 h2 a,
+.postid-59432 .component h4 a,
 h3,
-h3 a {
+p.component_section_title,
+.woocommerce .product_cat-weekly table td.label,
+h3 a,
+p.component_section_title a,
+.woocommerce .product_cat-weekly table td.label a {
   font-family: shackleton-narrow, serif;
   font-weight: 400;
 }
 
-/* line 60, resources/assets/styles/common/_global.scss */
+/* line 69, resources/assets/styles/common/_global.scss */
 
-h2 {
+h2,
+.postid-59432 .component h4 {
   font-size: 47px;
   color: #7db84b;
 }
 
-/* line 65, resources/assets/styles/common/_global.scss */
+/* line 74, resources/assets/styles/common/_global.scss */
 
-h3 {
+h3,
+p.component_section_title,
+.woocommerce .product_cat-weekly table td.label {
   color: #e47644;
   font-family: Venti, Arial, sans-serif;
   font-size: 23px;
   line-height: 30px;
-  margin-bottom: 45px;
 }
 
-/* line 73, resources/assets/styles/common/_global.scss */
+/* line 81, resources/assets/styles/common/_global.scss */
 
 h5 {
   font-family: Venti, Arial, sans-serif;
@@ -16492,14 +16528,14 @@ h5 {
   color: #416f1a;
 }
 
-/* line 82, resources/assets/styles/common/_global.scss */
+/* line 90, resources/assets/styles/common/_global.scss */
 
 section {
   margin-top: 90px;
   margin-bottom: 90px;
 }
 
-/* line 87, resources/assets/styles/common/_global.scss */
+/* line 95, resources/assets/styles/common/_global.scss */
 
 .carousel {
   position: relative;
@@ -16516,14 +16552,14 @@ section {
   text-align: center;
 }
 
-/* line 96, resources/assets/styles/common/_global.scss */
+/* line 104, resources/assets/styles/common/_global.scss */
 
 .carousel h5 {
   text-align: center;
   width: 100%;
 }
 
-/* line 101, resources/assets/styles/common/_global.scss */
+/* line 109, resources/assets/styles/common/_global.scss */
 
 .carousel .carousel-inner {
   min-height: 150px;
@@ -16535,13 +16571,15 @@ section {
           align-items: center;
 }
 
-/* line 106, resources/assets/styles/common/_global.scss */
+/* line 114, resources/assets/styles/common/_global.scss */
 
-.carousel .carousel-inner h2 {
+.carousel .carousel-inner h2,
+.carousel .carousel-inner .postid-59432 .component h4,
+.postid-59432 .component .carousel .carousel-inner h4 {
   line-height: 38px;
 }
 
-/* line 110, resources/assets/styles/common/_global.scss */
+/* line 118, resources/assets/styles/common/_global.scss */
 
 .carousel .carousel-inner p {
   font-family: shackleton-narrow, serif;
@@ -16551,13 +16589,13 @@ section {
   color: #e26025;
 }
 
-/* line 119, resources/assets/styles/common/_global.scss */
+/* line 127, resources/assets/styles/common/_global.scss */
 
 .carousel .carousel-indicators {
   bottom: 90px;
 }
 
-/* line 122, resources/assets/styles/common/_global.scss */
+/* line 130, resources/assets/styles/common/_global.scss */
 
 .carousel .carousel-indicators li {
   border: solid 2px #74af43;
@@ -16567,13 +16605,13 @@ section {
   background: none;
 }
 
-/* line 129, resources/assets/styles/common/_global.scss */
+/* line 137, resources/assets/styles/common/_global.scss */
 
 .carousel .carousel-indicators li.active {
   background: #74af43;
 }
 
-/* line 138, resources/assets/styles/common/_global.scss */
+/* line 146, resources/assets/styles/common/_global.scss */
 
 .tooltip .tooltip-inner {
   background: #7db84b;
@@ -16581,7 +16619,7 @@ section {
   font-size: 16px;
 }
 
-/* line 144, resources/assets/styles/common/_global.scss */
+/* line 152, resources/assets/styles/common/_global.scss */
 
 .tooltip .arrow {
   background: #7db84b;
@@ -16593,7 +16631,7 @@ section {
   border-top-color: #7db84b !important;
 }
 
-/* line 156, resources/assets/styles/common/_global.scss */
+/* line 164, resources/assets/styles/common/_global.scss */
 
 body {
   opacity: 1;
@@ -16605,7 +16643,7 @@ body {
   -webkit-transition: -webkit-transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
 
-/* line 162, resources/assets/styles/common/_global.scss */
+/* line 170, resources/assets/styles/common/_global.scss */
 
 .wf-loading body {
   opacity: 0;
@@ -16705,7 +16743,7 @@ body {
 
 .banner {
   height: 48vh;
-  min-height: 520px;
+  min-height: 600px;
   background-color: #f7f7f7;
   background-repeat: no-repeat;
   background-size: cover;
@@ -16847,7 +16885,7 @@ body {
     height: 0;
     border-left: 50px solid transparent;
     border-right: 50px solid transparent;
-    border-top: 54px solid #7db84b;
+    border-top: 58px solid #7db84b;
     position: absolute;
     right: -50px;
   }
@@ -16865,23 +16903,59 @@ body {
 /* line 108, resources/assets/styles/layouts/_header.scss */
 
 .banner h1 {
-  margin-bottom: auto;
+  margin-top: auto;
   -ms-flex-item-align: center;
       align-self: center;
   color: #fff;
-  font-size: 46px;
+  font-size: 66px;
   line-height: 38px;
-  text-transform: uppercase;
   text-align: center;
 }
 
-/* line 117, resources/assets/styles/layouts/_header.scss */
+/* line 116, resources/assets/styles/layouts/_header.scss */
 
 .banner h1 span {
   font-size: 30px;
 }
 
-/* line 123, resources/assets/styles/layouts/_header.scss */
+/* line 121, resources/assets/styles/layouts/_header.scss */
+
+.banner .subtitle {
+  text-align: center;
+  margin-bottom: auto;
+}
+
+/* line 125, resources/assets/styles/layouts/_header.scss */
+
+.banner .subtitle div {
+  margin-bottom: -30px;
+}
+
+/* line 128, resources/assets/styles/layouts/_header.scss */
+
+.banner .subtitle div p {
+  color: #fff;
+  font-size: 22px;
+  margin-top: 35px;
+}
+
+/* line 137, resources/assets/styles/layouts/_header.scss */
+
+.woocommerce-page .banner {
+  height: 30vh;
+  min-height: 375px;
+}
+
+/* line 142, resources/assets/styles/layouts/_header.scss */
+
+.home .banner h1 {
+  margin-top: initial;
+  font-size: 46px;
+  text-transform: uppercase;
+  margin-bottom: auto;
+}
+
+/* line 149, resources/assets/styles/layouts/_header.scss */
 
 .cbp-af-header {
   display: -webkit-box;
@@ -16910,28 +16984,29 @@ footer {
       -ms-flex-align: center;
           align-items: center;
   padding-bottom: 90px;
+  width: 100%;
 }
 
-/* line 8, resources/assets/styles/layouts/_footer.scss */
+/* line 9, resources/assets/styles/layouts/_footer.scss */
 
 footer img {
-  max-width: 180px;
-  margin-top: -90px;
+  max-width: 180px !important;
+  margin: -90px 0 0 0;
 }
 
-/* line 14, resources/assets/styles/layouts/_footer.scss */
+/* line 15, resources/assets/styles/layouts/_footer.scss */
 
 footer .social a {
   padding: 10px;
 }
 
-/* line 17, resources/assets/styles/layouts/_footer.scss */
+/* line 18, resources/assets/styles/layouts/_footer.scss */
 
 footer .social a img {
   margin: 0 10px;
 }
 
-/* line 23, resources/assets/styles/layouts/_footer.scss */
+/* line 24, resources/assets/styles/layouts/_footer.scss */
 
 footer nav {
   display: -webkit-box;
@@ -16942,7 +17017,7 @@ footer nav {
   margin: 20px 0 0 0;
 }
 
-/* line 29, resources/assets/styles/layouts/_footer.scss */
+/* line 30, resources/assets/styles/layouts/_footer.scss */
 
 footer .nav-footer {
   -webkit-box-pack: center;
@@ -16950,7 +17025,7 @@ footer .nav-footer {
           justify-content: center;
 }
 
-/* line 32, resources/assets/styles/layouts/_footer.scss */
+/* line 33, resources/assets/styles/layouts/_footer.scss */
 
 footer .nav-footer ul {
   display: -webkit-box;
@@ -16962,7 +17037,7 @@ footer .nav-footer ul {
           flex-direction: column;
 }
 
-/* line 36, resources/assets/styles/layouts/_footer.scss */
+/* line 37, resources/assets/styles/layouts/_footer.scss */
 
 footer .nav-footer ul li {
   display: -webkit-box;
@@ -16975,7 +17050,7 @@ footer .nav-footer ul li {
   text-align: center;
 }
 
-/* line 41, resources/assets/styles/layouts/_footer.scss */
+/* line 42, resources/assets/styles/layouts/_footer.scss */
 
 footer .nav-footer ul li a {
   color: #416f1a;
@@ -16985,7 +17060,7 @@ footer .nav-footer ul li a {
   padding: 5px;
 }
 
-/* line 52, resources/assets/styles/layouts/_footer.scss */
+/* line 53, resources/assets/styles/layouts/_footer.scss */
 
 footer .nav-secondary-footer {
   -webkit-box-pack: center;
@@ -16993,7 +17068,7 @@ footer .nav-secondary-footer {
           justify-content: center;
 }
 
-/* line 56, resources/assets/styles/layouts/_footer.scss */
+/* line 57, resources/assets/styles/layouts/_footer.scss */
 
 footer .nav-secondary-footer ul li a {
   font-size: 16px;
@@ -17054,7 +17129,9 @@ footer .nav-secondary-footer ul li a {
 
 /* line 32, resources/assets/styles/layouts/_pages.scss */
 
-.intro h2 {
+.intro h2,
+.intro .postid-59432 .component h4,
+.postid-59432 .component .intro h4 {
   text-align: center;
 }
 
@@ -17080,21 +17157,37 @@ footer .nav-secondary-footer ul li a {
   overflow: scroll;
 }
 
-/* line 54, resources/assets/styles/layouts/_pages.scss */
+/* line 52, resources/assets/styles/layouts/_pages.scss */
+
+#map .partners-description h3,
+#map .partners-description p.component_section_title,
+#map .partners-description .woocommerce .product_cat-weekly table td.label,
+.woocommerce .product_cat-weekly table #map .partners-description td.label {
+  margin-bottom: 45px;
+}
+
+/* line 58, resources/assets/styles/layouts/_pages.scss */
 
 .side-nav {
   color: #dadada;
   border-top: solid 3px #aaa;
   padding-top: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-/* line 59, resources/assets/styles/layouts/_pages.scss */
+/* line 65, resources/assets/styles/layouts/_pages.scss */
 
 .side-nav h4 {
   color: #8b8b8b;
 }
 
-/* line 63, resources/assets/styles/layouts/_pages.scss */
+/* line 69, resources/assets/styles/layouts/_pages.scss */
 
 .side-nav button {
   font-size: 20px;
@@ -17105,7 +17198,7 @@ footer .nav-secondary-footer ul li a {
   margin: 20px 0 0 0;
 }
 
-/* line 71, resources/assets/styles/layouts/_pages.scss */
+/* line 77, resources/assets/styles/layouts/_pages.scss */
 
 .side-nav button:focus,
 .side-nav button:hover {
@@ -17113,13 +17206,13 @@ footer .nav-secondary-footer ul li a {
   text-decoration: none;
 }
 
-/* line 80, resources/assets/styles/layouts/_pages.scss */
+/* line 86, resources/assets/styles/layouts/_pages.scss */
 
 .location-cards h5 {
   margin: 0 0 15px 40px;
 }
 
-/* line 84, resources/assets/styles/layouts/_pages.scss */
+/* line 90, resources/assets/styles/layouts/_pages.scss */
 
 .location-cards ul {
   list-style-type: none;
@@ -17135,7 +17228,7 @@ footer .nav-secondary-footer ul li a {
   height: 600px;
 }
 
-/* line 91, resources/assets/styles/layouts/_pages.scss */
+/* line 97, resources/assets/styles/layouts/_pages.scss */
 
 .location-cards ul li {
   margin: 0 3% 15px 0;
@@ -17143,7 +17236,7 @@ footer .nav-secondary-footer ul li a {
   width: 46%;
 }
 
-/* line 103, resources/assets/styles/layouts/_pages.scss */
+/* line 109, resources/assets/styles/layouts/_pages.scss */
 
 .sizes {
   -webkit-box-pack: center;
@@ -17152,22 +17245,28 @@ footer .nav-secondary-footer ul li a {
   text-align: center;
 }
 
-/* line 107, resources/assets/styles/layouts/_pages.scss */
+/* line 113, resources/assets/styles/layouts/_pages.scss */
 
-.sizes h2 {
+.sizes h2,
+.sizes .postid-59432 .component h4,
+.postid-59432 .component .sizes h4 {
   margin-bottom: 45px;
 }
 
-/* line 111, resources/assets/styles/layouts/_pages.scss */
+/* line 117, resources/assets/styles/layouts/_pages.scss */
 
-.sizes h3 {
+.sizes h3,
+.sizes p.component_section_title,
+.sizes .woocommerce .product_cat-weekly table td.label,
+.woocommerce .product_cat-weekly table .sizes td.label {
+  /* stylelint-disable-line */
   font-family: shackleton-narrow, serif;
   font-size: 36px;
   color: #555;
   margin: 30px 0 15px 0;
 }
 
-/* line 118, resources/assets/styles/layouts/_pages.scss */
+/* line 124, resources/assets/styles/layouts/_pages.scss */
 
 .sizes h4 {
   color: #7db84b;
@@ -17176,7 +17275,7 @@ footer .nav-secondary-footer ul li a {
   line-height: 30px;
 }
 
-/* line 125, resources/assets/styles/layouts/_pages.scss */
+/* line 131, resources/assets/styles/layouts/_pages.scss */
 
 .sizes ul {
   border-top: solid 3px #f2f2f2;
@@ -17186,7 +17285,7 @@ footer .nav-secondary-footer ul li a {
   color: #8b8b8b;
 }
 
-/* line 133, resources/assets/styles/layouts/_pages.scss */
+/* line 139, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .season_expectations {
   margin: 45px 0;
@@ -17194,27 +17293,27 @@ footer .nav-secondary-footer ul li a {
   background: #f8f8f8;
 }
 
-/* line 138, resources/assets/styles/layouts/_pages.scss */
+/* line 144, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .season_expectations h4 {
   color: #4b4b4b;
   font-family: shackleton-narrow, serif;
 }
 
-/* line 146, resources/assets/styles/layouts/_pages.scss */
+/* line 152, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .pricing div div {
   background-color: #f8f8f8;
   padding: 30px 10px;
 }
 
-/* line 152, resources/assets/styles/layouts/_pages.scss */
+/* line 158, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .pricing div h5 {
   color: #e26025;
 }
 
-/* line 156, resources/assets/styles/layouts/_pages.scss */
+/* line 162, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .pricing div p {
   -webkit-box-orient: vertical;
@@ -17229,7 +17328,7 @@ footer .nav-secondary-footer ul li a {
   margin-bottom: 13px;
 }
 
-/* line 163, resources/assets/styles/layouts/_pages.scss */
+/* line 169, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .pricing div p span {
   font-family: shackleton-narrow, serif;
@@ -17240,7 +17339,7 @@ footer .nav-secondary-footer ul li a {
   margin-bottom: 5px;
 }
 
-/* line 173, resources/assets/styles/layouts/_pages.scss */
+/* line 179, resources/assets/styles/layouts/_pages.scss */
 
 .sizes .pricing div a {
   background: #74af43;
@@ -17260,7 +17359,7 @@ footer .nav-secondary-footer ul li a {
   width: 100%;
 }
 
-/* line 189, resources/assets/styles/layouts/_pages.scss */
+/* line 195, resources/assets/styles/layouts/_pages.scss */
 
 .photos {
   position: relative;
@@ -17270,12 +17369,374 @@ footer .nav-secondary-footer ul li a {
   margin-bottom: 120px;
 }
 
-/* line 195, resources/assets/styles/layouts/_pages.scss */
+/* line 201, resources/assets/styles/layouts/_pages.scss */
 
 .photos img {
   width: 100%;
   height: auto;
   margin: 10px 0;
+}
+
+/* line 209, resources/assets/styles/layouts/_pages.scss */
+
+div.faq div.accordion {
+  margin-bottom: 90px;
+}
+
+/* line 212, resources/assets/styles/layouts/_pages.scss */
+
+div.faq div.accordion h3,
+div.faq div.accordion p.component_section_title,
+div.faq div.accordion .woocommerce .product_cat-weekly table td.label,
+.woocommerce .product_cat-weekly table div.faq div.accordion td.label {
+  /* stylelint-disable-line */
+  margin: 35px 0 10px 0;
+}
+
+/* line 215, resources/assets/styles/layouts/_pages.scss */
+
+div.faq div.accordion h3 button.faq,
+div.faq div.accordion p.component_section_title button.faq,
+div.faq div.accordion .woocommerce .product_cat-weekly table td.label button.faq,
+.woocommerce .product_cat-weekly table div.faq div.accordion td.label button.faq {
+  color: #e26025;
+  font-size: 24px;
+  padding: 0;
+  text-align: left;
+}
+
+/* line 223, resources/assets/styles/layouts/_pages.scss */
+
+div.faq div.accordion div.collapse {
+  margin-bottom: 45px;
+}
+
+/* line 229, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce-product-gallery img,
+.size-woocommerce_thumbnail,
+.woocommerce-placeholder {
+  margin: 0 !important;
+}
+
+/* line 235, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce .woocommerce-breadcrumb {
+  display: none;
+}
+
+/* line 240, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce-product-gallery img {
+  padding: 8px;
+}
+
+/* line 245, resources/assets/styles/layouts/_pages.scss */
+
+.single-product .product .single_add_to_cart_button.button {
+  background-color: #7db84b;
+  color: #fff;
+}
+
+/* line 249, resources/assets/styles/layouts/_pages.scss */
+
+.single-product .product .single_add_to_cart_button.button:hover {
+  background-color: #74af43;
+  -webkit-transition: all 0.4s fade;
+  -o-transition: all 0.4s fade;
+  transition: all 0.4s fade;
+}
+
+/* line 255, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce .product .add_to_cart_button.button,
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt {
+  background-color: #7db84b;
+  color: #fff;
+}
+
+/* line 263, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce .product .add_to_cart_button.button:hover,
+.woocommerce #respond input#submit.alt:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce input.button.alt:hover {
+  background-color: #74af43;
+}
+
+/* line 268, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce #respond input#submit.alt.disabled,
+.woocommerce #respond input#submit.alt.disabled:hover,
+.woocommerce #respond input#submit.alt:disabled,
+.woocommerce #respond input#submit.alt:disabled:hover,
+.woocommerce #respond input#submit.alt:disabled[disabled],
+.woocommerce #respond input#submit.alt:disabled[disabled]:hover,
+.woocommerce a.button.alt.disabled,
+.woocommerce a.button.alt.disabled:hover,
+.woocommerce a.button.alt:disabled,
+.woocommerce a.button.alt:disabled:hover,
+.woocommerce a.button.alt:disabled[disabled],
+.woocommerce a.button.alt:disabled[disabled]:hover,
+.woocommerce button.button.alt.disabled,
+.woocommerce button.button.alt.disabled:hover,
+.woocommerce button.button.alt:disabled,
+.woocommerce button.button.alt:disabled:hover,
+.woocommerce button.button.alt:disabled[disabled],
+.woocommerce button.button.alt:disabled[disabled]:hover,
+.woocommerce input.button.alt.disabled,
+.woocommerce input.button.alt.disabled:hover,
+.woocommerce input.button.alt:disabled,
+.woocommerce input.button.alt:disabled:hover,
+.woocommerce input.button.alt:disabled[disabled],
+.woocommerce input.button.alt:disabled[disabled]:hover {
+  background: #7db84b;
+}
+
+/* line 295, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce div.product form.cart div.quantity {
+  margin: 0 23px 0 0;
+}
+
+/* line 299, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce .quantity .qty {
+  height: 48px;
+}
+
+/* line 303, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce .product_meta {
+  display: none;
+}
+
+/* line 307, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce a.remove {
+  line-height: 1.25em;
+}
+
+/* line 311, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce-checkout #payment ul.payment_methods li img.stripe-icon,
+#add_payment_method #payment ul.payment_methods li img.stripe-icon {
+  height: 40px;
+  margin-left: 5px;
+}
+
+/* line 317, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce form .form-row.automatewoo-optin {
+  width: 100%;
+}
+
+/* line 323, resources/assets/styles/layouts/_pages.scss */
+
+.postid-59432 div#product-59432.product div.summary {
+  width: 100%;
+}
+
+/* line 327, resources/assets/styles/layouts/_pages.scss */
+
+.postid-59432 .woocommerce-product-details__short-description {
+  border-bottom: solid 3px #f8f8f8;
+  padding: 45px 0;
+  margin-bottom: 45px;
+}
+
+/* line 333, resources/assets/styles/layouts/_pages.scss */
+
+.product-type-composite div.component {
+  background: #f8f8f8;
+  border-radius: 4px;
+  margin-bottom: 45px;
+  padding: 30px;
+}
+
+/* line 340, resources/assets/styles/layouts/_pages.scss */
+
+.postid-59432 .component h4 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* line 348, resources/assets/styles/layouts/_pages.scss */
+
+.component_options {
+  width: 50%;
+}
+
+/* line 352, resources/assets/styles/layouts/_pages.scss */
+
+div.component_options .component_options_select_wrapper,
+table.variations td.value {
+  position: relative;
+}
+
+/* line 357, resources/assets/styles/layouts/_pages.scss */
+
+p.component_section_title {
+  width: 30%;
+  float: left;
+  margin-bottom: 15px !important;
+  color: #4b4b4b;
+}
+
+/* line 367, resources/assets/styles/layouts/_pages.scss */
+
+.component.options-style-dropdowns .component_options_select_wrapper {
+  margin-left: 0 !important;
+}
+
+/* line 371, resources/assets/styles/layouts/_pages.scss */
+
+.component .component_options,
+.component .component_content {
+  padding-left: 0 !important;
+}
+
+/* line 376, resources/assets/styles/layouts/_pages.scss */
+
+.composite_form:not(.paged) .component:not(.first) .component_title_wrapper,
+.composite_form:not(.paged) .composite_wrap {
+  padding: 0 !important;
+}
+
+/* line 381, resources/assets/styles/layouts/_pages.scss */
+
+.clear_component_options_wrapper {
+  display: none !important;
+}
+
+/* line 385, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce table,
+.woocommerce table td {
+  border: none;
+  width: auto;
+}
+
+/* line 391, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce table.variations {
+  float: left;
+  width: 100%;
+  margin: 0;
+}
+
+/* line 397, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce table td {
+  padding: 0 10px;
+  margin: 0;
+}
+
+/* line 402, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce .product_cat-weekly table td.label {
+  width: 30%;
+  color: #4b4b4b;
+  font-weight: 500 !important;
+}
+
+/* line 411, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce table td.value {
+  text-align: left;
+  width: auto;
+}
+
+/* line 416, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce table td.value select#size {
+  margin-bottom: 0;
+}
+
+/* line 420, resources/assets/styles/layouts/_pages.scss */
+
+.component .woocommerce-variation-price {
+  position: absolute !important;
+  top: -100px;
+  right: 0;
+}
+
+/* line 426, resources/assets/styles/layouts/_pages.scss */
+
+.single_variation span.price .amount {
+  float: right;
+  text-align: right;
+  margin: 20px 0;
+}
+
+/* line 432, resources/assets/styles/layouts/_pages.scss */
+
+.postid-34475 span.price .amount,
+.postid-59432 span.price .amount {
+  font-size: 1.4rem;
+}
+
+/* line 437, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce select {
+  -webkit-appearance: none !important;
+  height: 38px;
+  line-height: 38px;
+  border: solid 2px #ddd;
+  color: #888;
+  border-radius: 3px;
+  padding: 0 5px 0 10px;
+  position: relative;
+  width: 100%;
+}
+
+/* line 449, resources/assets/styles/layouts/_pages.scss */
+
+div.component_options .component_options_select_wrapper::after,
+table.variations td.value::after {
+  border-style: solid;
+  border-width: 0.11em 0.11em 0 0;
+  content: "";
+  display: inline-block;
+  width: 0.38em;
+  height: 0.38em;
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  -webkit-transform: rotate(135deg);
+       -o-transform: rotate(135deg);
+          transform: rotate(135deg);
+  vertical-align: top;
+}
+
+/* line 464, resources/assets/styles/layouts/_pages.scss */
+
+table.variations td.value::after {
+  right: 25px;
+}
+
+/* line 468, resources/assets/styles/layouts/_pages.scss */
+
+.component_section_title.clear_component_options_wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* line 474, resources/assets/styles/layouts/_pages.scss */
+
+div#composite_data_59432 {
+  position: fixed;
+  bottom: 45px;
+  right: 45px;
+  background: #fff;
+  padding: 25px;
+  -webkit-box-shadow: 3px 6px 38px #dadada;
+          box-shadow: 3px 6px 38px #dadada;
 }
 
 /* line 1, resources/assets/styles/layouts/_tinymce.scss */

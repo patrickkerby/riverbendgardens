@@ -8,7 +8,7 @@
 
 .banner {
   height: 48vh;
-  min-height: 520px;
+  min-height: 600px;
   background-color: #f7f7f7;
   background-repeat: no-repeat;
   background-size: cover;
@@ -91,7 +91,7 @@
           height: 0;
           border-left: 50px solid transparent;
           border-right: 50px solid transparent;
-          border-top: 54px solid $bright-green;
+          border-top: 58px solid $bright-green;
           position: absolute;
           right: -50px;
         }
@@ -106,18 +106,44 @@
   }
 
   h1 {
-    margin-bottom: auto;
+    margin-top: auto;
     align-self: center;
     color: $white;
-    font-size: 46px;
+    font-size: 66px;
     line-height: 38px;
-    text-transform: uppercase;
     text-align: center;
 
     span {
       font-size: 30px;
     }
   }
+
+  .subtitle {
+    text-align: center;
+    margin-bottom: auto;
+
+    div {
+      margin-bottom: -30px;
+
+      p {
+        color: $white;
+        font-size: 22px;
+        margin-top: 35px;
+      }
+    }
+  }
+}
+
+.woocommerce-page .banner {
+  height: 30vh;
+  min-height: 375px;
+}
+
+.home .banner h1 {
+  margin-top: initial;
+  font-size: 46px;
+  text-transform: uppercase;
+  margin-bottom: auto;
 }
 
 .cbp-af-header {
