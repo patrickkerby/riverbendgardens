@@ -1,0 +1,16 @@
+.cta_primary a {
+  color: $white;
+  background: $dark-orange;
+  padding: 25px 90px;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 3px;
+  box-shadow: 0 2px 19px 0 rgba(0, 0, 0, 0.16);
+}
+
+.ghost {
+  background: $white;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  border-radius: 3px;
+}

@@ -1,0 +1,172 @@
+//The following sets variable font sizes for home page section.
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+
+      @media screen and (min-width: $min-vw) {
+        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+      }
+
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}
+
+$min_width: 600px;
+$max_width: 900px;
+$min_font: 13px;
+$max_font: 20px;
+
+p,
+ul,
+ul li,
+a,
+div,
+label,
+input[type="submit"] {
+  font-family: $font-family-sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+}
+
+p,
+ul li {
+  font-size: 19px;
+  color: #8b8b8b;
+  line-height: 28px;
+}
+
+img {
+  margin: 45px;
+
+  &.alignright {
+    margin-right: 0;
+  }
+}
+
+h1,
+h1 a,
+h2,
+h2 a,
+h3,
+h3 a {
+  font-family: $font-family-serif;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 47px;
+  color: $bright-green;
+}
+
+h3 {
+  color: $light-orange;
+  font-family: $font-family-sans-serif;
+  font-size: 23px;
+  line-height: 30px;
+}
+
+h5 {
+  font-family: $font-family-sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $forest-green;
+}
+
+section {
+  margin-top: 90px;
+  margin-bottom: 90px;
+}
+
+.carousel {
+  @include fullwidth();
+
+  background-color: $light_grey;
+  display: flex;
+  justify-content: center;
+  padding: 120px 0;
+  text-align: center;
+
+  h5 {
+    text-align: center;
+    width: 100%;
+  }
+
+  .carousel-inner {
+    min-height: 150px;
+    display: inline-flex;
+    align-items: center;
+
+    h2 {
+      line-height: 38px;
+    }
+
+    p {
+      font-family: $font-family-serif;
+      font-size: 32px;
+      line-height: 36px;
+      text-transform: uppercase;
+      color: $dark-orange;
+    }
+  }
+
+  .carousel-indicators {
+    bottom: 90px;
+
+    li {
+      border: solid 2px $dark-green;
+      border-radius: 5px;
+      width: 5px;
+      height: 5px;
+      background: none;
+
+      &.active {
+        background: $dark-green;
+      }
+    }
+  }
+}
+
+//Bootstrap Tooltip
+.tooltip {
+  .tooltip-inner {
+    background: $bright-green;
+    color: $white;
+    font-size: 16px;
+  }
+
+  .arrow {
+    background: $bright-green;
+    border-top: $bright-green !important;
+    border-color: $bright-green !important;
+    border-bottom-color: $bright-green !important;
+    border-left-color: $bright-green !important;
+    border-right-color: $bright-green !important;
+    border-top-color: $bright-green !important;
+  }
+}
+
+//Webfont Loading
+body {
+  opacity: 1;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  -webkit-transition: -webkit-transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.wf-loading body {
+  opacity: 0;
+}
