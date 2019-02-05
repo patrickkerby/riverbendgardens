@@ -105,7 +105,7 @@ $product_page_season = get_field('season_product_bigger');
 										</button>
 									</div>
 									<div class="modal-body">
-										@php the_field('partners_description'); @endphp
+										@php the_sub_field('description'); @endphp
 									</div>										
 								</div>
 							</div>
@@ -149,7 +149,7 @@ $product_page_season = get_field('season_product_bigger');
 										</button>
 									</div>
 									<div class="modal-body">
-										@php the_field('partners_description'); @endphp
+										@php the_sub_field('description'); @endphp
 									</div>										
 								</div>
 							</div>
@@ -193,7 +193,7 @@ $product_page_season = get_field('season_product_bigger');
 										</button>
 									</div>
 									<div class="modal-body">
-										@php the_field('partners_description'); @endphp
+										@php the_sub_field('description'); @endphp
 									<a href="">Sign up for Full Season at {{ $name }}</a>
 									</div>										
 								</div>
