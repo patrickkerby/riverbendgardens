@@ -6,6 +6,10 @@
   font-weight: 700;
   border-radius: 3px;
   box-shadow: 0 2px 19px 0 rgba(0, 0, 0, 0.16);
+
+  @include media-breakpoint-down(md) {
+    padding: 25px 60px;
+  }
 }
 
 .ghost {

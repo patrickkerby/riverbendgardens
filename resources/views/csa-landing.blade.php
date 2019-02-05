@@ -68,14 +68,14 @@ $product_page_season = get_field('season_product_bigger');
 			@php the_field('partners_description'); @endphp
 		</div>
 	</section>
-	<section class="locations row">
-		<div class="side-nav col-sm-3">
+	<section class="locations row no-gutters">
+		<div class="side-nav col-3">
 			<h4>Locations</h4>
 			<button data-toggle="collapse" class="btn btn-link show" data-target="#collapsePublic" role="button" aria-expanded="true" aria-controls="collapsePublic">Public Pickups</button>
 			<button data-toggle="collapse" class="btn btn-link collapsed" data-target="#collapseSchool" role="button" aria-expanded="false" aria-controls="collapseSchool">School Fundraiser Pickups</button>
 			<button data-toggle="collapse" class="btn btn-link collapsed" data-target="#collapseEmployee" role="button" aria-expanded="false" aria-controls="collapseEmployee">Employee-only Pickups</button>
 		</div>
-		<div class="location-cards col-sm-9" id="locations">
+		<div class="location-cards col-9" id="locations">
 			<div id="collapsePublic" class="collapse show" data-parent="#locations">
 				<h5>Public Pickup Locations</h5>
 				<ul>
@@ -303,7 +303,7 @@ $product_page_season = get_field('season_product_bigger');
 			if( $images ): @endphp
 					<div class="row gallery">
 							@php foreach( $images as $image ): @endphp
-									<div class="col-md-3 col-sm-6">
+									<div class="col-md-3 col-sm-4 col-xs-6">
 											<a href="@php echo $image['url']; @endphp" target="_blank">
 													 <img src="@php echo $image['sizes']['thumbnail']; @endphp" alt="@php echo $image['alt']; @endphp" />
 											</a>

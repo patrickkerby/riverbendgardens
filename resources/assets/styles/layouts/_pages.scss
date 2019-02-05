@@ -24,6 +24,18 @@
       color: $dark-green;
     }
   }
+
+  @include media-breakpoint-down(md) {
+    top: 0;
+    flex-direction: column;
+    padding-bottom: 40px;
+
+    h5 {
+      padding: 5px;
+      margin: 10px;
+      text-align: center;
+    }
+  }
 }
 
 .intro {
@@ -101,6 +113,15 @@
 
       a {
         @extend .ghost;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      height: auto;
+
+      li {
+        width: 100%;
+        margin: 10px 0;
       }
     }
   }
