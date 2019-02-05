@@ -146,6 +146,7 @@ p.component_section_title,
 .woocommerce .product_cat-weekly table td.label,
 h4,
 h5,
+.woocommerce form .form-row label,
 h6 {
   margin-top: 0;
   margin-bottom: 0.5rem;
@@ -528,6 +529,7 @@ p.component_section_title,
 .woocommerce .product_cat-weekly table td.label,
 h4,
 h5,
+.woocommerce form .form-row label,
 h6,
 .h1,
 .h2,
@@ -576,6 +578,7 @@ h4,
 /* line 20, node_modules/bootstrap/scss/_type.scss */
 
 h5,
+.woocommerce form .form-row label,
 .h5 {
   font-size: 1.25rem;
 }
@@ -16519,7 +16522,8 @@ p.component_section_title,
 
 /* line 81, resources/assets/styles/common/_global.scss */
 
-h5 {
+h5,
+.woocommerce form .form-row label {
   font-family: Venti, Arial, sans-serif;
   font-size: 12px;
   font-weight: 900;
@@ -16554,7 +16558,9 @@ section {
 
 /* line 104, resources/assets/styles/common/_global.scss */
 
-.carousel h5 {
+.carousel h5,
+.carousel .woocommerce form .form-row label,
+.woocommerce form .form-row .carousel label {
   text-align: center;
   width: 100%;
 }
@@ -17101,7 +17107,9 @@ footer .nav-secondary-footer ul li a {
 
 /* line 15, resources/assets/styles/layouts/_pages.scss */
 
-.season_details h5 {
+.season_details h5,
+.season_details .woocommerce form .form-row label,
+.woocommerce form .form-row .season_details label {
   padding: 25px;
   margin: 10px;
   display: -webkit-box;
@@ -17115,7 +17123,9 @@ footer .nav-secondary-footer ul li a {
 
 /* line 21, resources/assets/styles/layouts/_pages.scss */
 
-.season_details h5 span {
+.season_details h5 span,
+.season_details .woocommerce form .form-row label span,
+.woocommerce form .form-row .season_details label span {
   font-size: 24px;
   font-weight: 500;
   color: #74af43;
@@ -17208,7 +17218,9 @@ footer .nav-secondary-footer ul li a {
 
 /* line 86, resources/assets/styles/layouts/_pages.scss */
 
-.location-cards h5 {
+.location-cards h5,
+.location-cards .woocommerce form .form-row label,
+.woocommerce form .form-row .location-cards label {
   margin: 0 0 15px 40px;
 }
 
@@ -17309,7 +17321,9 @@ footer .nav-secondary-footer ul li a {
 
 /* line 158, resources/assets/styles/layouts/_pages.scss */
 
-.sizes .pricing div h5 {
+.sizes .pricing div h5,
+.sizes .pricing div .woocommerce form .form-row label,
+.woocommerce form .form-row .sizes .pricing div label {
   color: #e26025;
 }
 
@@ -17737,6 +17751,46 @@ div#composite_data_59432 {
   padding: 25px;
   -webkit-box-shadow: 3px 6px 38px #dadada;
           box-shadow: 3px 6px 38px #dadada;
+}
+
+/* line 484, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce-input-wrapper {
+  width: 100%;
+}
+
+/* line 488, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce form .form-row select {
+  border: solid 2px #e9e9e9;
+  border-radius: 3px;
+  -webkit-box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.02);
+          box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.02);
+  padding: 8px;
+}
+
+/* line 496, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus,
+.woocommerce form .form-row select:focus {
+  -webkit-box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.09);
+          box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.09);
+}
+
+/* line 501, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce form .form-row {
+  margin: 0 0 10px 0;
+}
+
+/* line 505, resources/assets/styles/layouts/_pages.scss */
+
+.woocommerce form .form-row label {
+  line-height: 1.2;
+  margin-top: 20px;
 }
 
 /* line 1, resources/assets/styles/layouts/_tinymce.scss */
