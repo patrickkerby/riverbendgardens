@@ -53,7 +53,7 @@ $product_page_season = get_field('season_product_bigger');
 		
 	<section class="season_details">
 		<h5>Season Length: <span>{{ $season_length }} Weeks</span></h5>
-		<h5 data-toggle="tooltip" title="Tooltip on top">Season Start: <span>{{ $first_week }}</span></h5>
+		<h5>Season Start: <span>{{ $first_week }}</span></h5>
 		<h5>Available in: <span>Two sizes</span></h5>
 		<h5>Pickup day: <span>Thursdays</span></h5>
 		<h5>Pickup Locations: <span>{{ $locations_count }} YEG & Area</span></h5>
@@ -64,7 +64,7 @@ $product_page_season = get_field('season_product_bigger');
 		</div>
 	</section>
 	<section id="map" class="map row no-gutters">
-		<div class="partners-description col-md-4">
+		<div class="partners-description col-md-4 d-none d-sm-block">
 			@php the_field('partners_description'); @endphp
 		</div>
 	</section>

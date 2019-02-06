@@ -30,11 +30,24 @@ $sub_title = get_field('sub_title');
   <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.{{ $overlay }}), rgba(45,51,55,0.{{ $overlay }})), url('{{ $hero }}');">
 @endif
 
-  <nav class="nav-primary">
+  <nav class="nav-primary d-none d-md-block">
     @if (has_nav_menu('primary_navigation'))
       {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']) !!}
     @endif
   </nav>
+
+   {{-- Hamburger Menu --}}
+    <button class="hamburger hamburger--minus d-md-none" type="button">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+    <nav class="nav-mobile">
+      @if (has_nav_menu('primary_navigation'))
+        {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']) !!}
+      @endif
+    </nav>
+
   @if (!empty($logo))			
     <img src="{{$logo}}" />
     <h1>Riverbend Gardens <br><span>- CSA {{ date("Y") }} -</span></h1>

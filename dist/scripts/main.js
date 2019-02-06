@@ -7130,6 +7130,10 @@ Router.prototype.loadEvents = function loadEvents () {
 /* WEBPACK VAR INJECTION */(function($) {/* harmony default export */ __webpack_exports__["a"] = ({
   init: function init() {
     // JavaScript to be fired on all pages
+    $('.hamburger').click(function() {
+      $(this).toggleClass('is-active');
+      $('.nav-mobile').toggleClass('is-active');
+    });
   },
   finalize: function finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
@@ -7139,6 +7143,7 @@ Router.prototype.loadEvents = function loadEvents () {
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 

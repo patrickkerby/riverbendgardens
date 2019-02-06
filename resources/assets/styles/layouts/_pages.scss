@@ -26,9 +26,9 @@
   }
 
   @include media-breakpoint-down(md) {
-    top: 0;
     flex-direction: column;
     padding-bottom: 40px;
+    padding-top: 70px;
 
     h5 {
       padding: 5px;
