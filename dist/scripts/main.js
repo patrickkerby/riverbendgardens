@@ -7144,10 +7144,6 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
-$(function () {
-  $('table').footable();
-})
-
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
