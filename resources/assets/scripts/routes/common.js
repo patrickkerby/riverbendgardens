@@ -4,6 +4,7 @@ export default {
     $('.hamburger').click(function() {
       $(this).toggleClass('is-active');
       $('.nav-mobile').toggleClass('is-active');
+      $('body').toggleClass('is-active');
     });
   },
   finalize() {
