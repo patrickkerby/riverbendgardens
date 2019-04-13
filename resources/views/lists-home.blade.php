@@ -200,7 +200,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							<td>Total: @php echo( $bigger_count + $smaller_count ); @endphp</td>
 						</tr>	
 					<tr>
-							<td colspan="4" align="center"><strong>School CSA</strong></td>
+							<td colspan="4" align="center"><h2>School CSA</h2></td>
 						</tr>
 					@php foreach ($school_locations as $school_location) {
 
@@ -293,7 +293,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 			<table class="table footable week week@php echo $week_in_season; @endphp">
 				<thead>
 					<tr>
-						<th colspan="3"><h3>@php echo $component_data['title']; @endphp</h3></th>
+						<th colspan="3"><h2>@php echo $component_data['title']; @endphp</h2></th>
 					</tr>
 					<tr>
 						<th>Location</th>
