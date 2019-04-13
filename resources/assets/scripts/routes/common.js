@@ -6,13 +6,13 @@ export default {
       $('.nav-mobile').toggleClass('is-active');
       $('body').toggleClass('is-active');
     });
-    jQuery(function($){
-      $('.table').footable();
-    });
+
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
-    
+    (function ($) {
+      $('table').footable();
+    })(jQuery);
   },
 };
 
@@ -20,4 +20,3 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
- 

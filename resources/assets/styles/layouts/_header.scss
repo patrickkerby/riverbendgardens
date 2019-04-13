@@ -18,6 +18,12 @@
 
   @include slowfade();
 
+  &.sm {
+    height: 450px;
+    min-height: 400px;
+    background-color: $forest-green;
+  }
+
   .nav-primary {
     background-color: $dark-green;
     position: relative;
