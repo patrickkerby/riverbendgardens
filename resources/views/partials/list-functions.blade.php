@@ -3,14 +3,15 @@
 //List of global variables
 $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the composite weeks by component ID! This is special.
 
-
 function weekCheck($prevWeek, $nextWeek) {
     // Check current date, set select value to selected if current date is between week x and y.
     // Function arguments are supplied by ACF in Ymd format
 
     $currentDate = date('Ymd');
     $currentDate=date('Ymd', strtotime($currentDate));;
-//     echo $currentDate; // echos today! 
+
+    var_dump( $currentDate );
+
     $weeklyDateBegin = date('Ymd', strtotime("$prevWeek"));
     $weeklyDateEnd = date('Ymd', strtotime("$nextWeek"));
 

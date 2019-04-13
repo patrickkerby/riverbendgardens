@@ -4,55 +4,118 @@
 
 @extends('layouts.app')
 
-{{-- @php 
-	if(is_page_template('lists-home.blade.php')) {
-		get_header('lists');
-	}
-	else {
-		get_header();
-	}
-  
-@endphp --}}
+{{-- @include('partials.list-functions') --}}
 
-<script type="text/javascript">
-  ( function($) {
-      $(document).ready(function(){
-        $("select").change(function(){
-            $(this).find("option:selected").each(function(){
-                var optionValue = $(this).attr("value");
-                if(optionValue){
-                    $(".week").not("." + optionValue).hide();
-                    $("." + optionValue).show();
-                } else{
-                    $(".week").hide();
-                }
-            });
-        }).change();
-    });
-    } ) ( jQuery );
-    </script>
+@php
 
-@include('partials.list_functions')
+//List of global variables
+$pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the composite weeks by component ID! This is special.
 
+function weekCheck($prevWeek, $nextWeek) {
+    // Check current date, set select value to selected if current date is between week x and y.
+    // Function arguments are supplied by ACF in Ymd format
 
+    $currentDate = date('Ymd');
+    $currentDate=date('Ymd', strtotime($currentDate));;
+
+    $weeklyDateBegin = date('Ymd', strtotime("$prevWeek"));
+    $weeklyDateEnd = date('Ymd', strtotime("$nextWeek"));
+
+    if (($currentDate > $weeklyDateBegin) && ($currentDate <= $weeklyDateEnd))
+    {
+    echo "selected";
+    }
+    else
+    {
+    //nothin
+    }
+}
+
+// ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
+// TODO: see if these dates can be provided on composite product item _rather_ than global options.
+
+$rows = get_field('pickup_dates','options' );
+
+$week1_row = $rows[0];
+$week1 = 'Week 1: ' . $week1_row['week'];
+
+$week2_row = $rows[1];
+$week2 = 'Week 2: ' . $week2_row['week'];
+
+$week3_row = $rows[2];
+$week3 = 'Week 3: ' . $week3_row['week'];
+
+$week4_row = $rows[3];
+$week4 = 'Week 4: ' . $week4_row['week'];
+
+$week5_row = $rows[4];
+$week5 = 'Week 5: ' . $week5_row['week'];
+
+$week6_row = $rows[5];
+$week6 = 'Week 6: ' . $week6_row['week'];
+
+$week7_row = $rows[6];
+$week7 = 'Week 7: ' . $week7_row['week'];
+
+$week8_row = $rows[7];
+$week8 = 'Week 8: ' . $week8_row['week'];
+
+$week9_row = $rows[8];
+$week9 = 'Week 9: ' . $week9_row['week'];
+
+$week10_row = $rows[9];
+$week10 = 'Week 10: ' . $week10_row['week'];
+
+$week11_row = $rows[10];
+$week11 = 'Week 11: ' . $week11_row['week'];
+
+$week12_row = $rows[11];
+$week12 = 'Week 12: ' . $week12_row['week'];
+
+$week13_row = $rows[12];
+$week13 = 'Week 13: ' . $week13_row['week'];
+
+$week14_row = $rows[13];
+$week14 = 'Week 14: ' . $week14_row['week'];
+
+$week15_row = $rows[14];
+$week15 = 'Week 15: ' . $week15_row['week']; 
+
+@endphp
 
 @section('content')
-
+<script type="text/javascript">
+	( function($) {
+			$(document).ready(function(){
+				$("select").change(function(){
+						$(this).find("option:selected").each(function(){
+								var optionValue = $(this).attr("value");
+								if(optionValue){
+										$(".week").not("." + optionValue).hide();
+										$("." + optionValue).show();
+								} else{
+										$(".week").hide();
+								}
+						});
+				}).change();
+		});
+		} ) ( jQuery );
+		</script>
 <div class="post-content">
-	<article id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
 		<h2>Packing Lists</h2>
 		<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
 		<table class="table" data-sorting="true" data-filtering="true">
 			<thead>
 				<tr>
 					<th>Location</th>
-					<th>Bigger</th>
-					<th>Smaller</th>
-					<th>Total (15wk)</th>
+					<th data-sortable="true">Bigger</th>
+					<th data-sortable="true">Smaller</th>
+					<th data-sortable="true">Total (15wk)</th>
 				</tr>	
 			</thead>
 			<tbody>
-				<?php
+				@php
 				
 					global $wpdb, $woocommerce;
 				
@@ -116,14 +179,14 @@
 						$bigger_count += $row->bigger_count;
 						$smaller_count += $row->smaller_count;
 												
-						?>
+						@endphp
 						<tr>
-							<td><strong><?php echo "$location"; ?></strong></td>
-							<td><?php echo($row->bigger_count); ?></td>
-							<td><?php echo($row->smaller_count); ?></td>
-							<td><?php echo($row->total_count); ?></td>
+							<td><strong>@php echo "$location"; @endphp</strong></td>
+							<td>@php echo($row->bigger_count); @endphp</td>
+							<td>@php echo($row->smaller_count); @endphp</td>
+							<td>@php echo($row->total_count); @endphp</td>
 						</tr>					
-					<?php } ?>
+					@php } @endphp
 						<tr>
 							<td><strong>Farm Pickup</strong></td>
 							<td>0</td>
@@ -132,14 +195,14 @@
 						</tr>
 						<tr>
 							<td><h4><strong>Totals</strong></h4></td>
-							<td>Bigger: <?php echo( $bigger_count ); ?></td>
-							<td>Smaller: <?php echo( $smaller_count ); ?></td>
-							<td>Total: <?php echo( $bigger_count + $smaller_count ); ?></td>
+							<td>Bigger: @php echo( $bigger_count ); @endphp</td>
+							<td>Smaller: @php echo( $smaller_count ); @endphp</td>
+							<td>Total: @php echo( $bigger_count + $smaller_count ); @endphp</td>
 						</tr>	
 					<tr>
 							<td colspan="4" align="center"><strong>School CSA</strong></td>
 						</tr>
-					<?php foreach ($school_locations as $school_location) {
+					@php foreach ($school_locations as $school_location) {
 
 						$sql_str2 = ( "
 							SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count 
@@ -182,19 +245,19 @@
 						$school_count_bigger += $school_row->bigger_count;
 						$school_count_smaller += $school_row->smaller_count;
 
-						?>
+						@endphp
 						<tr>
-							<td><strong><?php echo "$school_location"; ?></strong></td>
-							<td><?php echo($school_row->bigger_count); ?></td>
-							<td><?php echo($school_row->smaller_count); ?></td>
-							<td><?php echo($school_row->total_count); ?></td>
+							<td><strong>@php echo "$school_location"; @endphp</strong></td>
+							<td>@php echo($school_row->bigger_count); @endphp</td>
+							<td>@php echo($school_row->smaller_count); @endphp</td>
+							<td>@php echo($school_row->total_count); @endphp</td>
 						</tr>
-				<?php } ?>	
+				@php } @endphp	
 				<tr>
 					<td><h4><strong>School Totals</strong></h4></td>
-					<td>Bigger: <?php echo( $school_count_bigger ); ?></td>
-					<td>Smaller: <?php echo( $school_count_smaller ); ?></td>
-					<td>Total: <?php echo( $school_count_bigger + $school_count_smaller ); ?></td>
+					<td>Bigger: @php echo( $school_count_bigger ); @endphp</td>
+					<td>Smaller: @php echo( $school_count_smaller ); @endphp</td>
+					<td>Total: @php echo( $school_count_bigger + $school_count_smaller ); @endphp</td>
 				</tr>					 
 			</tbody>		
 		</table>
@@ -202,36 +265,35 @@
 	<section id="week-select">
 		<select>
 			<option>Choose Week</option>
-			<option value="week1" <?php weekCheck("January 1", $week2_row['week']); ?>>Week One</option>
-			<option value="week2" <?php weekCheck($week1_row['week'], $week3_row['week']); ?>>Week Two</option>
-			<option value="week3" <?php weekCheck($week2_row['week'], $week3_row['week']); ?>>Week Three</option>
-			<option value="week4" <?php weekCheck($week3_row['week'], $week4_row['week']); ?>>Week Four</option>
-			<option value="week5" <?php weekCheck($week4_row['week'], $week5_row['week']); ?>>Week Five</option>
-			<option value="week6" <?php weekCheck($week5_row['week'], $week6_row['week']); ?>>Week Six</option>
-			<option value="week7" <?php weekCheck($week6_row['week'], $week7_row['week']); ?>>Week Seven</option>
-			<option value="week8" <?php weekCheck($week7_row['week'], $week8_row['week']); ?>>Week Eight</option>
-			<option value="week9" <?php weekCheck($week8_row['week'], $week9_row['week']); ?>>Week Nine</option>
-			<option value="week10" <?php weekCheck($week9_row['week'], $week10_row['week']); ?>>Week Ten</option>
-			<option value="week11" <?php weekCheck($week10_row['week'], $week11_row['week']); ?>>Week Eleven</option>
-			<option value="week12" <?php weekCheck($week11_row['week'], $week12_row['week']); ?>>Week Twelve</option>
-			<option value="week13" <?php weekCheck($week12_row['week'], $week13_row['week']); ?>>Week Thirteen</option>
-			<option value="week14" <?php weekCheck($week13_row['week'], $week14_row['week']); ?>>Week Fourteen</option>
-			<option value="week15" <?php weekCheck($week14_row['week'], $week15_row['week']); ?>>Week Fifteen</option>
+			<option value="week1" @php weekCheck("January 1", $week2_row['week']); @endphp>Week One</option>
+			<option value="week2" @php weekCheck($week1_row['week'], $week3_row['week']); @endphp>Week Two</option>
+			<option value="week3" @php weekCheck($week2_row['week'], $week3_row['week']); @endphp>Week Three</option>
+			<option value="week4" @php weekCheck($week3_row['week'], $week4_row['week']); @endphp>Week Four</option>
+			<option value="week5" @php weekCheck($week4_row['week'], $week5_row['week']); @endphp>Week Five</option>
+			<option value="week6" @php weekCheck($week5_row['week'], $week6_row['week']); @endphp>Week Six</option>
+			<option value="week7" @php weekCheck($week6_row['week'], $week7_row['week']); @endphp>Week Seven</option>
+			<option value="week8" @php weekCheck($week7_row['week'], $week8_row['week']); @endphp>Week Eight</option>
+			<option value="week9" @php weekCheck($week8_row['week'], $week9_row['week']); @endphp>Week Nine</option>
+			<option value="week10" @php weekCheck($week9_row['week'], $week10_row['week']); @endphp>Week Ten</option>
+			<option value="week11" @php weekCheck($week10_row['week'], $week11_row['week']); @endphp>Week Eleven</option>
+			<option value="week12" @php weekCheck($week11_row['week'], $week12_row['week']); @endphp>Week Twelve</option>
+			<option value="week13" @php weekCheck($week12_row['week'], $week13_row['week']); @endphp>Week Thirteen</option>
+			<option value="week14" @php weekCheck($week13_row['week'], $week14_row['week']); @endphp>Week Fourteen</option>
+			<option value="week15" @php weekCheck($week14_row['week'], $week15_row['week']); @endphp>Week Fifteen</option>
 		</select>
 	</section>
 
-		<?php 
+		@php 
 		//Weekly count
-
 		$week_in_season = 0;
 		foreach ($pickup_weeks as $component_id => $component_data ) { 
 
-		$week_in_season++ ?>
+		$week_in_season++ @endphp
 
-			<table class="table footable week week<?php echo $week_in_season; ?>">
+			<table class="table footable week week@php echo $week_in_season; @endphp">
 				<thead>
 					<tr>
-						<th colspan="3"><h3><?php echo $component_data['title']; ?></h3></th>
+						<th colspan="3"><h3>@php echo $component_data['title']; @endphp</h3></th>
 					</tr>
 					<tr>
 						<th>Location</th>
@@ -240,7 +302,7 @@
 					</tr>
 				</thead>
 				<tbody>
-			<?php
+			@php
 			$sql_weekly = ( "
 				
 				SELECT DISTINCT Q2.composite_item, Q1.meta_value AS location, Q4.size, Q1.order_id
@@ -275,16 +337,16 @@
 				ON Q2.item_id = Q4.item_id		
 
 			");
-			$weekly_results = $wpdb->get_results($sql_weekly); ?>
+			$weekly_results = $wpdb->get_results($sql_weekly); @endphp
 						
-			<?php
+			@php
 
 			$weekly_count_bigger = 0;
 			$weekly_count_smaller = 0;
 
-			foreach ($weekly_locations as $weekly_location) { ?>				
+			foreach ($weekly_locations as $weekly_location) { @endphp				
 				
-				<?php 
+				@php 
 				$weekly_count = 0;
 				$weekly_location_count_bigger = 0;
 				$weekly_location_count_smaller = 0;				
@@ -314,31 +376,31 @@
 							}							
 						}								
 				}
-				?>
+				@endphp
 				<tr>
-					<td><?php echo $weekly_location; ?></td>
-					<td><?php echo $weekly_location_count_bigger; ?></td>
-					<td><?php echo $weekly_location_count_smaller; ?></td>
+					<td>@php echo $weekly_location; @endphp</td>
+					<td>@php echo $weekly_location_count_bigger; @endphp</td>
+					<td>@php echo $weekly_location_count_smaller; @endphp</td>
 				</tr>
-				<?php					
-			} ?>
+				@php					
+			} @endphp
 				<tr>
 					<td><strong>Total:</strong></td>
-					<td><?php echo $weekly_count_bigger; ?></td>
-					<td><?php echo $weekly_count_smaller; ?></td>
+					<td>@php echo $weekly_count_bigger; @endphp</td>
+					<td>@php echo $weekly_count_smaller; @endphp</td>
 				</tr>
 			</tbody>
 		</table>
-		<div class="count_box week week<?php echo $week_in_season ?>">
+		<div class="count_box week week@php echo $week_in_season @endphp">
 			<ul>
-				<li><strong>Bigger:</strong> <?php echo( $weekly_count_bigger + $school_count_bigger + $bigger_count ); ?></li>
-				<li><strong>Smaller:</strong> <?php echo( $weekly_count_smaller + $school_count_smaller + $smaller_count ); ?> </li>
-				<li><strong>Extras:</strong> 28</li>
-				<li><strong>Total:</strong> <?php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $school_count_smaller + $school_count_bigger + 28 ); ?></li>
+				<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $school_count_bigger + $bigger_count ); @endphp</li>
+				<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $school_count_smaller + $smaller_count ); @endphp </li>
+				<li><strong>Extras:</strong> x </li>
+				<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $school_count_smaller + $school_count_bigger ); @endphp</li>
 			</ul>
 		</div>	
-		<?php }
-		?>	
+		@php }
+		@endphp	
 	</article>
-</div>		
+</div>
 @endsection

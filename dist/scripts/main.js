@@ -7199,7 +7199,7 @@ Router.prototype.loadEvents = function loadEvents () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony default export */ __webpack_exports__["a"] = ({
+/* WEBPACK VAR INJECTION */(function($, jQuery) {/* harmony default export */ __webpack_exports__["a"] = ({
   init: function init() {
     // JavaScript to be fired on all pages
     $('.hamburger').click(function() {
@@ -7207,14 +7207,13 @@ Router.prototype.loadEvents = function loadEvents () {
       $('.nav-mobile').toggleClass('is-active');
       $('body').toggleClass('is-active');
     });
-
-    // $(function() { 
-    //   $('table').footable();
-    // });
+    jQuery(function($){
+      $('.table').footable();
+    });
   },
   finalize: function finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
-   
+    
   },
 });
 
@@ -7223,7 +7222,7 @@ $(function () {
 });
 
  
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))
 
 /***/ }),
 /* 14 */
