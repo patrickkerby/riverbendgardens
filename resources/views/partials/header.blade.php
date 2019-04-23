@@ -53,7 +53,7 @@ $sub_title = get_field('sub_title');
     </nav>
 
   @if (!empty($logo))			
-    <img src="{{$logo}}" />
+    <img src="{{$logo}}" alt="Riverbend Gardens - Edmonton, Alberta"/>
     <h1>Riverbend Gardens <br><span>- CSA {{ date("Y") }} -</span></h1>
 
   @elseif ( is_front_page() )
