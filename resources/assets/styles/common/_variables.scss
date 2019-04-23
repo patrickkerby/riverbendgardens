@@ -28,6 +28,7 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
     url("../fonts/VentiCF-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
+  font-display: auto;
 }
 
 @font-face {
@@ -37,6 +38,7 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
     url("../fonts/VentiCF-DemiBold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
+  font-display: auto;
 }
 
 @font-face {
@@ -46,6 +48,7 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
     url("../fonts/VentiCF-Bold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
+  font-display: auto;
 }
 
 @font-face {
@@ -55,6 +58,7 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
     url("../fonts/VentiCF-Black.woff") format("woff");
   font-weight: 900;
   font-style: normal;
+  font-display: auto;
 }
 
 $font-family-sans-serif: Venti, Arial, sans-serif;

@@ -547,6 +547,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   src: url(/app/themes/riverbend/dist/fonts/VentiCF-Medium.woff2) format("woff2"), url(/app/themes/riverbend/dist/fonts/VentiCF-Medium.woff) format("woff");
   font-weight: 500;
   font-style: normal;
+  font-display: auto;
 }
 
 @font-face {
@@ -554,6 +555,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   src: url(/app/themes/riverbend/dist/fonts/VentiCF-DemiBold.woff2) format("woff2"), url(/app/themes/riverbend/dist/fonts/VentiCF-DemiBold.woff) format("woff");
   font-weight: 700;
   font-style: normal;
+  font-display: auto;
 }
 
 @font-face {
@@ -561,6 +563,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   src: url(/app/themes/riverbend/dist/fonts/VentiCF-Bold.woff2) format("woff2"), url(/app/themes/riverbend/dist/fonts/VentiCF-Bold.woff) format("woff");
   font-weight: 800;
   font-style: normal;
+  font-display: auto;
 }
 
 @font-face {
@@ -568,6 +571,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   src: url(/app/themes/riverbend/dist/fonts/VentiCF-Black.woff2) format("woff2"), url(/app/themes/riverbend/dist/fonts/VentiCF-Black.woff) format("woff");
   font-weight: 900;
   font-style: normal;
+  font-display: auto;
 }
 
 /** Hamburger icon */
