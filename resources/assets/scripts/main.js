@@ -3,7 +3,6 @@ import 'jquery';
 import 'slick-carousel/slick/slick.min.js';
 import 'slick-lightbox/dist/slick-lightbox.min.js';
 import 'mapbox-gl/dist/mapbox-gl.js';
-import 'footable/dist/footable.all.min.js';
 
 // Import everything from autoload
 import './autoload/**/*'

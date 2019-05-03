@@ -84,6 +84,25 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 @endphp
 
 @section('content')
+<form action="" method="post" target="_self">
+	<label for="year">Year:</label>
+	<select id="year" name="year">
+		<option value="CSA 2019 - 15 week">2019</option>
+		<option value="CSA 2018 - 15 week">2018</option>
+		<option value="CSA 2017 - 15 week">2017</option>
+		<option value="CSA 2016 - 15 week">2016</option>
+		<option value="CSA 2015 - 15 week">2015</option>
+	</select>
+	<input type="submit" value="Go">
+</form>
+
+@php
+	if ( isset( $_POST['submit'] ) ) { 
+		$year = $_POST["year"]; 							
+	} 
+	$year = $_POST["year"];
+@endphp
+
 <script type="text/javascript">
 	( function($) {
 			$(document).ready(function(){
@@ -104,15 +123,16 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 <div class="post-content">
 	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
 		<section>
-			<h2>Packing Lists</h2>
+			<h2>Packing Lists - {{ $year }}</h2>
 			<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
-			<table class="table" data-sorting="true" data-filtering="true" data-paging="false">
+		
+			<table class="table" data-sorting="true">
 				<thead>
 					<tr>
-						<th>Location</th>
-						<th data-sortable="true">Bigger</th>
-						<th data-sortable="true">Smaller</th>
-						<th data-sortable="true">Total (15wk)</th>
+						<th scope="col">Location</th>
+						<th data-type="number" scope="col">Bigger</th>
+						<th data-type="number" scope="col">Smaller</th>
+						<th data-type="number" scope="col">Total (15wk)</th>
 					</tr>	
 				</thead>
 				<tbody>
@@ -135,7 +155,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						$weekly_locations = wc_get_product_terms( $weekly_orders->id, 'pa_pickup-location', array( 'fields' => 'slugs' ));
 						$locations = explode(' | ', $locations['location']['value']);
 						$school_locations = explode(' | ', $school_locations['location']['value']);
-							
+
 						$sql_str = '';
 
 						foreach ($locations as $location) {
@@ -146,7 +166,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 										FROM $order_items, $order_meta
 										WHERE $order_items.order_item_id = $order_meta.order_item_id
 										AND $order_meta.meta_value = '$location'
-										AND $order_items.order_item_name LIKE 'CSA 2019 - 15 week%'
+										AND $order_items.order_item_name LIKE '$year%'
 									) Q1
 								LEFT JOIN
 									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
@@ -164,12 +184,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 										AND $order_meta.meta_value = 'smaller'
 									)	Q3
 								ON Q1.order_id = Q3.order_id
-								RIGHT JOIN
-								(	SELECT id, post_status
-									FROM $order_data
-									WHERE $order_data.post_status = 'wc-processing'
-								)	Q4
-								ON Q1.order_id = Q4.id
+								
 								ORDER BY location_value			 
 							");
 							
@@ -183,9 +198,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							@endphp
 							<tr>
 								<td><strong>@php echo "$location"; @endphp</strong></td>
-								<td>@php echo($row->bigger_count); @endphp</td>
-								<td>@php echo($row->smaller_count); @endphp</td>
-								<td>@php echo($row->total_count); @endphp</td>
+								<td data-sort-value="@php echo($row->bigger_count); @endphp">@php echo($row->bigger_count); @endphp</td>
+								<td data-sort-value="@php echo($row->smaller_count); @endphp">@php echo($row->smaller_count); @endphp</td>
+								<td data-sort-value="@php echo($row->total_count); @endphp">@php echo($row->total_count); @endphp</td>
 							</tr>					
 						@php } @endphp
 							<tr>
@@ -194,15 +209,29 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 								<td>1</td>
 								<td>1</td>
 							</tr>
+						</tbody>
+						<tfoot>
 							<tr>
-								<td><strong>Totals</strong></td>
+								<th scope="row"><strong>Totals</strong></th>
 								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
 								<td>Smaller: @php echo( $smaller_count ); @endphp</td>
 								<td>Total: @php echo( $bigger_count + $smaller_count ); @endphp</td>
-							</tr>	
-						<tr>
-								<td colspan="4"><h2>School CSA</h2></td>
 							</tr>
+						</tfoot>						
+				</table>
+				
+				<h2>School Lists - {{ $year }}</h2>
+
+				<table class="table" data-sorting="true">
+					<thead>
+						<tr>
+							<th>Location</th>
+							<th data-sortable="true">Bigger</th>
+							<th data-sortable="true">Smaller</th>
+							<th data-sortable="true">Total (15wk)</th>
+						</tr>	
+					</thead>
+					<tbody>		
 						@php foreach ($school_locations as $school_location) {
 
 							$sql_str2 = ( "
@@ -254,13 +283,15 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 								<td>@php echo($school_row->total_count); @endphp</td>
 							</tr>
 					@php } @endphp	
-					<tr>
-						<td><strong>School Totals</strong></td>
-						<td>Bigger: @php echo( $school_count_bigger ); @endphp</td>
-						<td>Smaller: @php echo( $school_count_smaller ); @endphp</td>
-						<td>Total: @php echo( $school_count_bigger + $school_count_smaller ); @endphp</td>
-					</tr>					 
-				</tbody>		
+					</tbody>		
+					<tfoot>
+						<tr>
+							<th scope="row"><strong>School Totals</strong></th>
+							<td>Bigger: @php echo( $school_count_bigger ); @endphp</td>
+							<td>Smaller: @php echo( $school_count_smaller ); @endphp</td/>
+							<td>Total: @php echo( $school_count_bigger + $school_count_smaller ); @endphp</td>
+						</tr>					 
+					</tfoot>
 			</table>
 
 		<section id="week-select">
@@ -385,12 +416,14 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 					</tr>
 					@php					
 				} @endphp
+					</tbody>
+					<tfoot>
 					<tr>
-						<td><strong>Total:</strong></td>
+						<th scope="row"><strong>Total:</strong></th>
 						<td>@php echo $weekly_count_bigger; @endphp</td>
 						<td>@php echo $weekly_count_smaller; @endphp</td>
 					</tr>
-				</tbody>
+				</tfoot>
 			</table>
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
