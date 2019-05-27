@@ -80,6 +80,28 @@ $sub_title = get_field('sub_title');
     <h1 class="page-title"><?php echo $termname; ?></h1> 
     <div class="description"><?php echo term_description(); ?></div>   	        				        			    
 
+  @elseif ( is_page( 'lists' ) || '58119' == $post->post_parent ) )
+    <h1 class="page-title"><?php the_title(); ?></h1>
+    <div class="row subtitle justify-content-center">
+      <div class="col-md-7">@php echo $sub_title; @endphp </div>
+      <nav class="col-md-8 sub-nav-selector">
+        <form action="@php bloginfo('url'); @endphp" method="get">
+          @php 
+            $dropdown_args = array(
+                'selected'  => '58119',
+                'depth' => '-1',
+                'child_of'  => '58119',
+                'sort_column' => 'menu_order, post_title',
+                'show_option_none' => 'Show all locations...',
+                'option_none_value' => '58119',
+            );
+            wp_dropdown_pages( $dropdown_args ); 
+          @endphp
+          <input type="submit" name="submit" value="view" />
+        </form>
+      </nav>
+    </div> 
+
   @else
     <h1 class="page-title"><?php the_title(); ?></h1>
     <div class="row subtitle justify-content-center">

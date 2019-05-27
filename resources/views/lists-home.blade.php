@@ -326,7 +326,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 
 			$week_in_season++ @endphp
 
-				<table class="table footable week week@php echo $week_in_season; @endphp" data-paging="true" data-page-size="600">
+				<table class="table footable week week@php echo $week_in_season; @endphp" data-sorting="true">
 					<thead>
 						<tr>
 							<th colspan="3"><h2>@php echo $component_data['title']; @endphp</h2></th>

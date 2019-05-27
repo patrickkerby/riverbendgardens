@@ -19515,14 +19515,20 @@ body {
   margin-top: 35px;
 }
 
-/* line 164, resources/assets/styles/layouts/_header.scss */
+/* line 162, resources/assets/styles/layouts/_header.scss */
+
+.banner .subtitle .sub-nav-selector {
+  padding: 3rem 0;
+}
+
+/* line 168, resources/assets/styles/layouts/_header.scss */
 
 .woocommerce-page .banner {
   height: 30vh;
   min-height: 375px;
 }
 
-/* line 169, resources/assets/styles/layouts/_header.scss */
+/* line 173, resources/assets/styles/layouts/_header.scss */
 
 .home .banner h1 {
   margin-top: initial;
@@ -19531,7 +19537,7 @@ body {
   margin-bottom: auto;
 }
 
-/* line 176, resources/assets/styles/layouts/_header.scss */
+/* line 180, resources/assets/styles/layouts/_header.scss */
 
 .cbp-af-header {
   display: -webkit-box;
@@ -19545,7 +19551,7 @@ body {
   z-index: 2;
 }
 
-/* line 185, resources/assets/styles/layouts/_header.scss */
+/* line 189, resources/assets/styles/layouts/_header.scss */
 
 .hamburger {
   position: absolute;
@@ -19553,7 +19559,7 @@ body {
   z-index: 2;
 }
 
-/* line 192, resources/assets/styles/layouts/_header.scss */
+/* line 196, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile {
   background: #7db84b;
@@ -19563,7 +19569,7 @@ body {
   z-index: 1;
 }
 
-/* line 199, resources/assets/styles/layouts/_header.scss */
+/* line 203, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile ul.nav {
   display: -webkit-box;
@@ -19576,14 +19582,14 @@ body {
   margin: 45px 0 0 45px;
 }
 
-/* line 204, resources/assets/styles/layouts/_header.scss */
+/* line 208, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile ul.nav li.menu-item {
   padding: 15px;
   margin: 0;
 }
 
-/* line 208, resources/assets/styles/layouts/_header.scss */
+/* line 212, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile ul.nav li.menu-item a {
   font-size: 26px;
@@ -19591,7 +19597,7 @@ body {
   margin: 0;
 }
 
-/* line 216, resources/assets/styles/layouts/_header.scss */
+/* line 220, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile ul.nav li.menu-item ul {
   padding: 0;
@@ -19599,13 +19605,13 @@ body {
   margin: 0 0 15px 45px;
 }
 
-/* line 221, resources/assets/styles/layouts/_header.scss */
+/* line 225, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile ul.nav li.menu-item ul li {
   padding: 0;
 }
 
-/* line 224, resources/assets/styles/layouts/_header.scss */
+/* line 228, resources/assets/styles/layouts/_header.scss */
 
 .nav-mobile ul.nav li.menu-item ul li a {
   font-size: 18px;
