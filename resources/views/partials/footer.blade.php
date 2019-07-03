@@ -20,6 +20,3 @@
     </nav>
     @php dynamic_sidebar('sidebar-footer') @endphp
 </footer>
-<script>
-	
-</script>

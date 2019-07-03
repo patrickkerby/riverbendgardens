@@ -109,20 +109,23 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 
 <script type="text/javascript">
 	( function($) {
-			$(document).ready(function(){
-				$("select").change(function(){
-						$(this).find("option:selected").each(function(){
-								var optionValue = $(this).attr("value");
-								if(optionValue){
-										$(".week").not("." + optionValue).hide();
-										$("." + optionValue).show();
-								} else{
-										$(".week").hide();
-								}
-						});
-				}).change();
+		$(document).ready(function(){
+			$("select").change(function(){
+					$(this).find("option:selected").each(function(){
+							var optionValue = $(this).attr("value");
+							if(optionValue){
+									$(".week").not("." + optionValue).hide();
+									$("." + optionValue).show();
+							} else{
+									$(".week").hide();
+							}
+					});
+			}).change();
+
+			$('.table').footable();
+
 		});
-		} ) ( jQuery );
+	} ) ( jQuery );
 		</script>
 <div class="post-content">
 	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
