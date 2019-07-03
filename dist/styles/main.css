@@ -20859,6 +20859,24 @@ table.footable > tbody > tr > th {
     background: none !important;
     color: #333;
   }
+
+  /* line 87, resources/assets/styles/components/_lists.scss */
+
+  .count_box {
+    position: relative !important;
+  }
+
+  /* line 91, resources/assets/styles/components/_lists.scss */
+
+  td.name::before {
+    content: "";
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    width: 10px;
+    height: 10px;
+    border: solid 2px #333;
+  }
 }
 
 

@@ -83,4 +83,16 @@ table.footable > tbody > tr > th {
     background: none !important;
     color: #333;
   }
+
+  .count_box {
+    position: relative !important;
+  }
+
+  td.name::before {
+    content: "";
+    display: inline-flex;
+    width: 10px;
+    height: 10px;
+    border: solid 2px #333;
+  }
 }

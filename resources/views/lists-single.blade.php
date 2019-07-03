@@ -279,7 +279,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
               }				
               @endphp
               <tr>
-                <td>
+                <td class="name">
                   @php echo $seasonal_order->first_name; @endphp
                   @php echo $seasonal_order->last_name; @endphp
                 </td>
@@ -359,7 +359,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
                     
                 @endphp
                     <tr>
-                      <td>
+                      <td class="name">
                         @php echo $weeklyorder->first_name; @endphp
                         @php echo $weeklyorder->last_name; @endphp
                       </td>
