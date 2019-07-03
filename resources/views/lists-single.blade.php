@@ -84,23 +84,21 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 @section('content')
   <script type="text/javascript">
 
-    (function($){
-      $('.table').footable();
-    }) ( jQuery );  
-  
-    ( function($) {
-        $(document).ready(function(){
-          $("select").change(function(){
-            $(this).find("option:selected").each(function(){
-              var optionValue = $(this).attr("value");
-              if(optionValue){
-                  $(".week").not("." + optionValue).hide();
-                  $("." + optionValue).show();
-              } else{
-                  $(".week").hide();
-              }
-            });
+( function($) {
+      $(document).ready(function(){
+        $("select").change(function(){
+          $(this).find("option:selected").each(function(){
+            var optionValue = $(this).attr("value");
+            if(optionValue){
+                $(".week").not("." + optionValue).hide();
+                $("." + optionValue).show();
+            } else{
+                $(".week").hide();
+            }
+          });
         }).change();
+        
+        $('.table').footable();
       });
     } ) ( jQuery );
 
