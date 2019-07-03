@@ -351,8 +351,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
 				<ul>
-					<li><strong>Bigger:</strong> @php echo( 2 + $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( 16 + $smaller_count ); @endphp </li>
+					<li><strong>Bigger:</strong> @php echo( 2 + 9 + $bigger_count ); @endphp</li>
+					<li><strong>Smaller:</strong> @php echo( 16 + 15 + $smaller_count ); @endphp </li>
 					<li><strong>Extras:</strong> 28 </li>
 					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 2 + 16 + 28 ); @endphp</li>
 				</ul>
