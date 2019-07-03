@@ -259,7 +259,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
       <section>
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
-        <table class="table footable" data-sorting="true" data-filtering="true">
+        <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
           <thead>
             <tr>
               <th>Customer Name</th>
