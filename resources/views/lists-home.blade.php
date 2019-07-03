@@ -354,7 +354,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 					<li><strong>Bigger:</strong> @php echo( 2 + 9 + $bigger_count ); @endphp</li>
 					<li><strong>Smaller:</strong> @php echo( 16 + 15 + $smaller_count ); @endphp </li>
 					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 2 + 16 + 28 ); @endphp</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 2 + 16 + 9 + 15 + 28 ); @endphp</li>
 				</ul>
 			</div>
 			@php }
