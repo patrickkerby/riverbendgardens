@@ -20842,18 +20842,18 @@ table.footable > tbody > tr > th {
 }
 
 @media print {
-  /* line 74, resources/assets/styles/components/_lists.scss */
+  /* line 73, resources/assets/styles/components/_lists.scss */
 
-  header .banner .nav-primary,
-  header .subtitle,
-  header .sub-nav-selector,
-  header footer.content-info {
+  .banner .nav-primary,
+  .subtitle,
+  .sub-nav-selector,
+  footer.content-info {
     display: none !important;
   }
 
-  /* line 81, resources/assets/styles/components/_lists.scss */
+  /* line 80, resources/assets/styles/components/_lists.scss */
 
-  header .banner.sm {
+  .banner.sm {
     height: 150px !important;
     min-height: 150px !important;
     background: none !important;
