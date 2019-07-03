@@ -70,19 +70,17 @@ table.footable > tbody > tr > th {
 }
 
 @media print {
-  header {
-    .banner .nav-primary,
-    .subtitle,
-    .sub-nav-selector,
-    footer.content-info {
-      display: none !important;
-    }
+  .banner .nav-primary,
+  .subtitle,
+  .sub-nav-selector,
+  footer.content-info {
+    display: none !important;
+  }
 
-    .banner.sm {
-      height: 150px !important;
-      min-height: 150px !important;
-      background: none !important;
-      color: #333;
-    }
+  .banner.sm {
+    height: 150px !important;
+    min-height: 150px !important;
+    background: none !important;
+    color: #333;
   }
 }
