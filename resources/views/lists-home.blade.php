@@ -234,7 +234,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
 								<td>Bigger: @php echo( $bigger_count + 9 ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count + 1 ); @endphp</td>
+								<td>Smaller: @php echo( $smaller_count + 15 ); @endphp</td>
 								<td>Total: @php echo( $bigger_count + $smaller_count + 10 ); @endphp</td>
 							</tr>
 						</tfoot>						
