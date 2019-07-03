@@ -73,7 +73,9 @@ table.footable > tbody > tr > th {
   .banner .nav-primary,
   .subtitle,
   .sub-nav-selector,
-  footer.content-info {
+  footer.content-info,
+  select#week-select,
+  form {
     display: none !important;
   }
 
