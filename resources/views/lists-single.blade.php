@@ -394,4 +394,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
       </section>
     </article>
   </div>
+  <script>
+    jQuery(function($){
+	$('.table').footable();
+});  
+  </script>
 @endsection

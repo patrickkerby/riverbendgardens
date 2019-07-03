@@ -103,6 +103,11 @@ table.footable > tbody > tr > th {
     break-inside: avoid;
   }
 
+  .page-template-lists-single table {
+    break-inside: auto;
+    break-before: avoid;
+  }
+
   h1,
   h2,
   h3 {

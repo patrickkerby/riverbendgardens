@@ -20891,6 +20891,17 @@ table.footable > tbody > tr > th {
 
   /* line 106, resources/assets/styles/components/_lists.scss */
 
+  .page-template-lists-single table {
+    -webkit-column-break-inside: auto;
+       -moz-column-break-inside: auto;
+            break-inside: auto;
+    -webkit-column-break-before: avoid;
+       -moz-column-break-before: avoid;
+            break-before: avoid;
+  }
+
+  /* line 111, resources/assets/styles/components/_lists.scss */
+
   h1,
   h2,
   .nav-mobile ul.nav li.menu-item a,
