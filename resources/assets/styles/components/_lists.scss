@@ -97,10 +97,15 @@ table.footable > tbody > tr > th {
     width: 16px;
     height: 16px;
     border: solid 1px #333;
+    margin-right: 10px;
   }
 
   table {
     break-inside: avoid;
+  }
+
+  table.footable > tbody > tr > td {
+    font-size: 22px;
   }
 
   .page-template-lists-single table {
@@ -112,5 +117,13 @@ table.footable > tbody > tr > th {
   h2,
   h3 {
     break-after: avoid-page;
+  }
+
+  .banner h1 {
+    color: #333 !important;
+  }
+
+  .fooicon {
+    display: none !important;
   }
 }

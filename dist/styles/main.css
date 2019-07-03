@@ -20879,9 +20879,10 @@ table.footable > tbody > tr > th {
     width: 16px;
     height: 16px;
     border: solid 1px #333;
+    margin-right: 10px;
   }
 
-  /* line 102, resources/assets/styles/components/_lists.scss */
+  /* line 103, resources/assets/styles/components/_lists.scss */
 
   table {
     -webkit-column-break-inside: avoid;
@@ -20889,7 +20890,13 @@ table.footable > tbody > tr > th {
             break-inside: avoid;
   }
 
-  /* line 106, resources/assets/styles/components/_lists.scss */
+  /* line 107, resources/assets/styles/components/_lists.scss */
+
+  table.footable > tbody > tr > td {
+    font-size: 22px;
+  }
+
+  /* line 111, resources/assets/styles/components/_lists.scss */
 
   .page-template-lists-single table {
     -webkit-column-break-inside: auto;
@@ -20900,7 +20907,7 @@ table.footable > tbody > tr > th {
             break-before: avoid;
   }
 
-  /* line 111, resources/assets/styles/components/_lists.scss */
+  /* line 116, resources/assets/styles/components/_lists.scss */
 
   h1,
   h2,
@@ -20912,6 +20919,18 @@ table.footable > tbody > tr > th {
     -webkit-column-break-after: avoid;
        -moz-column-break-after: avoid;
             break-after: avoid-page;
+  }
+
+  /* line 122, resources/assets/styles/components/_lists.scss */
+
+  .banner h1 {
+    color: #333 !important;
+  }
+
+  /* line 126, resources/assets/styles/components/_lists.scss */
+
+  .fooicon {
+    display: none !important;
   }
 }
 
