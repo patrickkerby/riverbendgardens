@@ -83,6 +83,11 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 
 @section('content')
   <script type="text/javascript">
+
+    (function($){
+      $('.table').footable();
+    }) ( jQuery );  
+  
     ( function($) {
         $(document).ready(function(){
           $("select").change(function(){
@@ -98,6 +103,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
         }).change();
       });
     } ) ( jQuery );
+
+
   </script>
 
   @php      
@@ -394,9 +401,4 @@ $week15 = 'Week 15: ' . $week15_row['week'];
       </section>
     </article>
   </div>
-  <script>
-    jQuery(function($){
-	$('.table').footable();
-});  
-  </script>
 @endsection
