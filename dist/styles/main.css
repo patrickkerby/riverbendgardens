@@ -20848,7 +20848,7 @@ table.footable > tbody > tr > th {
   .subtitle,
   .sub-nav-selector,
   footer.content-info,
-  select#week-select,
+  section#week-select,
   form {
     display: none !important;
   }
@@ -20879,6 +20879,27 @@ table.footable > tbody > tr > th {
     width: 16px;
     height: 16px;
     border: solid 1px #333;
+  }
+
+  /* line 102, resources/assets/styles/components/_lists.scss */
+
+  table {
+    -webkit-column-break-inside: avoid;
+       -moz-column-break-inside: avoid;
+            break-inside: avoid;
+  }
+
+  /* line 106, resources/assets/styles/components/_lists.scss */
+
+  h2,
+  .nav-mobile ul.nav li.menu-item a,
+  .postid-59432 .component h4,
+  h3,
+  p.component_section_title,
+  .woocommerce .product_cat-weekly table td.label {
+    -webkit-column-break-after: avoid;
+       -moz-column-break-after: avoid;
+            break-after: avoid-page;
   }
 }
 

@@ -74,7 +74,7 @@ table.footable > tbody > tr > th {
   .subtitle,
   .sub-nav-selector,
   footer.content-info,
-  select#week-select,
+  section#week-select,
   form {
     display: none !important;
   }
@@ -97,5 +97,14 @@ table.footable > tbody > tr > th {
     width: 16px;
     height: 16px;
     border: solid 1px #333;
+  }
+
+  table {
+    break-inside: avoid;
+  }
+
+  h2,
+  h3 {
+    break-after: avoid-page;
   }
 }
