@@ -71,17 +71,17 @@ table.footable > tbody > tr > th {
 
 @media print {
   header {
-    nav,
+    .banner .nav-primary,
     .subtitle,
     .sub-nav-selector,
-    footer {
+    footer.content-info {
       display: none !important;
     }
 
     .banner.sm {
-      height: 150px;
-      min-height: 150px;
-      background: none;
+      height: 150px !important;
+      min-height: 150px !important;
+      background: none !important;
       color: #333;
     }
   }
