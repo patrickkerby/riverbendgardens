@@ -68,3 +68,21 @@ table.footable > tbody > tr > td,
 table.footable > tbody > tr > th {
   display: table-cell;
 }
+
+@media print {
+  header {
+    nav,
+    .subtitle,
+    .sub-nav-selector,
+    footer {
+      display: none !important;
+    }
+
+    .banner.sm {
+      height: 150px;
+      min-height: 150px;
+      background: none;
+      color: #333;
+    }
+  }
+}

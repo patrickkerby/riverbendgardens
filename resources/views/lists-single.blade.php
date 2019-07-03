@@ -254,11 +254,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
       <section>
-        <table class="table" data-sorting="true" data-filtering="true">
+        <table class="table footable" data-sorting="true" data-filtering="true">
           <thead>
             <tr>
-              <th data-breakpoints="xs sm md lg" data-type="number">Order ID</th>
-              <th data-type="date" data-format-string="MMMM Do YYYY" data-breakpoints="xs sm md lg">Order Date</th>
               <th>Customer Name</th>
               <th>Size</th>
               <th data-breakpoints="xs sm">Qty</th>
@@ -281,8 +279,6 @@ $week15 = 'Week 15: ' . $week15_row['week'];
               }				
               @endphp
               <tr>
-                <td>@php echo $seasonal_order->order_id; @endphp</td>
-                <td>@php echo $seasonal_order->order_date; @endphp</td>
                 <td>
                   @php echo $seasonal_order->first_name; @endphp
                   @php echo $seasonal_order->last_name; @endphp
@@ -337,8 +333,6 @@ $week15 = 'Week 15: ' . $week15_row['week'];
                   <th colspan="4"><h3>Week to week - @php echo $component_data['title']; @endphp</h3></th>
                 </tr>
                 <tr>
-                  <th data-breakpoints="xs sm md lg" data-type="number">Order ID</th>
-                  <th data-type="date" data-format-string="MMMM Do YYYY" data-breakpoints="xs sm md lg">Order Date</th>
                   <th>Customer Name</th>
                   <th>Size</th>
                   <th data-breakpoints="xs sm" width="50%">Purchase Note</th>
@@ -366,20 +360,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
                 @endphp
                     <tr>
                       <td>
-                        @php echo $weeklyorder->order_id; @endphp 
-                      </td>
-                      <td>
-                        @php //echo $order->order_date; @endphp
-                      </td>
-                      <td>
                         @php echo $weeklyorder->first_name; @endphp
                         @php echo $weeklyorder->last_name; @endphp
-                        
-                        @php
-                        if( $weeklyorder->customer_note ): 				
-                          echo '<span>*</span>';
-                        endif; 
-                        @endphp
                       </td>
                       <td>
                         @php echo $weeklyorder->size; @endphp

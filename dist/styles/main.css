@@ -20841,5 +20841,25 @@ table.footable > tbody > tr > th {
   display: table-cell;
 }
 
+@media print {
+  /* line 74, resources/assets/styles/components/_lists.scss */
+
+  header nav,
+  header .subtitle,
+  header .sub-nav-selector,
+  header footer {
+    display: none !important;
+  }
+
+  /* line 81, resources/assets/styles/components/_lists.scss */
+
+  header .banner.sm {
+    height: 150px;
+    min-height: 150px;
+    background: none;
+    color: #333;
+  }
+}
+
 
 /*# sourceMappingURL=main.css.map*/
