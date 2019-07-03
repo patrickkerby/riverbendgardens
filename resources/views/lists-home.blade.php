@@ -133,7 +133,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 			<h2>Packing Lists - {{ $year }}</h2>
 			<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
 		
-			<table class="table" data-sorting="true">
+			<table class="table footable" data-sorting="true">
 				<thead>
 					<tr>
 						<th scope="col">Location</th>
