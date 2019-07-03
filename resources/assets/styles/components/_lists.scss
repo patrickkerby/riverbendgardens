@@ -77,7 +77,8 @@ table.footable > tbody > tr > th {
     display: none !important;
   }
 
-  .banner.sm {
+  .banner.sm,
+  .banner {
     height: 150px !important;
     min-height: 150px !important;
     background: none !important;
@@ -91,8 +92,8 @@ table.footable > tbody > tr > th {
   td.name::before {
     content: "";
     display: inline-flex;
-    width: 10px;
-    height: 10px;
-    border: solid 2px #333;
+    width: 16px;
+    height: 16px;
+    border: solid 1px #333;
   }
 }

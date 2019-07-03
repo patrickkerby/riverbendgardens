@@ -20853,29 +20853,30 @@ table.footable > tbody > tr > th {
 
   /* line 80, resources/assets/styles/components/_lists.scss */
 
-  .banner.sm {
+  .banner.sm,
+  .banner {
     height: 150px !important;
     min-height: 150px !important;
     background: none !important;
     color: #333;
   }
 
-  /* line 87, resources/assets/styles/components/_lists.scss */
+  /* line 88, resources/assets/styles/components/_lists.scss */
 
   .count_box {
     position: relative !important;
   }
 
-  /* line 91, resources/assets/styles/components/_lists.scss */
+  /* line 92, resources/assets/styles/components/_lists.scss */
 
   td.name::before {
     content: "";
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
-    width: 10px;
-    height: 10px;
-    border: solid 2px #333;
+    width: 16px;
+    height: 16px;
+    border: solid 1px #333;
   }
 }
 
