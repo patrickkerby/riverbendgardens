@@ -126,7 +126,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 
 		});
 	} ) ( jQuery );
-		</script>
+</script>
+
 <div class="post-content">
 	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
 		<section>
@@ -267,7 +268,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 
 			$week_in_season++ @endphp
 
-				<table class="table footable week week@php echo $week_in_season; @endphp" data-sorting="true">
+			<section class="week week@php echo $week_in_season @endphp">
+
+				<table class="table footable" data-sorting="true">
 					<thead>
 						<tr>
 							<th colspan="3"><h2>@php echo $component_data['title']; @endphp</h2></th>
@@ -370,6 +373,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 					</tr>
 				</tfoot>
 			</table>
+			</section>
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
 				<ul>
