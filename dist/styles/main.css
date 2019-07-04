@@ -20844,7 +20844,7 @@ table.footable > tbody > tr > th {
 /* line 72, resources/assets/styles/components/_lists.scss */
 
 #component_1562141833 {
-  display: none;
+  display: none !important;
 }
 
 @media print {

@@ -226,9 +226,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							</tr>
 							<tr>
 								<td><strong>Fulton Child Care	</strong></td>
+								<td>7</td>
 								<td>8</td>
-								<td>9</td>
-								<td>17</td>
+								<td>15</td>
 							</tr>
 							<tr>
 								<td><strong>Farm Pickup</strong></td>
@@ -240,8 +240,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						<tfoot>
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
-								<td>Bigger: @php echo( $bigger_count + 9 ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count + 15 ); @endphp</td>
+								<td>Bigger: @php echo( $bigger_count + 8 ); @endphp</td>
+								<td>Smaller: @php echo( $smaller_count + 14 ); @endphp</td>
 								<td>Total: @php echo( $bigger_count + $smaller_count + 24 ); @endphp</td>
 							</tr>
 						</tfoot>						
