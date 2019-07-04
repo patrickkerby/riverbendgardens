@@ -150,6 +150,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 					
 						$order_items = 'wp_woocommerce_order_items';
 						$order_meta = 'wp_woocommerce_order_itemmeta';
+						$order_data = $wpdb->prefix . 'posts';
 						$customer_data = $wpdb->prefix . 'postmeta';
 						$order_data = $wpdb->prefix . 'posts';
 						$product_season = new WC_Product(5958);
@@ -192,6 +193,12 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 										AND $order_meta.meta_value = 'smaller'
 									)	Q3
 								ON Q1.order_id = Q3.order_id
+								INNER JOIN
+									(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
+										FROM $order_data
+										WHERE $order_data.post_status = 'wc-processing'
+									)	Q4
+								ON Q1.order_id = Q4.ID
 								
 								ORDER BY location_value			 
 							");
