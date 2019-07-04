@@ -20841,8 +20841,14 @@ table.footable > tbody > tr > th {
   display: table-cell;
 }
 
+/* line 72, resources/assets/styles/components/_lists.scss */
+
+#component_1562141833 {
+  display: none;
+}
+
 @media print {
-  /* line 73, resources/assets/styles/components/_lists.scss */
+  /* line 77, resources/assets/styles/components/_lists.scss */
 
   .banner .nav-primary,
   .subtitle,
@@ -20853,7 +20859,7 @@ table.footable > tbody > tr > th {
     display: none !important;
   }
 
-  /* line 82, resources/assets/styles/components/_lists.scss */
+  /* line 86, resources/assets/styles/components/_lists.scss */
 
   .banner.sm,
   .banner {
@@ -20863,13 +20869,13 @@ table.footable > tbody > tr > th {
     color: #333;
   }
 
-  /* line 90, resources/assets/styles/components/_lists.scss */
+  /* line 94, resources/assets/styles/components/_lists.scss */
 
   .count_box {
     position: relative !important;
   }
 
-  /* line 94, resources/assets/styles/components/_lists.scss */
+  /* line 98, resources/assets/styles/components/_lists.scss */
 
   td.name::before {
     content: "";
@@ -20882,7 +20888,7 @@ table.footable > tbody > tr > th {
     margin-right: 10px;
   }
 
-  /* line 103, resources/assets/styles/components/_lists.scss */
+  /* line 107, resources/assets/styles/components/_lists.scss */
 
   table {
     -webkit-column-break-inside: avoid;
@@ -20890,13 +20896,13 @@ table.footable > tbody > tr > th {
             break-inside: avoid;
   }
 
-  /* line 107, resources/assets/styles/components/_lists.scss */
+  /* line 111, resources/assets/styles/components/_lists.scss */
 
   table.footable > tbody > tr > td {
     font-size: 22px;
   }
 
-  /* line 111, resources/assets/styles/components/_lists.scss */
+  /* line 115, resources/assets/styles/components/_lists.scss */
 
   .page-template-lists-single table {
     -webkit-column-break-inside: auto;
@@ -20907,7 +20913,7 @@ table.footable > tbody > tr > th {
             break-before: avoid;
   }
 
-  /* line 116, resources/assets/styles/components/_lists.scss */
+  /* line 120, resources/assets/styles/components/_lists.scss */
 
   h1,
   h2,
@@ -20921,13 +20927,13 @@ table.footable > tbody > tr > th {
             break-after: avoid-page;
   }
 
-  /* line 122, resources/assets/styles/components/_lists.scss */
+  /* line 126, resources/assets/styles/components/_lists.scss */
 
   .banner h1 {
     color: #333 !important;
   }
 
-  /* line 126, resources/assets/styles/components/_lists.scss */
+  /* line 130, resources/assets/styles/components/_lists.scss */
 
   .fooicon {
     display: none !important;
