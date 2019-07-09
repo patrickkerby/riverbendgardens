@@ -147,6 +147,9 @@ $year = "CSA 2019 - 15 week";
 						$locations = explode(' | ', $locations['location']['value']);
 						$school_locations = explode(' | ', $school_locations['location']['value']);
 
+            $bigger_count = 0;
+            $smaller_count = 0;
+              
 						$sql_str = '';
 
 						foreach ($locations as $location) {
@@ -188,8 +191,8 @@ $year = "CSA 2019 - 15 week";
 							$count_results = $wpdb->get_results($sql_str);
 													
 							$row = $count_results[0];
-							
-							$bigger_count += $row->bigger_count;
+
+              $bigger_count += $row->bigger_count;
 							$smaller_count += $row->smaller_count;
 													
 							@endphp
