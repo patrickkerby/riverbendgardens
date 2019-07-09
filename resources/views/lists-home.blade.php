@@ -84,6 +84,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 @endphp
 
 @section('content')
+{{-- In order for this year selector to work, the "processing" status in the SQL needs to be removed. --}}
 <form action="" method="post" target="_self">
 	<label for="year">Year:</label>
 	<select id="year" name="year">
@@ -97,9 +98,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 </form>
 
 @php
-	$year = $_POST["year"];
-	if ( isset( $year ) ) { 
-		//do nothing 							
+	if ( isset( $_POST['year'] ) ) { 
+		$year = $_POST['year'];							
 	} 
 	else {
 		$year = "CSA 2019 - 15 week";
@@ -153,15 +153,15 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						$order_data = $wpdb->prefix . 'posts';
 						$customer_data = $wpdb->prefix . 'postmeta';
 						$order_data = $wpdb->prefix . 'posts';
-						$product_season = new WC_Product(5958);
-						$school_season = new WC_Product(19589);						
-						$weekly_orders = new WC_Product(5982);						
+            $product_season = wc_get_product( 5958 );
+						$school_season = wc_get_product(19589);						
+            $weekly_orders = wc_get_product(5982);							
 
-						$locations = get_post_meta($product_season->id, '_product_attributes', true);						
-						$school_locations = get_post_meta($school_season->id, '_product_attributes', true);						
-						$weekly_locations_names = wc_get_product_terms( $weekly_orders->id, 'pa_pickup-location');
+						$locations = get_post_meta($product_season->get_id(), '_product_attributes', true);						
+						$school_locations = get_post_meta($school_season->get_id(), '_product_attributes', true);						
+						$weekly_locations_names = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location');
 
-						$weekly_locations = wc_get_product_terms( $weekly_orders->id, 'pa_pickup-location', array( 'fields' => 'slugs' ));
+						$weekly_locations = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));
 						$locations = explode(' | ', $locations['location']['value']);
 						$school_locations = explode(' | ', $school_locations['location']['value']);
 
@@ -242,7 +242,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 								<th scope="row"><strong>Totals</strong></th>
 								<td>Bigger: @php echo( $bigger_count + 8 ); @endphp</td>
 								<td>Smaller: @php echo( $smaller_count + 14 ); @endphp</td>
-								<td>Total: @php echo( $bigger_count + $smaller_count + 24 ); @endphp</td>
+								<td>Total: @php echo( $bigger_count + $smaller_count + 22 ); @endphp</td>
 							</tr>
 						</tfoot>						
 				</table>
@@ -290,67 +290,96 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 					</thead>
 					<tbody>
 				
+						@php
+				$sql_weekly = ( "
+					
+					SELECT DISTINCT Q2.composite_item, Q1.meta_value AS location, Q4.size, Q1.order_id
+					FROM
+						(
+							SELECT $order_items.order_id AS order_id, $order_items.order_item_id AS location_id, $order_meta.meta_key AS meta_key, $order_meta.meta_value AS meta_value
+							FROM $order_items, $order_meta
+							WHERE $order_items.order_item_id = $order_meta.order_item_id
+							AND $order_meta.meta_key IN ('pa_pickup-location') 
+						)	Q1
+					INNER JOIN
+						(
+							SELECT DISTINCT $order_items.order_id AS order_id, $order_meta.order_item_id AS item_id, $order_meta.meta_value AS composite_item
+							FROM $order_items, $order_meta
+							WHERE $order_items.order_item_id = $order_meta.order_item_id
+							AND $order_meta.meta_key = '_composite_item'
+							AND $order_meta.meta_value = '$component_id'
+						)	Q2
+					ON Q1.order_id = Q2.order_id
+					INNER JOIN
+						(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
+							FROM $order_data
+							WHERE $order_data.post_status = 'wc-processing'
+						)	Q3
+					ON Q1.order_id = Q3.ID	
+					INNER JOIN
+						(
+							SELECT $order_meta.order_item_id AS item_id, $order_meta.meta_value AS size
+							FROM $order_meta
+							WHERE $order_meta.meta_key IN ('size')
+						)	Q4	
+					ON Q2.item_id = Q4.item_id		
+
+				");
+				$weekly_results = $wpdb->get_results($sql_weekly); @endphp
+							
+				@php
+
+				$weekly_count_bigger = 0;
+				$weekly_count_smaller = 0;
+
+				foreach ($weekly_locations as $weekly_location) { @endphp				
+					
+					@php 
+					$weekly_count = 0;
+					$weekly_location_count_bigger = 0;
+					$weekly_location_count_smaller = 0;				
+					
+					foreach ($weekly_results as $weekly_result) {
+
+						$weekly_result_location = $weekly_result->location;
+						$weekly_result_component = $weekly_result->composite_item;
+
+						$size = $weekly_result->size;
+
+							if ($weekly_result_location == $weekly_location && $component_id == $weekly_result_component) { 
+
+								//Countin'
+								$weekly_count++;	
+															
+								if ($size == 'Bigger') {
+									$weekly_count_bigger++;
+									$weekly_location_count_bigger++;
+								}
+								elseif ($size == 'Smaller') {
+									$weekly_count_smaller++;
+									$weekly_location_count_smaller++;
+								}
+								else {
+									//nothin
+								}							
+							}								
+					}
+					@endphp
 					<tr>
-						<td>Acme Meat Market</td>
-						<td></td>
-						<td>1</td>
+						<td>@php echo $weekly_location; @endphp</td>
+						<td>@php echo $weekly_location_count_bigger; @endphp</td>
+						<td>@php echo $weekly_location_count_smaller; @endphp</td>
 					</tr>
-					<tr>
-						<td>Bon Ton Bakery</td>
-						<td></td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>Confetti Sweets</td>
-						<td></td>
-						<td>1</td>
-					</tr>	
-					<tr>
-						<td>Double Dutch</td>
-						<td>1</td>
-						<td>2</td>
-					</tr>	
-					<tr>
-						<td>Edmonton Tower</td>
-						<td></td>
-						<td>2</td>
-					</tr>	
-					<tr>
-						<td>Get Cooking</td>
-						<td></td>
-						<td>1</td>
-					</tr>	
-					<tr>
-						<td>Glennrose - Healthy Trendz Bistro</td>
-						<td></td>
-						<td>1</td>
-					</tr>
-					<tr>
-						<td>Simply Supper (Albany Square)</td>
-						<td></td>
-						<td>1</td>
-					</tr>
-					<tr>
-						<td>Simply Supper (Rabbit Hill)</td>
-						<td></td>
-						<td>1</td>
-					</tr>
-					<tr>
-						<td>Town Square Brewing</td>
-						<td>1</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>U of A Hospital (Healthy Trendz Market)</td>
-						<td></td>
-						<td>2</td>
-					</tr>															
-					</tbody>
-					<tfoot>
+					@php					
+				} @endphp
+				</tbody>
+					
+				</tbody>
+				<tfoot>
 					<tr>
 						<th scope="row"><strong>Total:</strong></th>
-						<td>2</td>
-						<td>16</td>
+						<td>@php echo $weekly_count_bigger; @endphp</td>
+						<td>@php echo $weekly_count_smaller; @endphp</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -358,10 +387,10 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
 				<ul>
-					<li><strong>Bigger:</strong> @php echo( 2 + 9 + $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( 16 + 15 + $smaller_count ); @endphp </li>
+					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count ); @endphp</li>
+					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count ); @endphp </li>
 					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 2 + 16 + 9 + 15 + 28 ); @endphp</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + 28 ); @endphp</li>
 				</ul>
 			</div>
 			@php }
