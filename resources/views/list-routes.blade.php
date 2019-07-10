@@ -200,6 +200,7 @@ $year = "CSA 2019 - 15 week";
                   $weekly_location = $route_location->slug;
                 else: 
                   $delivery_location = get_sub_field('custom_location_name');
+                  $year = 'School CSA';
                 endif;
 
                 if($extras):
