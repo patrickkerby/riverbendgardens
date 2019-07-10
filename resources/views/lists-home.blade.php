@@ -165,6 +165,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						$locations = explode(' | ', $locations['location']['value']);
 						$school_locations = explode(' | ', $school_locations['location']['value']);
 
+						$bigger_count = 0;
+            $smaller_count = 0; 
+
 						$sql_str = '';
 
 						foreach ($locations as $location) {
