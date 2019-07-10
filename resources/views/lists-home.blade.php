@@ -98,6 +98,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 </form>
 
 @php
+	$year = "CSA 2019 - 15 week";
+
 	if ( isset( $_POST['year'] ) ) { 
 		$year = $_POST['year'];							
 	} 
