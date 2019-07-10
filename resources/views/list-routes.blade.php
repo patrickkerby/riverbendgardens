@@ -109,130 +109,8 @@ $year = "CSA 2019 - 15 week";
 </script>
 
 <div class="post-content">
-	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-		<section>
-			<h2>Packing Lists - {{ $year }}</h2>
-			<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
-		
-			<table class="table footable" data-sorting="true">
-				<thead>
-					<tr>
-						<th scope="col">Location</th>
-						<th data-type="number" scope="col">Bigger</th>
-						<th data-type="number" scope="col">Smaller</th>
-						<th data-type="number" scope="col">Total (15wk)</th>
-					</tr>	
-				</thead>
-				<tbody>
-					@php
-					
-						global $wpdb, $woocommerce;
-					
-						$order_items = 'wp_woocommerce_order_items';
-						$order_meta = 'wp_woocommerce_order_itemmeta';
-						$order_data = $wpdb->prefix . 'posts';
-						$customer_data = $wpdb->prefix . 'postmeta';
-						$order_data = $wpdb->prefix . 'posts';
-            
-            $product_season = wc_get_product( 5958 );
-						$school_season = wc_get_product(19589);						
-            $weekly_orders = wc_get_product(5982);	
-
-
-						$locations = get_post_meta($product_season->get_id(), '_product_attributes', true);						
-						$school_locations = get_post_meta($school_season->get_id(), '_product_attributes', true);						
-						$weekly_locations_names = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location');
-
-						$weekly_locations = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));
-						$locations = explode(' | ', $locations['location']['value']);
-						$school_locations = explode(' | ', $school_locations['location']['value']);
-
-            $bigger_count = 0;
-            $smaller_count = 0;
-              
-						$sql_str = '';
-
-						foreach ($locations as $location) {
-							$sql_str = ( "
-								SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count
-								FROM		
-									(	SELECT order_id, $order_items.order_item_id AS order_item_id, $order_meta.meta_key, $order_meta.meta_value AS location_value
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND $order_meta.meta_value = '$location'
-										AND $order_items.order_item_name LIKE '$year%'
-									) Q1
-								LEFT JOIN
-									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND meta_key IN ('size')
-										AND $order_meta.meta_value = 'bigger'
-									)	Q2
-								ON Q1.order_id = Q2.order_id
-								LEFT JOIN
-									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS smaller_count
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND meta_key IN ('size')
-										AND $order_meta.meta_value = 'smaller'
-									)	Q3
-								ON Q1.order_id = Q3.order_id
-								INNER JOIN
-									(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
-										FROM $order_data
-										WHERE $order_data.post_status = 'wc-processing'
-									)	Q4
-								ON Q1.order_id = Q4.ID
-								
-								ORDER BY location_value			 
-							");
-							
-							$count_results = $wpdb->get_results($sql_str);
-													
-							$row = $count_results[0];
-
-              $bigger_count += $row->bigger_count;
-							$smaller_count += $row->smaller_count;
-													
-							@endphp
-							<tr>
-								<td><strong>@php echo "$location"; @endphp</strong></td>
-								<td data-sort-value="@php echo($row->bigger_count); @endphp">@php echo($row->bigger_count); @endphp</td>
-								<td data-sort-value="@php echo($row->smaller_count); @endphp">@php echo($row->smaller_count); @endphp</td>
-								<td data-sort-value="@php echo($row->total_count); @endphp">@php echo($row->total_count); @endphp</td>
-							</tr>					
-						@php } @endphp
-							<tr>
-								<td><strong>Air Cadets Fundraiser (Ritchie Foods)	</strong></td>
-								<td>1</td>
-								<td>5</td>
-								<td>6</td>
-							</tr>
-							<tr>
-								<td><strong>Fulton Child Care	</strong></td>
-								<td>7</td>
-								<td>8</td>
-								<td>15</td>
-							</tr>
-							<tr>
-								<td><strong>Farm Pickup</strong></td>
-								<td>0</td>
-								<td>1</td>
-								<td>1</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th scope="row"><strong>Totals</strong></th>
-								<td>Bigger: @php echo( $bigger_count + 8 ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count + 14 ); @endphp</td>
-								<td>Total: @php echo( $bigger_count + $smaller_count + 22 ); @endphp</td>
-							</tr>
-						</tfoot>						
-				</table>
-
-		<section id="week-select">
+  <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
+  <section id="week-select">
 			<select>
 				<option>Choose Week</option>
 				<option value="week1" @php weekCheck("January 1", $week2_row['week']); @endphp>Week One</option>
@@ -253,134 +131,246 @@ $year = "CSA 2019 - 15 week";
 			</select>
 		</section>
 
-			@php 
-			//Weekly count
-			$week_in_season = 0;
-			foreach ($pickup_weeks as $component_id => $component_data ) { 
-
-			$week_in_season++ @endphp
-
-			<section class="week week@php echo $week_in_season @endphp">
-
-				<table class="table footable" data-sorting="true">
-					<thead>
-						<tr>
-							<th colspan="3"><h2>@php echo $component_data['title']; @endphp</h2></th>
-						</tr>
-						<tr>
-							<th>Location</th>
-							<th>Bigger</th>
-							<th>Smaller</th>
-						</tr>
-					</thead>
-					<tbody>
-				
-						@php
-				$sql_weekly = ( "
+@php
+  $week_in_season = 0;
+  foreach ($pickup_weeks as $component_id => $component_data ) { 
+    $week_in_season++;   
+@endphp
+    <section class="week week@php echo $week_in_season @endphp">
+      <h2>@php echo $component_data['title']; @endphp</h2>
+      <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> weeklys and extras.</p>
+		
+			<table class="table footable">
+				<thead>
+          <tr>
+            <th>Delivery Time</th>
+						<th scope="col">Location</th>
+            <th data-type="number" scope="col">Clear Bags</th>
+            <th data-type="number" scope="col">Clear Crates</th>
+            <th data-type="number" scope="col">White Bags</th>
+            <th data-type="number" scope="col">White Crates</th>
+					</tr>	
+				</thead>
+				<tbody>
+					@php
 					
-					SELECT DISTINCT Q2.composite_item, Q1.meta_value AS location, Q4.size, Q1.order_id
-					FROM
-						(
-							SELECT $order_items.order_id AS order_id, $order_items.order_item_id AS location_id, $order_meta.meta_key AS meta_key, $order_meta.meta_value AS meta_value
-							FROM $order_items, $order_meta
-							WHERE $order_items.order_item_id = $order_meta.order_item_id
-							AND $order_meta.meta_key IN ('pa_pickup-location') 
-						)	Q1
-					INNER JOIN
-						(
-							SELECT DISTINCT $order_items.order_id AS order_id, $order_meta.order_item_id AS item_id, $order_meta.meta_value AS composite_item
-							FROM $order_items, $order_meta
-							WHERE $order_items.order_item_id = $order_meta.order_item_id
-							AND $order_meta.meta_key = '_composite_item'
-							AND $order_meta.meta_value = '$component_id'
-						)	Q2
-					ON Q1.order_id = Q2.order_id
-					INNER JOIN
-						(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
-							FROM $order_data
-							WHERE $order_data.post_status = 'wc-processing'
-						)	Q3
-					ON Q1.order_id = Q3.ID	
-					INNER JOIN
-						(
-							SELECT $order_meta.order_item_id AS item_id, $order_meta.meta_value AS size
-							FROM $order_meta
-							WHERE $order_meta.meta_key IN ('size')
-						)	Q4	
-					ON Q2.item_id = Q4.item_id		
+						global $wpdb, $woocommerce;
+					
+						$order_items = 'wp_woocommerce_order_items';
+						$order_meta = 'wp_woocommerce_order_itemmeta';
+						$order_data = $wpdb->prefix . 'posts';
+						$customer_data = $wpdb->prefix . 'postmeta';
+						$order_data = $wpdb->prefix . 'posts';
+            
+            $product_season = wc_get_product( 5958 );
+						$school_season = wc_get_product(19589);						
+            $weekly_orders = wc_get_product(5982);	
 
-				");
-				$weekly_results = $wpdb->get_results($sql_weekly); @endphp
+            // Delete maybe? ----------
+                $school_locations = get_post_meta($school_season->get_id(), '_product_attributes', true);						
+                $weekly_locations_names = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location');
+                // $weekly_locations = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));                
+            // -----------------
+
+            $bigger_count = 0;
+            $smaller_count = 0;  
+            
+            $bigger_count_total = 0;
+            $smaller_count_total = 0;
+            $smaller_crates_total = 0;
+            $bigger_crates_total = 0;
+        
+        
+            // get delivery route locations
+    
+            if( have_rows('select_locations') ):
+              while( have_rows('select_locations') ): the_row(); 
+
+                // vars
+                $route_location = get_sub_field('location');
+                $custom_location_name = get_sub_field('custom_location_name');
+                $delivery_time = get_sub_field('delivery_time');
+                $extras = get_sub_field('extras');
+                $weekly_count = 0;
+                $weekly_location_count_bigger = 0;
+                $weekly_location_count_smaller = 0;	
+
+                if($route_location):
+                  $delivery_location = $route_location->name;
+                  $weekly_location = $route_location->slug;
+                else: 
+                  $delivery_location = get_sub_field('custom_location_name');
+                endif;
+
+                if($extras):
+                  $extras = '2';
+                else:
+                  $extras = '0';
+                endif;
+                
+                $sql_str = '';
+                $sql_str = ( "
+                  SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count
+                  FROM		
+                    (	SELECT order_id, $order_items.order_item_id AS order_item_id, $order_meta.meta_key, $order_meta.meta_value AS location_value
+                      FROM $order_items, $order_meta
+                      WHERE $order_items.order_item_id = $order_meta.order_item_id
+                      AND $order_meta.meta_value = '$delivery_location'
+                      AND $order_items.order_item_name LIKE '$year%'
+                    ) Q1
+                  LEFT JOIN
+                    (	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
+                      FROM $order_items, $order_meta
+                      WHERE $order_items.order_item_id = $order_meta.order_item_id
+                      AND meta_key IN ('size')
+                      AND $order_meta.meta_value = 'bigger'
+                    )	Q2
+                  ON Q1.order_id = Q2.order_id
+                  LEFT JOIN
+                    (	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS smaller_count
+                      FROM $order_items, $order_meta
+                      WHERE $order_items.order_item_id = $order_meta.order_item_id
+                      AND meta_key IN ('size')
+                      AND $order_meta.meta_value = 'smaller'
+                    )	Q3
+                  ON Q1.order_id = Q3.order_id
+                  INNER JOIN
+                    (	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
+                      FROM $order_data
+                      WHERE $order_data.post_status = 'wc-processing'
+                    )	Q4
+                  ON Q1.order_id = Q4.ID
+                  
+                  ORDER BY location_value			 
+                ");
+                
+                $count_results = $wpdb->get_results($sql_str);
+                            
+                $row = $count_results[0];
+
+         
+					//Weekly
+                // get weekly numbers
+
+                
+                    
+                    $sql_weekly = '';
+                    $sql_weekly = ( "
+                      
+                      SELECT DISTINCT Q2.composite_item, Q1.meta_value AS location, Q4.size, Q1.order_id
+                      FROM
+                        (
+                          SELECT $order_items.order_id AS order_id, $order_items.order_item_id AS location_id, $order_meta.meta_key AS meta_key, $order_meta.meta_value AS meta_value
+                          FROM $order_items, $order_meta
+                          WHERE $order_items.order_item_id = $order_meta.order_item_id
+                          AND $order_meta.meta_key IN ('pa_pickup-location') 
+                        )	Q1
+                      INNER JOIN
+                        (
+                          SELECT DISTINCT $order_items.order_id AS order_id, $order_meta.order_item_id AS item_id, $order_meta.meta_value AS composite_item
+                          FROM $order_items, $order_meta
+                          WHERE $order_items.order_item_id = $order_meta.order_item_id
+                          AND $order_meta.meta_key = '_composite_item'
+                          AND $order_meta.meta_value = '$component_id'
+                        )	Q2
+                      ON Q1.order_id = Q2.order_id
+                      INNER JOIN
+                        (	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
+                          FROM $order_data
+                          WHERE $order_data.post_status = 'wc-processing'
+                        )	Q3
+                      ON Q1.order_id = Q3.ID	
+                      INNER JOIN
+                        (
+                          SELECT $order_meta.order_item_id AS item_id, $order_meta.meta_value AS size
+                          FROM $order_meta
+                          WHERE $order_meta.meta_key IN ('size')
+                        )	Q4	
+                      ON Q2.item_id = Q4.item_id		
+
+                    ");
+                    $weekly_results = $wpdb->get_results($sql_weekly); 
+
+                    $weekly_count_bigger = 0;
+                    $weekly_count_smaller = 0;
+
+                    foreach ($weekly_results as $weekly_result) {
+                      $weekly_result_location = $weekly_result->location;
+                      $weekly_result_component = $weekly_result->composite_item;
+                      $size = $weekly_result->size;
+
+                      if ($weekly_result_location == $weekly_location && $component_id == $weekly_result_component) { 
+
+                        //Countin'
+                        $weekly_count++;
+                                      
+                        if ($size == 'Bigger') {
+                          $weekly_count_bigger++;
+                          $weekly_location_count_bigger++;
+                        }
+                        elseif ($size == 'Smaller') {
+                          $weekly_count_smaller++;
+                          $weekly_location_count_smaller++;
+                        }
+                        else {
+                          //nothin
+                        }							
+                      }								
+                    }
+                  
+
+                  $bigger_count = $row->bigger_count+$extras+$weekly_location_count_bigger;
+                  $smaller_count = $row->smaller_count+$weekly_location_count_smaller;
+
+                  $bigger_crates = $bigger_count/2;
+                  $smaller_crates = $smaller_count/2; 
+
+                @endphp
+                <tr>
+                  <td>{{ $delivery_time }}</td>
+                  <td><strong>{{ $delivery_location }}</strong></td>
+                  <td>{{ $bigger_count }}</td>
+                  <td>{{ $bigger_crates }}</td>
+                  <td>{{ $smaller_count }}</td>
+                  <td>{{ $smaller_crates }}</td>
+                </tr>
+              
+              @php
+
+              $bigger_count_total += $bigger_count;
+              $smaller_count_total += $smaller_count;
+              $bigger_crates_total += $bigger_crates;  
+              $smaller_crates_total += $smaller_crates;
+              
+            endwhile;
+
+              
+            endif;													
+							@endphp																	
 							
-				@php
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2" scope="row"><strong>Totals</strong></td>
+                <td><strong>{{ $bigger_count_total }}</strong></td>
+                <td><strong>{{ $bigger_crates_total }}</strong></td>
+                <td><strong>{{ $smaller_count_total }}</strong></td>
+								<td><strong>{{ $smaller_crates_total }}</strong></td>
+							</tr>
+						</tfoot>						
+        </table>		
+      </section>
 
-				$weekly_count_bigger = 0;
-				$weekly_count_smaller = 0;
-
-				foreach ($weekly_locations as $weekly_location) { @endphp				
-					
-					@php 
-					$weekly_count = 0;
-					$weekly_location_count_bigger = 0;
-					$weekly_location_count_smaller = 0;				
-					
-					foreach ($weekly_results as $weekly_result) {
-
-						$weekly_result_location = $weekly_result->location;
-						$weekly_result_component = $weekly_result->composite_item;
-
-						$size = $weekly_result->size;
-
-							if ($weekly_result_location == $weekly_location && $component_id == $weekly_result_component) { 
-
-								//Countin'
-								$weekly_count++;	
-															
-								if ($size == 'Bigger') {
-									$weekly_count_bigger++;
-									$weekly_location_count_bigger++;
-								}
-								elseif ($size == 'Smaller') {
-									$weekly_count_smaller++;
-									$weekly_location_count_smaller++;
-								}
-								else {
-									//nothin
-								}							
-							}								
-					}
-					@endphp
-					<tr>
-						<td>@php echo $weekly_location; @endphp</td>
-						<td>@php echo $weekly_location_count_bigger; @endphp</td>
-						<td>@php echo $weekly_location_count_smaller; @endphp</td>
-					</tr>
-					@php					
-				} @endphp
-				</tbody>
-					
-				</tbody>
-				<tfoot>
-					<tr>
-						<th scope="row"><strong>Total:</strong></th>
-						<td>@php echo $weekly_count_bigger; @endphp</td>
-						<td>@php echo $weekly_count_smaller; @endphp</td>
-					</tr>
-				</tfoot>
-			</table>
-			</section>
-			<div class="count_box week week@php echo $week_in_season @endphp">
+@php } @endphp
+			<div class="count_box week week{{ $week_in_season }}">
 				<h4>This week's totals:</h4>
 				<ul>
 					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count ); @endphp</li>
 					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count ); @endphp </li>
 					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + 28 ); @endphp</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller ); @endphp</li>
 				</ul>
-			</div>
-			@php }
-			@endphp	
-		</section>
+      </div>
 	</article>
 </div>
 @endsection
