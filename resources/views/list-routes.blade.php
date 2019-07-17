@@ -82,6 +82,7 @@ $week15_row = $rows[14];
 $week15 = 'Week 15: ' . $week15_row['week']; 
 
 $year = "CSA 2019 - 15 week";
+$school = "School CSA";
 
 @endphp
 
@@ -216,7 +217,7 @@ $year = "CSA 2019 - 15 week";
                       FROM $order_items, $order_meta
                       WHERE $order_items.order_item_id = $order_meta.order_item_id
                       AND $order_meta.meta_value = '$delivery_location'
-                      AND $order_items.order_item_name LIKE '$year%'
+                      AND ($order_items.order_item_name LIKE '$year%' OR $order_items.order_item_name LIKE '$school%')
                     ) Q1
                   LEFT JOIN
                     (	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
