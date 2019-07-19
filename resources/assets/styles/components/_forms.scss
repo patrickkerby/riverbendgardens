@@ -1,8 +1,12 @@
 form {
   ul {
+    margin: 0;
+    padding: 0;
+
     li {
       list-style-type: none;
       margin: 0 0 1rem 0;
+      padding: 0;
     }
   }
 }
@@ -34,11 +38,12 @@ form label {
 
 input.button {
   background: $bright-green;
-  border-radius: 3px;
   color: #fff;
   font-size: 21px;
   line-height: 21px;
   padding: 0.618em 1em;
+  border: none;
+  border-radius: 3px !important;
 }
 
 /** Search form */
