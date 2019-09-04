@@ -143,7 +143,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						<th data-type="number" scope="col">Bigger</th>
 						<th data-type="number" scope="col">Smaller</th>
 						<th data-type="number" scope="col">Total (15wk)</th>
-					</tr>	
+					</tr>	 
 				</thead>
 				<tbody>
 					@php
@@ -224,18 +224,6 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							</tr>					
 						@php } @endphp
 							<tr>
-								<td><strong>Air Cadets Fundraiser (Ritchie Foods)	</strong></td>
-								<td>1</td>
-								<td>5</td>
-								<td>6</td>
-							</tr>
-							<tr>
-								<td><strong>Fulton Child Care	</strong></td>
-								<td>7</td>
-								<td>8</td>
-								<td>15</td>
-							</tr>
-							<tr>
 								<td><strong>Farm Pickup</strong></td>
 								<td>0</td>
 								<td>1</td>
@@ -245,12 +233,91 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						<tfoot>
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
-								<td>Bigger: @php echo( $bigger_count + 8 ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count + 14 ); @endphp</td>
-								<td>Total: @php echo( $bigger_count + $smaller_count + 22 ); @endphp</td>
+								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
+								<td>Smaller: @php echo( $smaller_count + 1 ); @endphp</td>
+								<td>Total: @php echo( $bigger_count + $smaller_count + 1 ); @endphp</td>
 							</tr>
 						</tfoot>						
 				</table>
+
+				<h2>School Lists</h2>
+
+				<table class="table" data-sorting="true">
+					<thead>
+						<tr>
+							<th>Location</th>
+							<th data-sortable="true">Bigger</th>
+							<th data-sortable="true">Smaller</th>
+							<th data-sortable="true">Total (15wk)</th>
+						</tr>	
+					</thead>
+					<tbody>		
+						@php
+						
+						$school_count_bigger = 0;
+						$school_count_smaller = 0;
+						
+						foreach ($school_locations as $school_location) {
+
+							$sql_str2 = ( "
+								SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count 
+								FROM
+									(	SELECT order_id, $order_items.order_item_id AS order_item_id, $order_meta.meta_key, $order_meta.meta_value AS location_value
+										FROM $order_items, $order_meta
+										WHERE $order_items.order_item_id = $order_meta.order_item_id
+										AND $order_meta.meta_value = '$school_location'
+										AND $order_items.order_item_name = 'School CSA'
+									) Q1
+								LEFT JOIN
+									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
+										FROM $order_items, $order_meta
+										WHERE $order_items.order_item_id = $order_meta.order_item_id
+										AND meta_key IN ('size')
+										AND $order_meta.meta_value = 'bigger'
+									)	Q2
+								ON Q1.order_id = Q2.order_id
+								LEFT JOIN
+									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS smaller_count
+										FROM $order_items, $order_meta
+										WHERE $order_items.order_item_id = $order_meta.order_item_id
+										AND meta_key IN ('size')
+										AND $order_meta.meta_value = 'smaller'
+									)	Q3
+								ON Q1.order_id = Q3.order_id
+								RIGHT JOIN
+									(	SELECT id, post_status
+										FROM $order_data
+										WHERE $order_data.post_status = 'wc-processing'
+									)	Q4
+								ON Q1.order_id = Q4.id
+								
+								ORDER BY location_value			 
+							");
+							
+							$school_count_results = $wpdb->get_results($sql_str2);					
+							$school_row = $school_count_results[0];
+
+							$school_count_bigger += $school_row->bigger_count;
+							$school_count_smaller += $school_row->smaller_count;
+
+							@endphp
+							<tr>
+								<td><strong>@php echo "$school_location"; @endphp</strong></td>
+								<td>@php echo($school_row->bigger_count); @endphp</td>
+								<td>@php echo($school_row->smaller_count); @endphp</td>
+								<td>@php echo($school_row->total_count); @endphp</td>
+							</tr>
+					@php } @endphp	
+					</tbody>		
+					<tfoot>
+						<tr>
+							<th scope="row"><strong>School Totals</strong></th>
+							<td>Bigger: @php echo( $school_count_bigger ); @endphp</td>
+							<td>Smaller: @php echo( $school_count_smaller ); @endphp</td/>
+							<td>Total: @php echo( $school_count_bigger + $school_count_smaller ); @endphp</td>
+						</tr>					 
+					</tfoot>
+			</table>				
 
 		<section id="week-select">
 			<select>
@@ -392,10 +459,10 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
 				<ul>
-					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count + 8 ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count + 14 ); @endphp </li>
+					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count ); @endphp</li>
+					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count + 1 ); @endphp </li>
 					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + 28 + 8 + 14 ); @endphp</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + 28 + 1 ); @endphp</li>
 				</ul>
 			</div>
 			@php }
