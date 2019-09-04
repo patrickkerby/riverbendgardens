@@ -203,11 +203,11 @@ $school = "School CSA";
                   $delivery_location = get_sub_field('custom_location_name');
                 endif;
 
-                if($extras):
-                  $extras = '2';
-                else:
-                  $extras = '0';
-                endif;
+                // if($extras):
+                //   $extras = '2';
+                // else:
+                //   $extras = '0';
+                // endif;
                 
                 $sql_str = '';
                 $sql_str = ( "
@@ -249,11 +249,8 @@ $school = "School CSA";
                             
                 $row = $count_results[0];
 
-         
 					//Weekly
                 // get weekly numbers
-
-                
                     
                     $sql_weekly = '';
                     $sql_weekly = ( "
@@ -344,7 +341,6 @@ $school = "School CSA";
               $smaller_crates_total += $smaller_crates;
               
             endwhile;
-
               
             endif;													
 							@endphp																	
