@@ -297,6 +297,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							$school_count_results = $wpdb->get_results($sql_str2);					
 							$school_row = $school_count_results[0];
 
+
+
 							$school_count_bigger += $school_row->bigger_count;
 							$school_count_smaller += $school_row->smaller_count;
 
@@ -305,7 +307,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 								<td><strong>@php echo "$school_location"; @endphp</strong></td>
 								<td>@php echo($school_row->bigger_count); @endphp</td>
 								<td>@php echo($school_row->smaller_count); @endphp</td>
-								<td>@php echo($school_row->total_count); @endphp</td>
+								<td>{{ $school_row->bigger_count + $school_row->smaller_count }}</td>
 							</tr>
 					@php } @endphp	
 					</tbody>		
