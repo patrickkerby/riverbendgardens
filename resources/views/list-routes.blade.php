@@ -175,6 +175,9 @@ $school = "School CSA";
 
             $bigger_count = 0;
             $smaller_count = 0;  
+
+            $weekly_count_bigger = 0;
+            $weekly_count_smaller = 0;
             
             $bigger_count_total = 0;
             $smaller_count_total = 0;
@@ -217,7 +220,7 @@ $school = "School CSA";
                       FROM $order_items, $order_meta
                       WHERE $order_items.order_item_id = $order_meta.order_item_id
                       AND $order_meta.meta_value = '$delivery_location'
-                      AND ($order_items.order_item_name LIKE '$year%' OR $order_items.order_item_name LIKE '$school%')
+                      AND ($order_items.order_item_name LIKE '$year%' OR $order_items.order_item_name LIKE '$school')
                     ) Q1
                   LEFT JOIN
                     (	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
@@ -317,7 +320,7 @@ $school = "School CSA";
                     }
                   
 
-                  $bigger_count = $row->bigger_count+$extras+$weekly_location_count_bigger;
+                  $bigger_count = $row->bigger_count+$weekly_location_count_bigger;
                   $smaller_count = $row->smaller_count+$weekly_location_count_smaller;
 
                   $bigger_crates = $bigger_count/2;
@@ -359,15 +362,6 @@ $school = "School CSA";
       </section>
 
 @php } @endphp
-			<div class="count_box week week{{ $week_in_season }}">
-				<h4>This week's totals:</h4>
-				<ul>
-					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count ); @endphp </li>
-					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller ); @endphp</li>
-				</ul>
-      </div>
 	</article>
 </div>
 @endsection
