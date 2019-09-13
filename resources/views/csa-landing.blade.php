@@ -126,8 +126,9 @@ $product_page_season = get_field('season_product_bigger');
 				@if ($csa_type === 'regular')
 					<h4>{{ $csa_items_smaller }} items of peak-season produce</h4>
 				@else
-					<h4>{{ $csa_items_smaller }} items of locally grown produce</h4>
-				@endif				@php the_field('smaller_csa_description'); @endphp
+					<h4>Great for small households!</h4>
+				@endif				
+				@php the_field('smaller_csa_description'); @endphp
 				<div class="row pricing">
 				@if ( $include_weeklies )	
 					<div class="col-md-6">
@@ -162,7 +163,7 @@ $product_page_season = get_field('season_product_bigger');
 				@if ($csa_type === 'regular')
 					<h4>{{ $csa_items_bigger }} items of peak-season produce</h4>
 				@else
-					<h4>{{ $csa_items_bigger }} items of locally grown produce</h4>
+					<h4>Great for veggie-focussed households.</h4>
 				@endif
 				@php the_field('bigger_csa_description'); @endphp
 				<div class="row pricing">
