@@ -57,8 +57,8 @@ $sub_title = get_field('sub_title');
     <h1>Riverbend Gardens <br><span>- CSA {{ date("Y") }} -</span></h1>
 
   @elseif ( is_front_page() )
+  <h1 class="page-title"><?php the_title(); ?></h1>
   <div class="col-md-7">@php echo $sub_title; @endphp </div>
-  {{-- Do not display title --}}
     
   @elseif ( is_home() )
     <h1 class="page-title"><?php echo $news_title; ?></h1>    	        				        			    

@@ -4,12 +4,17 @@
 @extends('layouts.app')
 
 @php
+$csa_type = get_field('csa_type');
 $pagebreak = get_field('pagebreak_image');
 $mapimage = get_field('map_image');
 $season_length = get_field('season_length', 'option');
 $locations_count = get_field('locations_count', 'option');
 $pickup_dates = get_field('pickup_dates', 'options');
 $first_week = get_field('first_pickup_day', 'options');
+$season_length_late_season = get_field('season_length_late_season', 'option');
+$locations_count_late_season = get_field('locations_count_late_season', 'option');
+$pickup_dates_late_season = get_field('pickup_dates_late_season', 'options');
+$first_week_late_season = get_field('first_pickup_day_late_season', 'options');
 $product_intro = get_field('product_intro');
 $partners_description = get_field('partners_description');
 
@@ -21,6 +26,7 @@ $price_season_bigger = get_field('full_season_price_bigger');
 $price_season_bigger_perweek = get_field('full_season_per_week_cost_bigger');
 $csa_items_smaller = get_field('csa_items_smaller');
 $csa_description_smaller = get_field('smaller_csa_description');
+$include_weeklies = get_field('include_weeklies');
 $price_weekly_smaller = get_field('price_per_week_smaller');
 $price_season_smaller = get_field('full_season_price_smaller');
 $price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
@@ -50,7 +56,8 @@ $product_page_season = get_field('season_product_bigger');
 				endif; @endphp
 			</div>
 		</div>
-		
+	
+@if ($csa_type === 'regular')		
 	<section class="season_details">
 		<h5>Season Length: <span>{{ $season_length }} Weeks</span></h5>
 		<h5>Season Start: <span>{{ $first_week }}</span></h5>
@@ -58,6 +65,15 @@ $product_page_season = get_field('season_product_bigger');
 		<h5>Pickup day: <span>Thursdays</span></h5>
 		<h5>Pickup Locations: <span>{{ $locations_count }} YEG & Area</span></h5>
 	</section>
+@else
+<section class="season_details">
+	<h5>Season Length: <span>{{ $season_length_late_season }} Weeks</span></h5>
+	<h5>Season Start: <span>{{ $first_week_late_season }}</span></h5>
+	<h5>Available in: <span>Two sizes</span></h5>
+	<h5>Pickup day: <span>Thursdays</span></h5>
+	<h5>Pickup Locations: <span>{{ $locations_count_late_season }} YEG & Area</span></h5>
+</section>
+@endif
 	<section class="intro row justify-content-center">
 		<div class="col-md-9">
 		<h2>{{ $product_intro	}}</h2>
@@ -69,147 +85,7 @@ $product_page_season = get_field('season_product_bigger');
 		</div>
 	</section>
 	<section class="locations row no-gutters">
-		<div class="side-nav col-3">
-			<h4>Locations</h4>
-			<button data-toggle="collapse" class="btn btn-link show" data-target="#collapsePublic" role="button" aria-expanded="true" aria-controls="collapsePublic">Public Pickups</button>
-			<button data-toggle="collapse" class="btn btn-link collapsed" data-target="#collapseSchool" role="button" aria-expanded="false" aria-controls="collapseSchool">School Fundraiser Pickups</button>
-			<button data-toggle="collapse" class="btn btn-link collapsed" data-target="#collapseEmployee" role="button" aria-expanded="false" aria-controls="collapseEmployee">Employee-only Pickups</button>
-		</div>
-		<div class="location-cards col-9" id="locations">
-			<div id="collapsePublic" class="collapse show" data-parent="#locations">
-				<h5>Public Pickup Locations</h5>
-				<ul>
-				@php
-					if( have_rows('location_details', 'options') ):
-					$count = 0;	
-					// loop through data
-					while ( have_rows('location_details', 'options') ) : the_row();
-						if( get_sub_field('pickup_type') == 'public' ):
-							
-							$name = get_sub_field('name'); 
-							$description = get_sub_field('description');
-							
-							// trigger for modal
-							 echo '<li><a href="#" data-toggle="modal" data-target="#pickupModal-'.$count.'">'.$name.'</a></li>';
-					
-							// modal
-							echo '<div class="modal fade" id="pickupModal-'.$count.'" tabindex="-1" role="dialog" aria-hidden="true">';
-						@endphp
-
-						<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3>{{$name}}</h3>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										@php the_sub_field('description'); @endphp
-									</div>										
-								</div>
-							</div>
-						</div>
-					@php endif;
-						// increase count
-						$count++;
-					endwhile;
-					else :
-						// no rows found
-					endif;
-					@endphp
-				</ul>
-			</div>
-			<div id="collapseSchool" class="collapse collapseSchool" data-parent="#locations">
-					<h5>School Fundraiser Pickup Locations</h5>
-					<ul>
-					@php
-					if( have_rows('location_details', 'options') ):
-					$count = 0;	
-					// loop through data
-					while ( have_rows('location_details', 'options') ) : the_row();
-						if( get_sub_field('pickup_type') == 'school' ):
-							
-							$name = get_sub_field('name'); 
-							$description = get_sub_field('description'); 
-							
-							// trigger for modal
-							 echo '<li><a href="#" data-toggle="modal" data-target="#pickupModal-'.$count.'">'.$name.'</a></li>';
-					
-							// modal
-							echo '<div class="modal fade" id="pickupModal-'.$count.'" tabindex="-1" role="dialog" aria-hidden="true">';
-						@endphp
-
-						<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3>{{$name}}</h3>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										@php the_sub_field('description'); @endphp
-									</div>										
-								</div>
-							</div>
-						</div>
-					@php endif;
-						// increase count
-						$count++;
-					endwhile;
-					else :
-						// no rows found
-					endif;
-					@endphp
-				</ul>
-			</div>
-			<div id="collapseEmployee" class="collapse collapseEmployee" data-parent="#locations">
-					<h5>Employee-only Pickup Locations</h5>
-					<ul>
-					@php
-					if( have_rows('location_details', 'options') ):
-					$count = 0;	
-					// loop through data
-					while ( have_rows('location_details', 'options') ) : the_row();
-						if( get_sub_field('pickup_type') == 'employee' ):
-							
-							$name = get_sub_field('name'); 
-							$description = get_sub_field('description'); 
-							
-							// trigger for modal
-							 echo '<li><a href="#" data-toggle="modal" data-target="#pickupModal-'.$count.'">'.$name.'</a></li>';
-					
-							// modal
-							echo '<div class="modal fade" id="pickupModal-'.$count.'" tabindex="-1" role="dialog" aria-hidden="true">';
-						@endphp
-
-						<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3>{{$name}}</h3>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										@php the_sub_field('description'); @endphp
-									<a href="">Sign up for Full Season at {{ $name }}</a>
-									</div>										
-								</div>
-							</div>
-						</div>
-					@php endif;
-						// increase count
-						$count++;
-					endwhile;
-					else :
-						// no rows found
-					endif;
-					@endphp
-				</ul>
-			</div>				
-		</div>
+		@include('partials.locations-csa-landing')
 	</section>
 	<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
 		<h5>How does it work?</h5>	
@@ -250,6 +126,7 @@ $product_page_season = get_field('season_product_bigger');
 				<h4>{{ $csa_items_smaller }} items of peak-season produce</h4>
 				@php the_field('smaller_csa_description'); @endphp
 				<div class="row pricing">
+				@if ( $include_weeklies )	
 					<div class="col-md-6">
 						<div>
 							<h5>Week-to-week</h5>
@@ -264,6 +141,15 @@ $product_page_season = get_field('season_product_bigger');
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
+					@else
+					<div class="col-md-12">
+						<div>
+							<h5>Full Season</h5>
+							<p><span>${{ $price_season_smaller }}</span> ${{ $price_season_smaller_perweek }} per week</p>
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+						</div>
+					</div>
+					@endif
 				</div>
 			</div>
 		</div>	
@@ -273,6 +159,7 @@ $product_page_season = get_field('season_product_bigger');
 				<h4>{{ $csa_items_bigger }} items of peak-season produce</h4>
 				@php the_field('bigger_csa_description'); @endphp
 				<div class="row pricing">
+				@if ( $include_weeklies )	
 					<div class="col-md-6">
 						<div>
 							<h5>Week-to-week</h5>
@@ -287,6 +174,15 @@ $product_page_season = get_field('season_product_bigger');
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
+				@else
+					<div class="col-md-12">
+						<div>
+							<h5>Full Season</h5>
+							<p><span>${{ $price_season_bigger }}</span> ${{ $price_season_bigger_perweek }} per week</p>
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+						</div>
+					</div>
+				@endif
 				</div>
 			</div>
 		</div>
