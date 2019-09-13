@@ -123,8 +123,11 @@ $product_page_season = get_field('season_product_bigger');
 		<div class="col-md-6">
 			<div class="ghost">
 				<h3>Smaller Bounty</h3>
-				<h4>{{ $csa_items_smaller }} items of peak-season produce</h4>
-				@php the_field('smaller_csa_description'); @endphp
+				@if ($csa_type === 'regular')
+					<h4>{{ $csa_items_smaller }} items of peak-season produce</h4>
+				@else
+					<h4>{{ $csa_items_smaller }} items of locally grown produce</h4>
+				@endif				@php the_field('smaller_csa_description'); @endphp
 				<div class="row pricing">
 				@if ( $include_weeklies )	
 					<div class="col-md-6">
@@ -156,7 +159,11 @@ $product_page_season = get_field('season_product_bigger');
 		<div class="col-md-6">	
 			<div class="ghost">
 				<h3>Bigger Bounty</h3>
-				<h4>{{ $csa_items_bigger }} items of peak-season produce</h4>
+				@if ($csa_type === 'regular')
+					<h4>{{ $csa_items_bigger }} items of peak-season produce</h4>
+				@else
+					<h4>{{ $csa_items_bigger }} items of locally grown produce</h4>
+				@endif
 				@php the_field('bigger_csa_description'); @endphp
 				<div class="row pricing">
 				@if ( $include_weeklies )	
