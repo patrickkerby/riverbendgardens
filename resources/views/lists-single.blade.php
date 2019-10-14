@@ -110,6 +110,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
       $product_title = $product->post_title;
       $location_term = get_field('location');
       $school_location = get_field('school_location');	
+      $winter_location = get_field('select_location_winter');
 
       if( $location_term ): 				
         $season = $location_term->name;
@@ -117,6 +118,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
       elseif ( $school_location ): 				
         $season = $school_location;
         $weekly = '';
+      elseif ( $winter_location ): 		
+        $season = $winter_location;      		
       else:
       endif; 
 

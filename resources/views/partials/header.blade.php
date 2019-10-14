@@ -102,6 +102,28 @@ $sub_title = get_field('sub_title');
       </nav>
     </div> 
 
+  @elseif ( is_page( 'late-season-list' ) || '59243' == $post->post_parent ) )
+    <h1 class="page-title"><?php the_title(); ?></h1>
+    <div class="row subtitle justify-content-center">
+      <div class="col-md-7">@php echo $sub_title; @endphp </div>
+      <nav class="col-md-8 sub-nav-selector">
+        <form action="@php bloginfo('url'); @endphp" method="get">
+          @php 
+            $dropdown_args = array(
+                'selected'  => '59243',
+                'depth' => '-1',
+                'child_of'  => '59243',
+                'sort_column' => 'menu_order, post_title',
+                'show_option_none' => 'Show all locations...',
+                'option_none_value' => '59243',
+            );
+            wp_dropdown_pages( $dropdown_args ); 
+          @endphp
+          <input type="submit" name="submit" value="view" />
+        </form>
+      </nav>
+    </div> 
+
   @else
     <h1 class="page-title"><?php the_title(); ?></h1>
     <div class="row subtitle justify-content-center">
