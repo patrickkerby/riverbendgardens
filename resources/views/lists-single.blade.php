@@ -272,8 +272,9 @@ $week15 = 'Week 15: ' . $week15_row['week'];
             </tr>
           </thead>
           <tbody>
-            @php 
-            foreach ($season_results as $seasonal_order) {		
+            
+            @foreach ($season_results as $seasonal_order)		
+              @php 
               $size = $seasonal_order->size;
           
               $seasonal_count++;	
@@ -281,10 +282,11 @@ $week15 = 'Week 15: ' . $week15_row['week'];
               if ($size == 'Bigger') {
                 $seasonal_count_bigger++;
               }
-
+              
               if ($size == 'Smaller') {
-                $seasonal_count_smaller++;
-              }				
+                $seasonal_count_smaller++;              
+              }
+              
               @endphp
               <tr>
                 <td class="name">
@@ -295,10 +297,11 @@ $week15 = 'Week 15: ' . $week15_row['week'];
                 <td>@php echo $seasonal_order->qty; @endphp</td>
                 <td>@php echo $seasonal_order->customer_note; @endphp</td>
               </tr>
-            @php } @endphp	
+            @endforeach	
           </tbody>
         </table>
-
+        
+@unless ($winter_location)        
         <section id="week-select">
           <select>
             <option>Choose Week</option>
@@ -383,22 +386,41 @@ $week15 = 'Week 15: ' . $week15_row['week'];
               </tbody>
             </table>
           </section>
+         
           <section class="count_box week week@php echo $week_in_season @endphp">
+            @php
+              $total_bigger = $seasonal_count_bigger + $weekly_count_bigger;
+              $total_smaller = $seasonal_count_smaller + $weekly_count_smaller;
+              $total = $total_bigger + $total_smaller;
+            @endphp
+            <h4>@php echo $component_data['title']; @endphp Totals:</h4>
+            <ul>
+              <li><strong>Total:</strong> @php echo $total; @endphp</li>
+              <li><strong>Bigger:</strong> @php echo $total_bigger; @endphp</li>
+              <li><strong>Smaller:</strong> @php echo $total_smaller; @endphp</li>
+            </ul>
+          </section> 
         @php
-          $total_bigger = $seasonal_count_bigger + $weekly_count_bigger;
-          $total_smaller = $seasonal_count_smaller + $weekly_count_smaller;
-          $total = $total_bigger + $total_smaller;
-          @endphp
-        <h4>@php echo $component_data['title']; @endphp Totals:</h4>
-        <ul>
-          <li><strong>Total:</strong> @php echo $total; @endphp</li>
-          <li><strong>Bigger:</strong> @php echo $total_bigger; @endphp</li>
-          <li><strong>Smaller:</strong> @php echo $total_smaller; @endphp</li>
-        </ul>
+          }
+        @endphp
+      @endunless
 
-      </section> 
-        @php
-      }@endphp
+        @if($winter_location)
+          <section class="count_box week2">
+            @php
+              $total_bigger = $seasonal_count_bigger;
+              $total_smaller = $seasonal_count_smaller;
+              $total = $total_bigger + $total_smaller;
+            @endphp
+            <h4>Totals:</h4>
+            <ul>
+              <li><strong>Total:</strong> @php echo $total; @endphp</li>
+              <li><strong>Bigger:</strong> @php echo $total_bigger; @endphp</li>
+              <li><strong>Smaller:</strong> @php echo $total_smaller; @endphp</li>
+            </ul>
+          </section> 
+        @endif
+   
       </section>
     </article>
   </div>
