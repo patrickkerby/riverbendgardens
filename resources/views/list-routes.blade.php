@@ -83,6 +83,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 
 $year = "CSA 2019 - 15 week";
 $school = "School CSA";
+$late_season = "Late Season CSA"
 
 @endphp
 
