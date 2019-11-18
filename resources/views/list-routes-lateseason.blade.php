@@ -121,7 +121,7 @@ $late_season = "Late Season CSA"
                       FROM $order_data
                       WHERE $order_data.post_status = 'wc-processing'
                     )	Q4
-                  ON Q1.order_id = Q4.ID
+                  ON Q1.order_id = Q4.ID                  
                   
                   ORDER BY location_value			 
                 ");

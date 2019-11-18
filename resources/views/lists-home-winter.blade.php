@@ -149,7 +149,11 @@ function weekCheck($prevWeek, $nextWeek) {
 							
 							$bigger_count += $row->bigger_count;
 							$smaller_count += $row->smaller_count;
-													
+
+                //intentions: count how many orders have a qty of 2. if qty is 2 AND size is bigger, increase bigger count by 1. likewise for smaller. qty of 3 likely doesn't ever happen, but could code for it just in case.
+                //why i think it won't work: this query is looping through each location, and doing a count of records. I might need to add additional selectors to actually show size data to compare with. 
+                
+
 							@endphp
 							<tr>
 								<td><strong>@php echo "$location"; @endphp</strong></td>
