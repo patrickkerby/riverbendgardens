@@ -102,7 +102,7 @@ $product_page_season = get_field('season_product_bigger');
 			@endif
 		</div>
 	</section>
-
+@code
 	<section class="row sizes">
 		<h2 class="col-12">Available in two sizes, full season or bi-weekly:</h2>
 		{{-- Pricing: Bi-weekly --}}
@@ -117,7 +117,7 @@ $product_page_season = get_field('season_product_bigger');
 						<div>
 							<h5>Bi-weekly (8 weeks)</h5>
 							<p><span>${{ $full_season_price_biweekly }}</span></p>
-							<a href="{{ $product_page_biweekly }}" class="button">Purchase</a> 
+							<a href="{{ $season_product_biweekly }}" class="button">Purchase</a> 
 						</div>
 					</div>
 				</div>
