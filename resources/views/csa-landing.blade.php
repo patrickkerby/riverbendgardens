@@ -21,21 +21,16 @@ $partners_description = get_field('partners_description');
 //Product Sizing and Pricing
 $csa_items_bigger = get_field('csa_items_bigger');
 $csa_description_bigger = get_field('bigger_csa_description');
-$price_weekly_bigger = get_field('price_per_week_bigger');
 $price_season_bigger = get_field('full_season_price_bigger');
-$price_season_bigger_perweek = get_field('full_season_per_week_cost_bigger');
 $csa_items_smaller = get_field('csa_items_smaller');
 $csa_description_smaller = get_field('smaller_csa_description');
 $include_weeklies = get_field('include_weeklies');
-$price_weekly_smaller = get_field('price_per_week_smaller');
 $price_season_smaller = get_field('full_season_price_smaller');
-$price_season_smaller_perweek = get_field('full_season_per_week_cost_smaller');
 
 //Product Purchase Pages
 $product_page_weekly = get_field('weekly_product_bigger');
 $product_page_season = get_field('season_product_bigger');
 //@TODO figure out how to get the size attribute set, then make variables for bigger and smaller
-
 
 @endphp
   
@@ -45,15 +40,11 @@ $product_page_season = get_field('season_product_bigger');
 		
 		<div class="cta_primary cbp-af-header">
 			<div class="cbp-af-inner">	
-				@php if( have_rows('cta_primary') ):
-					while( have_rows('cta_primary') ) : the_row();
-						$button_label = get_sub_field('button_label');
-						$button_url = get_sub_field('button_url'); @endphp			
-				
-						<a href="{{ $button_url }}">{{ $button_label }}</a>
-					
-					@php endwhile;
-				endif; @endphp
+				@if( have_rows('cta_primary') )
+					@foreach ($cta_primary as $item)
+						<a href="{{ $item->button_url }}">{{ $item->button_label }}</a>
+					@endforeach
+				@endif
 			</div>
 		</div>
 	
@@ -81,7 +72,7 @@ $product_page_season = get_field('season_product_bigger');
 	</section>
 	<section id="map" class="map row no-gutters">
 		<div class="partners-description col-md-4 d-none d-sm-block">
-			@php the_field('partners_description'); @endphp
+			{!! $partners_description !!}
 		</div>
 	</section>
 	<section class="locations row no-gutters">
@@ -102,25 +93,40 @@ $product_page_season = get_field('season_product_bigger');
 			<div class="carousel-item active">	
 			<h2>So how does this work? <br>What makes it so great?</h2>
 			</div>
-			
-			@php if( have_rows('csa_steps') ):
-				while ( have_rows('csa_steps') ) : the_row(); 
-				$csa_step = get_sub_field('csa_step'); 
-			@endphp
-			<div class="carousel-item">	
-				<p>{{ $csa_step }}</p>
-			</div>
-			@php endwhile;
-				else :
-					// no rows found
-				endif;
-			@endphp
+			@if( have_rows('csa_steps') )
+				@foreach ($csa_steps as $item)			
+					<div class="carousel-item">	
+						<p>{{ $item->csa_step }}</p>
+					</div>
+				@endforeach
+			@endif
 		</div>
 	</section>
 
 	<section class="row sizes">
-		<h2 class="col-12">Available in two sizes:</h2>
-		<div class="col-md-6">
+		<h2 class="col-12">Available in two sizes, full season or bi-weekly:</h2>
+		{{-- Pricing: Bi-weekly --}}
+		@isset ($csa_items_biweekly)
+		<div class="col-md-4 d-flex flex-wrap">
+			<div class="ghost">
+				<h3>Bi-weekly Bounty</h3>
+				<h4>{{ $csa_items_biweekly }} items of peak-season produce</h4>			
+				{!! $biweekly_csa_description !!}
+				<div class="row pricing">
+					<div class="col-md-12">
+						<div>
+							<h5>Bi-weekly (8 weeks)</h5>
+							<p><span>${{ $full_season_price_biweekly }}</span></p>
+							<a href="{{ $product_page_biweekly }}" class="button">Purchase</a> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+		@endisset
+
+		{{-- Pricing: Smaller --}}
+		<div class="col-md-4 d-flex flex-wrap">
 			<div class="ghost">
 				<h3>Smaller Bounty</h3>
 				@if ($csa_type === 'regular')
@@ -128,28 +134,28 @@ $product_page_season = get_field('season_product_bigger');
 				@else
 					<h4>Great for small households!</h4>
 				@endif				
-				@php the_field('smaller_csa_description'); @endphp
+				{!! $smaller_csa_description !!}
 				<div class="row pricing">
 				@if ( $include_weeklies )	
 					<div class="col-md-6">
 						<div>
 							<h5>Week-to-week</h5>
-							<p><span>${{ $price_weekly_smaller }}</span> per week</p>
+							<p><span>${{ $price_per_week_smaller }}</span></p>
 							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div>
-							<h5>Full Season</h5>
-							<p><span>${{ $price_season_smaller }}</span> ${{ $price_season_smaller_perweek }} per week</p>
+							<h5>Full Season (15 Weeks)</h5>
+							<p><span>${{ $price_season_smaller }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
 					@else
 					<div class="col-md-12">
 						<div>
-							<h5>Full Season</h5>
-							<p><span>${{ $price_season_smaller }}</span> ${{ $price_season_smaller_perweek }} per week</p>
+							<h5>Full Season (15 Weeks)</h5>
+							<p><span>${{ $price_season_smaller }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
@@ -157,7 +163,9 @@ $product_page_season = get_field('season_product_bigger');
 				</div>
 			</div>
 		</div>	
-		<div class="col-md-6">	
+
+		{{-- Pricing: Bigger --}}
+		<div class="col-md-4 d-flex flex-wrap">	
 			<div class="ghost">
 				<h3>Bigger Bounty</h3>
 				@if ($csa_type === 'regular')
@@ -165,28 +173,28 @@ $product_page_season = get_field('season_product_bigger');
 				@else
 					<h4>Great for veggie-focussed households.</h4>
 				@endif
-				@php the_field('bigger_csa_description'); @endphp
+				{!! $bigger_csa_description !!}
 				<div class="row pricing">
 				@if ( $include_weeklies )	
-					<div class="col-md-6">
-						<div>
-							<h5>Week-to-week</h5>
-							<p><span>${{ $price_weekly_bigger }}</span> per week</p>
-							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
-						</div>
+				<div class="col-md-6">
+					<div>
+						<h5>Week-to-week</h5>
+						<p><span>${{ $price_per_week_bigger }}</span></p>
+						<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 					</div>
+				</div>
 					<div class="col-md-6">
 						<div>
-							<h5>Full Season</h5>
-							<p><span>${{ $price_season_bigger }}</span> ${{ $price_season_bigger_perweek }} per week</p>
+							<h5>Full Season (15 Weeks)</h5>
+							<p><span>${{ $price_season_bigger }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
 				@else
 					<div class="col-md-12">
 						<div>
-							<h5>Full Season</h5>
-							<p><span>${{ $price_season_bigger }}</span> ${{ $price_season_bigger_perweek }} per week</p>
+							<h5>Full Season (15 Weeks)</h5>
+							<p><span>${{ $price_season_bigger }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
@@ -194,28 +202,35 @@ $product_page_season = get_field('season_product_bigger');
 				</div>
 			</div>
 		</div>
+		{{-- Pricing: Weekly --}}
+		<div class="col-md-12 weekly">
+			<div class="ghost">
+				<a class="row" href="{{ $product_page_weekly }}">
+					<h3 class="col-md-3">Week-to-week</h3>
+					<p class="col-md-9">Not around all summer? Want to choose which weeks of the season to pickup? <br /><span>Our Week-To-Week option is for you.</span></p>
+				</a>
+			</div>
+		</div>
+
+		{{-- Pricing: Weekly --}}
 		<div class="row season_expectations justify-content-center">
-				<div class="col-md-8">@php the_field('season_expectations'); @endphp</div>
+			<div class="col-md-8">{!! $season_expectations !!}</div>
 		</div>
 	</section>	
-	<section class="row photos no-gutters">
 
-			@php 
-
-			$images = get_field('gallery');
-			
-			if( $images ): @endphp
-					<div class="row gallery">
-							@php foreach( $images as $image ): @endphp
-									<div class="col-md-3 col-sm-4 col-xs-6">
-											<a href="@php echo $image['url']; @endphp" target="_blank">
-													 <img src="@php echo $image['sizes']['thumbnail']; @endphp" alt="@php echo $image['alt']; @endphp" />
-											</a>
-									</div>
-							@php endforeach; @endphp
+	{{-- Photo Gallery --}}
+	<section class="row photos no-gutters">			
+		@if( $gallery )
+			<div class="row gallery">
+				@foreach( $gallery as $item )
+					<div class="col-md-3 col-sm-4 col-xs-6">
+						<a href="{{ $item->url }}" target="_blank">
+							<img src="{{ $item->sizes->thumbnail }};" alt="{{ $item->alt }}" />
+						</a>
 					</div>
-			@php endif;		
-			@endphp
+				@endforeach
+			</div>
+		@endif
 
 	</section>
 @endwhile

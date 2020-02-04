@@ -91,20 +91,9 @@ add_filter('comments_template', function ($comments_template) {
 }, 100);
 
 /**
- * Remove product data tabs
- */
-add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
-
-function woo_remove_product_tabs( $tabs ) {
-
-    unset( $tabs['additional_information'] );  	// Remove the additional information tab
-
-    return $tabs;
-}
-
-/**
  * Remove related products output
  */
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
 add_filter( 'woocommerce_composite_force_old_style_price_html', '__return_true' );
+
