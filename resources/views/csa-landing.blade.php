@@ -102,7 +102,6 @@ $product_page_season = get_field('season_product_bigger');
 			@endif
 		</div>
 	</section>
-@code
 	<section class="row sizes">
 		<h2 class="col-12">Available in two sizes, full season or bi-weekly:</h2>
 		{{-- Pricing: Bi-weekly --}}
