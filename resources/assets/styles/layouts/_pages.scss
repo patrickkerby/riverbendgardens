@@ -48,8 +48,9 @@
 
 #map {
   height: 680px;
-
-  @include fullwidth();
+  position: relative;
+  width: 100vw;
+  left: calc(-1 * (100vw - 100%) / 2);
 
   .partners-description {
     position: absolute;

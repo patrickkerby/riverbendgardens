@@ -10,9 +10,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @include('partials.header')
     <div class="wrap container" role="document">
       <div class="content">
-        <main class="main row justify-content-center">
-          @yield('content')
-        </main>
+        @if ( is_front_page() )
+          <main class="main">
+            @yield('content')
+          </main>
+        @else
+          <main class="main row justify-content-center">
+            @yield('content')
+          </main>        
+        @endif
+
         @if (App\display_sidebar())
           <aside class="sidebar">
             @include('partials.sidebar')
