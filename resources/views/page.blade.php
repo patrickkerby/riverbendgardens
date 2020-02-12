@@ -3,7 +3,7 @@
 @section('content')
   @while(have_posts()) @php the_post() @endphp
     {{-- @include('partials.page-header') --}}
-    <section>
+    <section class="col-11">
       @include('partials.content-page')
     </section>
   @endwhile

@@ -71,6 +71,8 @@ $font-family-serif: shackleton-narrow, serif;
 }
 
 @mixin fullwidth() {
+  display: flex;
+  justify-content: center;
   position: relative;
   width: 100vw;
   left: calc(-1 * (100vw - 100%) / 2);

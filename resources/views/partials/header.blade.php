@@ -104,7 +104,7 @@ $sub_title = get_field('sub_title');
 
   @elseif ( is_page( 'late-season-list' ) || '59243' == $post->post_parent ) )
     <h1 class="page-title"><?php the_title(); ?></h1>
-    <div class="row subtitle justify-content-center">
+    <div class="row subtitle justify-content-center no-gutters">
       <div class="col-md-7">@php echo $sub_title; @endphp </div>
       <nav class="col-md-8 sub-nav-selector">
         <form action="@php bloginfo('url'); @endphp" method="get">
@@ -126,7 +126,7 @@ $sub_title = get_field('sub_title');
 
   @else
     <h1 class="page-title"><?php the_title(); ?></h1>
-    <div class="row subtitle justify-content-center">
+    <div class="row subtitle justify-content-center no-gutters">
       <div class="col-md-7">@php echo $sub_title; @endphp </div>
     </div>    	        				        			    
   @endif

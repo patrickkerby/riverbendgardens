@@ -10,7 +10,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @include('partials.header')
     <div class="wrap container" role="document">
       <div class="content">
-        <main class="main">
+        <main class="main row justify-content-center">
           @yield('content')
         </main>
         @if (App\display_sidebar())
