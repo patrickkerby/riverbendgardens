@@ -3,6 +3,7 @@
 namespace App;
 
 use Roots\Sage\Container;
+use Sober\Controller\Controller;
 
 /**
  * Get the sage container.

@@ -1,9 +1,16 @@
 /* Veggies Page */
+section.veggiechart {
+  margin: 90px 0 0 15px;
+
+  h2 {
+    text-align: center;
+  }
+}
 
 #chart {
   margin: 50px 0 50px 150px;
   background: #f8f6eb;
-  padding: 0 15px;
+  padding: 15px;
   width: 80%;
 
   @include media-breakpoint-down(lg) {
@@ -108,52 +115,52 @@ strong.marketOnly ::before {
   top: 4px;
 }
 
-span.juneStart {
+span.june {
   max-width: 100%;
   left: 0;
 }
 
-span.june15Start {
+span.mid-june {
   max-width: 95%;
   left: 5%;
 }
 
-span.julyStart {
+span.july {
   max-width: 90%;
   left: 10%;
 }
 
-span.july15Start {
+span.mid-july {
   max-width: 85%;
   left: 15%;
 }
 
-span.augustStart {
+span.august {
   max-width: 80%;
   left: 20%;
 }
 
-span.august15Start {
+span.mid-august {
   max-width: 75%;
   left: 25%;
 }
 
-span.septemberStart {
+span.september {
   max-width: 70%;
   left: 30%;
 }
 
-span.september15Start {
+span.mid-september {
   max-width: 65%;
   left: 35%;
 }
 
-span.octoberStart {
+span.october {
   max-width: 60%;
   left: 40%;
 }
 
-span.october15Start {
+span.mid-october {
   max-width: 55%;
   left: 45%;
 }

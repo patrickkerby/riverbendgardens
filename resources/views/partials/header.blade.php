@@ -7,7 +7,7 @@ $overlay = get_field('overlay');
 $overlay_news = get_field('overlay', get_option('page_for_posts'));	
 $overlay_shop = get_field('overlay', get_option('woocommerce_shop_page_id'));	
 
-$logo = get_field('logo');
+// $logo = get_field('logo');
 
 $shop_title = get_the_title( get_option('woocommerce_shop_page_id') );
 $news_title = get_the_title( get_option('page_for_posts', true) );
