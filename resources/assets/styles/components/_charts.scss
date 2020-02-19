@@ -1,9 +1,18 @@
 /* Veggies Page */
 section.veggiechart {
-  margin: 90px 0 0 15px;
+  margin: 45px 0;
 
   h2 {
     text-align: center;
+  }
+
+  .breakout {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
 }
 
@@ -32,7 +41,8 @@ section.veggiechart {
   justify-content: space-around;
 }
 
-#chart ul li {
+#chart ul li,
+table thead th {
   text-align: center;
   padding: 0;
   margin: 0;
@@ -243,4 +253,56 @@ span.ninehalf {
 
 span.ten {
   width: 100%;
+}
+
+// CSA Expectations chart
+section.csachart {
+  background: #f8f8f8;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 90px 0;
+
+  h2,
+  p {
+    text-align: center;
+  }
+
+  p {
+    margin-top: 30px;
+  }
+
+  table {
+    margin: 45px 0;
+
+    th {
+      padding: 8px 0;
+      transform: none;
+
+      &:first-of-type {
+        visibility: hidden;
+      }
+    }
+
+    td {
+      color: $dark-green;
+      padding: 8px 0;
+      text-align: center;
+      border: solid 3px #fff;
+
+      &:first-of-type {
+        text-align: right;
+        border: none;
+        padding-right: 15px;
+        width: 150px;
+      }
+
+      h5 {
+        color: $dark-green;
+      }
+    }
+  }
 }

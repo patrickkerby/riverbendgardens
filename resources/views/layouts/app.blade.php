@@ -15,7 +15,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             @yield('content')
           </main>
         @else
-          <main class="main row justify-content-center">
+          <main class="main justify-content-center">
             @yield('content')
           </main>        
         @endif

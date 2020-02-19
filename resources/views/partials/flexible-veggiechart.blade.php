@@ -3,11 +3,11 @@
   $description = get_sub_field('description');
 @endphp
 
-<section class="col-11 veggiechart">
+<section class="row veggiechart">
   @if( get_row_layout() == 'flexible-veggiechart' )
     <h2>{{ $title }}</h2>
   @endif
-  <div class="fullwidth">
+  <div class="breakout row justify-content-center">
     <div id="chart">
       <ul>
         <li>June</li>
@@ -31,6 +31,6 @@
     </div>
   </div>  
   @if( get_row_layout() == 'flexible-veggiechart' )
-    <p>{{ $description }}</p>
+    <p>{!! $description !!}</p>
   @endif      
 </section>
