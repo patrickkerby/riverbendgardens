@@ -7,7 +7,7 @@
   @if( get_row_layout() == 'flexible-csachart' )
     <div class="col-sm-10 col-md-7">
       <h2>{{ $title }}</h2>
-      <p>{{ $description }}</p>
+      <p>{!! $description !!}</p>
     </div>
   @endif
   <table class="col-sm-11 col-md-10">
