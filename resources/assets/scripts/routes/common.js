@@ -1,3 +1,5 @@
+import 'custom-event-polyfill';
+
 export default {
   init() {
     // JavaScript to be fired on all pages
