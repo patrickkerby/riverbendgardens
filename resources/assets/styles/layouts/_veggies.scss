@@ -20,8 +20,12 @@ body.veggies {
       display: flex;
       flex-flow: column-reverse;
 
+      @include media-breakpoint-down(sm) {
+        height: auto;
+      }
+
       img {
-        margin: 0;
+        margin: 0 auto;
       }
     }
 

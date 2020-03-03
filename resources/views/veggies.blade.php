@@ -8,7 +8,7 @@
   @while(have_posts()) @php the_post() @endphp
     <section class="row">
         @foreach ($veggie_loop as $item)
-          <div class="col-sm-12 col-md-6 col-lg-4 justify-content-center">
+          <div class="col-sm-10 col-md-6 col-lg-4 justify-content-center">
             <a href="#" class="card">
               <div class="veggie-img">
                 {!! $item['thumbnail'] !!}
