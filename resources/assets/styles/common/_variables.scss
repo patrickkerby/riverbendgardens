@@ -64,10 +64,10 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
 $font-family-sans-serif: Venti, Arial, sans-serif;
 $font-family-serif: shackleton-narrow, serif;
 
-@mixin slowfade() {
-  -webkit-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
+@mixin slowfade($time: 0.4) {
+  -webkit-transition: all #{$time}s;
+  -moz-transition: all #{$time}s;
+  transition: all #{$time}s;
 }
 
 @mixin fullwidth() {

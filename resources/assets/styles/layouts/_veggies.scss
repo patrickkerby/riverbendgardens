@@ -10,7 +10,9 @@ body.veggies {
     text-align: center;
     justify-content: space-between;
     margin-bottom: 30px;
-    // min-height: 29rem;
+    opacity: 1;
+
+    @include slowfade(1);
 
     .veggie-img {
       height: 20rem;
@@ -38,6 +40,12 @@ body.veggies {
         color: $dark-green;
         margin: 0;
       }
+    }
+
+    &:hover {
+      text-decoration: none;
+      opacity: 0.9;
+      box-shadow: 0 1px 30px 0 rgba(0, 0, 0, 0.14);
     }
   }
 }

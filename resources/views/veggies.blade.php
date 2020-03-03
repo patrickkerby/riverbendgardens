@@ -9,7 +9,7 @@
     <section class="row">
         @foreach ($veggie_loop as $item)
           <div class="col-sm-12 col-md-6 col-lg-4 justify-content-center">
-            <div class="card">
+            <a href="#" class="card">
               <div class="veggie-img">
                 {!! $item['thumbnail'] !!}
               </div>
@@ -17,7 +17,7 @@
                 <h3>{{ $item['title'] }}</h3>
                 <h4>{{ $item['family'] }}</h4>
               </div>
-            </div>
+            </a>
           </div>
         @endforeach
         @include('partials.content-page')
