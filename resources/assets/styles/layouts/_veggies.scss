@@ -56,6 +56,9 @@ body.veggies {
   .modal {
     .intro {
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       h3 {
         font-size: 56px;
@@ -73,6 +76,11 @@ body.veggies {
         width: auto;
         display: inline-flex;
       }
+
+      img {
+        max-height: 400px;
+        width: auto;
+      }
     }
 
     .modal-body {
@@ -86,6 +94,7 @@ body.veggies {
       p {
         color: #fff;
         line-height: 24px;
+        margin-bottom: 1.5rem;
       }
 
       h4 {
@@ -101,7 +110,7 @@ body.veggies {
         font-weight: 700;
         letter-spacing: normal;
         color: #416f1a;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
       }
 
       hr {

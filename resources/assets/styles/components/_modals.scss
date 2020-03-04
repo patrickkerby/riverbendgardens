@@ -1,13 +1,19 @@
 .modal.fullmodal {
-  background: #fff;
-  margin: 20% 0 0 0;
-  padding: 0;
-  height: 80%;
+  .modal-content {
+    border: none;
+  }
 
   .modal-dialog {
-    max-width: 100%;
+    background: #fff;
     margin: 0;
     padding: 0;
+    max-width: 100%;
+    height: auto;
+    bottom: 0;
+
+    @include media-breakpoint-up(sm) {
+      position: absolute;
+    }
   }
 
   .close {
@@ -16,5 +22,6 @@
     right: 1rem;
     z-index: 1;
     position: absolute;
+    color: #416f1aff;
   }
 }
