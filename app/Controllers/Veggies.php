@@ -19,8 +19,17 @@ class Veggies extends Controller
             'family' => get_field('family', $post),
             'storage' => get_field('storage', $post),
             'thumbnail' => get_the_post_thumbnail($post->ID, 'large'),
-        ];
+            'notes' => get_field('notes', $post),
+            'variety' => get_field('varieties', $post)
+          ];
     }, $veggie_items);
   }
-  
+  protected $acf = true;
+
+    public function acf()
+    {
+        add_filter('sober/controller/acf/array', function () {
+            return true;
+        });
+    }
 }
