@@ -65,3 +65,22 @@ input.button {
   @extend .btn;
   @extend .btn-secondary;
 }
+
+// WooCommerce
+
+.wc-stripe-elements-field {
+  width: 100%;
+  padding: 18px;
+  margin: 0;
+}
+
+.stripe-card-group {
+  padding: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.woocommerce-checkout #payment div.payment_box .form-row {
+  margin: 0;
+  padding: 0;
+}
