@@ -36,17 +36,17 @@
                           <h5>Storage Recommendations:</h5>
                           {!! $item['storage'] !!}
                           <hr />                        
-                          @if($item['variety'])
+                          @if(!empty($item['variety']))
                             <h4>Varieties</h4>
-                            @foreach ($item['variety'] as $item)
-                              <h5>{{ $item['title'] }}:</h5>
-                              <p>{{ $item['description'] }}</p>
+                            @foreach ($item['variety'] as $type)
+                              <h5>{{ $type['title'] }}:</h5>
+                              <p>{{ $type['description'] }}</p>
                             @endforeach
                           @endif
-                          @if($item['notes'])
+                          @if ( !empty($item['notes']) )
                             <div class="notes">
                               {{ $item['notes'] }}
-                            </div>
+                            </div>                            
                           @endif
                         </div>
                       </div>
