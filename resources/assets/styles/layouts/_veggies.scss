@@ -3,6 +3,10 @@ body.veggies {
     padding-bottom: 45px;
   }
 
+  .callstoaction a {
+    margin: 2rem;
+  }
+
   .card {
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     border-radius: 1px;
@@ -128,15 +132,22 @@ body.veggies {
         text-align: center;
       }
     }
+
+    .details a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 19px;
+
+      &:hover {
+        color: $forest-green;
+        transition: all 0.4s ease-in-out;
+      }
+    }
   }
 
   section.csachart {
     margin-top: 0;
     margin-bottom: 0;
-  }
-
-  .callstoaction a {
-    margin: 2rem;
   }
 
   .veggie-content {
