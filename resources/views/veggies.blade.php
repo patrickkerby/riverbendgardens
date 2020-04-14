@@ -6,8 +6,45 @@
 
 @section('content')
   @while(have_posts()) @php the_post() @endphp
+  <section class="row justify-content-center">
+    <div class="col-md-10 veggie-content">
+      @include('partials.content-page')
+      <div class="callstoaction row justify-content-center">
+        <a href="#" class="ghost" data-toggle="modal" data-target="#pickupModal-seasonality">Veggie Seasonality Chart</a>
+        <a href="#" class="ghost" data-toggle="modal" data-target="#pickupModal-csa">What to expect in your CSA</a>    
+      </div>
+    </div>
+    <div class="modal fullmodal fade" id="pickupModal-csa" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="modal-body">
+            <div class="container-fluid">                
+              @include( "partials.flexible-csachart")
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fullmodal fade" id="pickupModal-seasonality" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="modal-body">
+            <div class="container-fluid">                
+              @include( "partials.flexible-veggiechart")
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
     <section class="row">
-        @foreach ($veggie_loop as $item)
+       @foreach ($veggie_loop as $item)
           <div class="col-sm-10 col-md-6 col-lg-4 justify-content-center">
           <a href="#" data-toggle="modal" data-target="#pickupModal-{{ $loop->index }}" class="card">
               <div class="veggie-img">
@@ -57,7 +94,6 @@
             </div>
           </div>
         @endforeach
-        @include('partials.content-page')
     </section>
   @endwhile
 @endsection
