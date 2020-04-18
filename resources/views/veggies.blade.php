@@ -39,7 +39,7 @@
               @include( "partials.flexible-veggiechart")
               <section class="row justify-content-center">
                 <div class="col-sm-10">
-                  <p>All timelines may vary due to weather. The above listed crops are our regular veggie offerings. We try new crops each season which may or may not be available for purchase at our market stalls or included in the CSA depending on their success and volume. In 2016 we're trying out okra, garlic, artichoke and finally harvesting our first asparagus crop! <a href="http://riverbendgardens.us5.list-manage2.com/subscribe?u=66c3ae88dafbfffc451215632&amp;id=ba057d79b0">Sign up for our newsletter</a> to keep up to date on our progress!</p>
+                  <p>All timelines may vary due to weather. The above listed crops are our regular veggie offerings. We try new crops each season which may or may not be available for purchase at our market stalls or included in the CSA depending on their success and volume.</p>
                   <p>**Berries from our U-Pick saskatoon orchard are not sold at Farmers' Markets or included in the CSA.</p>
                   <p><strong class="marketOnly">MARKET ONLY</strong> crops will be available on our Farmers' Market tables but not included in the CSA. These crops either reach their peak too early in the season (pre-CSA) or do not produce enough volume to be fairly distributed in each of the weekly CSA bounties. If weather conditions give us bumper crops or longer seasons for these veggies, there is always a chance you'll find them included but they should not be expected to make an appearance.</p>
                 </div>
