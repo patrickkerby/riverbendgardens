@@ -127,7 +127,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><h5>Zucchinni</h5></td>
+        <td><h5>Zucchini</h5></td>
         <td></td>
         <td></td>
         <td><i class="fas fa-check-circle"></i></td>
