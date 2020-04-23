@@ -77,7 +77,7 @@
                           {!! $item['thumbnail'] !!}
                         </div>
                         <div class="col-sm-6 col-lg-7 details">
-                          <h5>Storage Recommendations:</h5>
+                          <h5>Storage Recommendations &amp; Recipes:</h5>
                           {!! $item['storage'] !!}
                           <hr />                        
                           @if(!empty($item['variety']))
