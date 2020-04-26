@@ -1,5 +1,5 @@
 {{--
-  Template Name: Lists Index w/ Schools
+  Template Name: Lists Index
 --}}
 
 @extends('layouts.app')
@@ -84,9 +84,11 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 @endphp
 
 @section('content')
+{{-- In order for this year selector to work, the "processing" status in the SQL needs to be removed. --}}
 <form action="" method="post" target="_self">
 	<label for="year">Year:</label>
 	<select id="year" name="year">
+		<option value="CSA 2020 - 15 week">2020</option>
 		<option value="CSA 2019 - 15 week">2019</option>
 		<option value="CSA 2018 - 15 week">2018</option>
 		<option value="CSA 2017 - 15 week">2017</option>
@@ -97,48 +99,52 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 </form>
 
 @php
-	$year = "CSA 2019 - 15 week";
+	$year = "CSA 2020 - 15 week";
 
-if ( isset( $_POST['year'] ) ) { 
-	$year = $_POST['year'];							
-} 
-else {
-	$year = "CSA 2019 - 15 week";
-}
+	if ( isset( $_POST['year'] ) ) { 
+		$year = $_POST['year'];							
+	} 
+	else {
+		$year = "CSA 2020 - 15 week";
+	}
 
 @endphp
 
 <script type="text/javascript">
 	( function($) {
-			$(document).ready(function(){
-				$("select").change(function(){
-						$(this).find("option:selected").each(function(){
-								var optionValue = $(this).attr("value");
-								if(optionValue){
-										$(".week").not("." + optionValue).hide();
-										$("." + optionValue).show();
-								} else{
-										$(".week").hide();
-								}
-						});
-				}).change();
+		$(document).ready(function(){
+			$("select").change(function(){
+					$(this).find("option:selected").each(function(){
+							var optionValue = $(this).attr("value");
+							if(optionValue){
+									$(".week").not("." + optionValue).hide();
+									$("." + optionValue).show();
+							} else{
+									$(".week").hide();
+							}
+					});
+			}).change();
+
+			$('.table').footable();
+
 		});
-		} ) ( jQuery );
-		</script>
+	} ) ( jQuery );
+</script>
+
 <div class="post-content">
 	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
 		<section>
 			<h2>Packing Lists - {{ $year }}</h2>
 			<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
 		
-			<table class="table" data-sorting="true">
+			<table class="table footable" data-sorting="true">
 				<thead>
 					<tr>
 						<th scope="col">Location</th>
 						<th data-type="number" scope="col">Bigger</th>
 						<th data-type="number" scope="col">Smaller</th>
 						<th data-type="number" scope="col">Total (15wk)</th>
-					</tr>	
+					</tr>	 
 				</thead>
 				<tbody>
 					@php
@@ -147,11 +153,12 @@ else {
 					
 						$order_items = 'wp_woocommerce_order_items';
 						$order_meta = 'wp_woocommerce_order_itemmeta';
+						$order_data = $wpdb->prefix . 'posts';
 						$customer_data = $wpdb->prefix . 'postmeta';
 						$order_data = $wpdb->prefix . 'posts';
             $product_season = wc_get_product( 5958 );
 						$school_season = wc_get_product(19589);						
-            $weekly_orders = wc_get_product(5982);						
+            $weekly_orders = wc_get_product(5982);							
 
 						$locations = get_post_meta($product_season->get_id(), '_product_attributes', true);						
 						$school_locations = get_post_meta($school_season->get_id(), '_product_attributes', true);						
@@ -160,6 +167,9 @@ else {
 						$weekly_locations = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));
 						$locations = explode(' | ', $locations['location']['value']);
 						$school_locations = explode(' | ', $school_locations['location']['value']);
+
+						$bigger_count = 0;
+            $smaller_count = 0; 
 
 						$sql_str = '';
 
@@ -189,6 +199,12 @@ else {
 										AND $order_meta.meta_value = 'smaller'
 									)	Q3
 								ON Q1.order_id = Q3.order_id
+								INNER JOIN
+									(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
+										FROM $order_data
+										WHERE $order_data.post_status = 'wc-processing'
+									)	Q4
+								ON Q1.order_id = Q4.ID
 								
 								ORDER BY location_value			 
 							");
@@ -209,18 +225,6 @@ else {
 							</tr>					
 						@php } @endphp
 							<tr>
-								<td><strong>Air Cadets Fundraiser (Ritchie Foods)	</strong></td>
-								<td>1</td>
-								<td>5</td>
-								<td>6</td>
-							</tr>
-							<tr>
-								<td><strong>Fulton Child Care	</strong></td>
-								<td>8</td>
-								<td>9</td>
-								<td>17</td>
-							</tr>
-							<tr>
 								<td><strong>Farm Pickup</strong></td>
 								<td>0</td>
 								<td>1</td>
@@ -230,13 +234,13 @@ else {
 						<tfoot>
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
-								<td>Bigger: @php echo( $bigger_count + 9 ); @endphp</td>
+								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
 								<td>Smaller: @php echo( $smaller_count + 1 ); @endphp</td>
-								<td>Total: @php echo( $bigger_count + $smaller_count + 10 ); @endphp</td>
+								<td>Total: @php echo( $bigger_count + $smaller_count + 1 ); @endphp</td>
 							</tr>
 						</tfoot>						
 				</table>
-				
+
 				<h2>School Lists</h2>
 
 				<table class="table" data-sorting="true">
@@ -249,7 +253,12 @@ else {
 						</tr>	
 					</thead>
 					<tbody>		
-						@php foreach ($school_locations as $school_location) {
+						@php
+						
+						$school_count_bigger = 0;
+						$school_count_smaller = 0;
+						
+						foreach ($school_locations as $school_location) {
 
 							$sql_str2 = ( "
 								SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count 
@@ -289,6 +298,8 @@ else {
 							$school_count_results = $wpdb->get_results($sql_str2);					
 							$school_row = $school_count_results[0];
 
+
+
 							$school_count_bigger += $school_row->bigger_count;
 							$school_count_smaller += $school_row->smaller_count;
 
@@ -297,7 +308,7 @@ else {
 								<td><strong>@php echo "$school_location"; @endphp</strong></td>
 								<td>@php echo($school_row->bigger_count); @endphp</td>
 								<td>@php echo($school_row->smaller_count); @endphp</td>
-								<td>@php echo($school_row->total_count); @endphp</td>
+								<td>{{ $school_row->bigger_count + $school_row->smaller_count }}</td>
 							</tr>
 					@php } @endphp	
 					</tbody>		
@@ -309,7 +320,7 @@ else {
 							<td>Total: @php echo( $school_count_bigger + $school_count_smaller ); @endphp</td>
 						</tr>					 
 					</tfoot>
-			</table>
+			</table>				
 
 		<section id="week-select">
 			<select>
@@ -339,7 +350,9 @@ else {
 
 			$week_in_season++ @endphp
 
-				<table class="table footable week week@php echo $week_in_season; @endphp" data-sorting="true">
+			<section class="week week@php echo $week_in_season @endphp">
+
+				<table class="table footable" data-sorting="true">
 					<thead>
 						<tr>
 							<th colspan="3"><h2>@php echo $component_data['title']; @endphp</h2></th>
@@ -351,7 +364,8 @@ else {
 						</tr>
 					</thead>
 					<tbody>
-				@php
+				
+						@php
 				$sql_weekly = ( "
 					
 					SELECT DISTINCT Q2.composite_item, Q1.meta_value AS location, Q4.size, Q1.order_id
@@ -433,8 +447,10 @@ else {
 					</tr>
 					@php					
 				} @endphp
-					</tbody>
-					<tfoot>
+				</tbody>
+					
+				</tbody>
+				<tfoot>
 					<tr>
 						<th scope="row"><strong>Total:</strong></th>
 						<td>@php echo $weekly_count_bigger; @endphp</td>
@@ -442,15 +458,16 @@ else {
 					</tr>
 				</tfoot>
 			</table>
+			</section>
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
 				<ul>
-					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count ); @endphp </li>
+					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count + $school_count_bigger ); @endphp</li>
+					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count + $school_count_smaller + 1 ); @endphp </li>
 					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + 28 ); @endphp</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $school_count_bigger + $school_count_smaller + 28 + 1 ); @endphp</li>
 				</ul>
-			</div>	
+			</div>
 			@php }
 			@endphp	
 		</section>

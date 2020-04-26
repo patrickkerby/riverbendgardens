@@ -8,8 +8,11 @@
 
 @php
 
+
+
 //List of global variables
 $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the composite weeks by component ID! This is special.
+
 
 function weekCheck($prevWeek, $nextWeek) {
     // Check current date, set select value to selected if current date is between week x and y.
@@ -88,6 +91,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 <form action="" method="post" target="_self">
 	<label for="year">Year:</label>
 	<select id="year" name="year">
+		<option value="CSA 2020 - 15 week">2020</option>
 		<option value="CSA 2019 - 15 week">2019</option>
 		<option value="CSA 2018 - 15 week">2018</option>
 		<option value="CSA 2017 - 15 week">2017</option>
@@ -98,13 +102,13 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 </form>
 
 @php
-	$year = "CSA 2019 - 15 week";
+	$year = "CSA 2020 - 15 week";
 
 	if ( isset( $_POST['year'] ) ) { 
 		$year = $_POST['year'];							
 	} 
 	else {
-		$year = "CSA 2019 - 15 week";
+		$year = "CSA 2020 - 15 week";
 	}
 
 @endphp
@@ -131,7 +135,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 </script>
 
 <div class="post-content">
-	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
+	<article>
 		<section>
 			<h2>Packing Lists - {{ $year }}</h2>
 			<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
@@ -156,23 +160,28 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						$customer_data = $wpdb->prefix . 'postmeta';
 						$order_data = $wpdb->prefix . 'posts';
             $product_season = wc_get_product( 5958 );
-						$school_season = wc_get_product(19589);						
-            $weekly_orders = wc_get_product(5982);							
+						$weekly_orders = wc_get_product(5982);	
+						$bi_weekly_orders = wc_get_product(87354);						
 
 						$locations = get_post_meta($product_season->get_id(), '_product_attributes', true);						
-						$school_locations = get_post_meta($school_season->get_id(), '_product_attributes', true);						
-						$weekly_locations_names = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location');
-
-						$weekly_locations = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));
 						$locations = explode(' | ', $locations['location']['value']);
-						$school_locations = explode(' | ', $school_locations['location']['value']);
 
+						$weekly_locations_names = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location');
+						$weekly_locations = wc_get_product_terms( $weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));
+
+						$biweekly_locations_names = wc_get_product_terms( $bi_weekly_orders->get_id(), 'pa_pickup-location');
+						$biweekly_locations = wc_get_product_terms( $bi_weekly_orders->get_id(), 'pa_pickup-location', array( 'fields' => 'slugs' ));
+										
 						$bigger_count = 0;
-            $smaller_count = 0; 
-
+						$smaller_count = 0; 
+						$total_biwk_sum = 0;
+												
 						$sql_str = '';
+						$sql_str_biwk = '';
 
-						foreach ($locations as $location) {
+						@endphp
+						@foreach($locations as $location)
+							@php
 							$sql_str = ( "
 								SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count
 								FROM		
@@ -214,112 +223,83 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							
 							$bigger_count += $row->bigger_count;
 							$smaller_count += $row->smaller_count;
+							$total_15wk_count = $smaller_count + $bigger_count;
 													
 							@endphp
 							<tr>
-								<td><strong>@php echo "$location"; @endphp</strong></td>
-								<td data-sort-value="@php echo($row->bigger_count); @endphp">@php echo($row->bigger_count); @endphp</td>
-								<td data-sort-value="@php echo($row->smaller_count); @endphp">@php echo($row->smaller_count); @endphp</td>
-								<td data-sort-value="@php echo($row->total_count); @endphp">@php echo($row->total_count); @endphp</td>
+								<td><strong>{{ $location }}</strong></td>
+								<td data-sort-value="{{ $row->bigger_count }}">{{ $row->bigger_count }}</td>
+								<td data-sort-value="{{ $row->smaller_count }}">{{ $row->smaller_count }}</td>
+								<td data-sort-value="{{ $row->total_count }}">{{ $row->total_count }}</td>
 							</tr>					
-						@php } @endphp
-							<tr>
-								<td><strong>Farm Pickup</strong></td>
-								<td>0</td>
-								<td>1</td>
-								<td>1</td>
-							</tr>
+						@endforeach							
 						</tbody>
 						<tfoot>
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
-								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count + 1 ); @endphp</td>
-								<td>Total: @php echo( $bigger_count + $smaller_count + 1 ); @endphp</td>
+								<td>Bigger: {{ $bigger_count }}</td>
+								<td>Smaller: {{ $smaller_count }}</td>
+								<td>Total: {{ $total_15wk_count }}</td>
 							</tr>
 						</tfoot>						
 				</table>
-
-				<h2>School Lists</h2>
-
-				<table class="table" data-sorting="true">
-					<thead>
-						<tr>
-							<th>Location</th>
-							<th data-sortable="true">Bigger</th>
-							<th data-sortable="true">Smaller</th>
-							<th data-sortable="true">Total (15wk)</th>
-						</tr>	
-					</thead>
-					<tbody>		
-						@php
-						
-						$school_count_bigger = 0;
-						$school_count_smaller = 0;
-						
-						foreach ($school_locations as $school_location) {
-
-							$sql_str2 = ( "
-								SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count 
-								FROM
-									(	SELECT order_id, $order_items.order_item_id AS order_item_id, $order_meta.meta_key, $order_meta.meta_value AS location_value
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND $order_meta.meta_value = '$school_location'
-										AND $order_items.order_item_name = 'School CSA'
-									) Q1
-								LEFT JOIN
-									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND meta_key IN ('size')
-										AND $order_meta.meta_value = 'bigger'
-									)	Q2
-								ON Q1.order_id = Q2.order_id
-								LEFT JOIN
-									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS smaller_count
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND meta_key IN ('size')
-										AND $order_meta.meta_value = 'smaller'
-									)	Q3
-								ON Q1.order_id = Q3.order_id
-								RIGHT JOIN
-									(	SELECT id, post_status
-										FROM $order_data
-										WHERE $order_data.post_status = 'wc-processing'
-									)	Q4
-								ON Q1.order_id = Q4.id
-								
-								ORDER BY location_value			 
-							");
+		</section>
+		<section>
+			<h2>Bi-weekly</h2>
+		
+			<table class="table footable" data-sorting="true">
+				<thead>
+					<tr>
+						<th scope="col">Location</th>
+						<th data-type="number" scope="col">Total Bigger </th>
+					</tr>	 
+				</thead>
+				<tbody>
+				@foreach ($biweekly_locations as $bi_wk_location)
+					@php
+						$sql_str_biwk = ( "
+							SELECT COUNT(Q1.order_id) AS total_count
+							FROM		
+								(	SELECT order_id, $order_items.order_item_id AS order_item_id, $order_meta.meta_key, $order_meta.meta_value AS location_value
+									FROM $order_items, $order_meta
+									WHERE $order_items.order_item_id = $order_meta.order_item_id
+									AND $order_meta.meta_value = '$bi_wk_location'
+									AND $order_items.order_item_name LIKE 'Bi-Weekly CSA%'
+								) Q1							
+							INNER JOIN
+								(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
+									FROM $order_data
+									WHERE $order_data.post_status = 'wc-processing'
+								)	Q4
+							ON Q1.order_id = Q4.ID
 							
-							$school_count_results = $wpdb->get_results($sql_str2);					
-							$school_row = $school_count_results[0];
+							ORDER BY location_value			 
+						");
+						
+						$bi_wk_count_results = $wpdb->get_results($sql_str_biwk);
+												
+						$biwk_row = $bi_wk_count_results[0];											
+						$biwk_total_count = $biwk_row->total_count;
+
+						$total_biwk_sum += $biwk_row->total_count;
 
 
-
-							$school_count_bigger += $school_row->bigger_count;
-							$school_count_smaller += $school_row->smaller_count;
-
-							@endphp
-							<tr>
-								<td><strong>@php echo "$school_location"; @endphp</strong></td>
-								<td>@php echo($school_row->bigger_count); @endphp</td>
-								<td>@php echo($school_row->smaller_count); @endphp</td>
-								<td>{{ $school_row->bigger_count + $school_row->smaller_count }}</td>
-							</tr>
-					@php } @endphp	
-					</tbody>		
-					<tfoot>
+					@endphp
+						
 						<tr>
-							<th scope="row"><strong>School Totals</strong></th>
-							<td>Bigger: @php echo( $school_count_bigger ); @endphp</td>
-							<td>Smaller: @php echo( $school_count_smaller ); @endphp</td/>
-							<td>Total: @php echo( $school_count_bigger + $school_count_smaller ); @endphp</td>
-						</tr>					 
-					</tfoot>
-			</table>				
+							<td><strong>{{ $bi_wk_location }}</strong></td>
+							<td data-sort-value="{{ $biwk_total_count }}">{{ $biwk_total_count }}</td>
+						</tr>		
+						
+					@endforeach
+						</tbody>
+						<tfoot>
+							<tr>
+								<th scope="row"><strong>Totals</strong></th>
+								<td>Total Bigger: {{ $total_biwk_sum }}</td>
+							</tr>
+						</tfoot>						
+				</table>
 
 		<section id="week-select">
 			<select>
@@ -461,10 +441,10 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 			<div class="count_box week week@php echo $week_in_season @endphp">
 				<h4>This week's totals:</h4>
 				<ul>
-					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count + $school_count_bigger ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count + $school_count_smaller + 1 ); @endphp </li>
-					<li><strong>Extras:</strong> 28 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $school_count_bigger + $school_count_smaller + 28 + 1 ); @endphp</li>
+					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count + $total_biwk_sum ); @endphp</li>
+					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count ); @endphp </li>
+					<li><strong>Extras:</strong>  26</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $total_biwk_sum + 26 ); @endphp</li>
 				</ul>
 			</div>
 			@php }
