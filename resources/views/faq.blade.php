@@ -38,9 +38,8 @@
         </div>
           
           @php      
-          if( have_rows('faq') ):
           
-          $count = 0;	@endphp
+          $count1 = 0;	@endphp
           <div id="accordion1" class="accordion">
             <h2 id="program">About the CSA Program</h2>
 					  @php while ( have_rows('faq') ) : the_row();
@@ -49,12 +48,12 @@
               $faq_content = get_sub_field('faq_content');
             @endphp
 
-            <h3><button class="btn btn-link faq" data-toggle="collapse" data-target="#collapse-{{ $count }}" aria-expanded="false" aria-controls="collapse-{{ $count }}">@php echo($faq_title); @endphp </button></h3>
-            <div id="collapse-{{ $count }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion1">
+            <h3><button class="btn btn-link faq" data-toggle="collapse" data-target="#collapse-{{ $count1 }}" aria-expanded="false" aria-controls="collapse-{{ $count1 }}">@php echo($faq_title); @endphp </button></h3>
+            <div id="collapse-{{ $count1 }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion1">
                 @php echo($faq_content); @endphp
             </div>
             
-            @php $count++; endif;          
+            @php $count1++; endif;          
             endwhile; @endphp
           </div>
 
