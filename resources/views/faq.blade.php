@@ -10,10 +10,10 @@
 
     <div class="row">
       <div class="col-md-3 side-nav faq-nav">          
+        <a href="#covid">About COVID-19</a>
         <a href="#program">About the program</a>
         <a href="#farm">About the farm</a>
         <a href="#veggies">About the veggies</a>
-        <a href="#veggies">About COVID-19</a>
       </div>
       <div class="col-md-9 faq">
         @php      
@@ -21,7 +21,7 @@
         
         $count = 0;	@endphp
         <div id="accordion1" class="accordion">
-          <h2 id="program">About the CSA Program</h2>
+          <h2 id="covid">About COVID-19</h2>
           @php while ( have_rows('faq') ) : the_row();
           if( get_sub_field('faq_category') == 'covid' ): 
             $faq_title = get_sub_field('faq_title');
