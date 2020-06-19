@@ -116,7 +116,7 @@ $product_page_season = get_field('season_product_bigger');
 						<div>
 							<h5>Bi-weekly (8 weeks)</h5>
 							<p><span>${{ $full_season_price_biweekly }}</span></p>
-							<a href="{{ $season_product_biweekly }}" class="button">Purchase</a> 
+							<a href="{{ $season_product_biweekly }}" class="button">Sold out for 2020</a> 
 						</div>
 					</div>
 				</div>
@@ -140,14 +140,14 @@ $product_page_season = get_field('season_product_bigger');
 						<div>
 							<h5>Week-to-week</h5>
 							<p><span>${{ $price_per_week_smaller }}</span></p>
-							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
+							<a href="{{ $product_page_weekly }}" class="button">Sold out for 2020</a> 						
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div>
 							<h5>Full Season (15 Weeks)</h5>
 							<p><span>${{ $price_season_smaller }}</span></p>
-							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+							<a href="{{ $product_page_season }}" class="button">Sold out for 2020</a> 
 						</div>
 					</div>
 					@else
@@ -155,7 +155,7 @@ $product_page_season = get_field('season_product_bigger');
 						<div>
 							<h5>Full Season (15 Weeks)</h5>
 							<p><span>${{ $price_season_smaller }}</span></p>
-							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+							<a href="{{ $product_page_season }}" class="button">Sold out for 2020</a> 
 						</div>
 					</div>
 					@endif
@@ -179,14 +179,14 @@ $product_page_season = get_field('season_product_bigger');
 					<div>
 						<h5>Week-to-week</h5>
 						<p><span>${{ $price_per_week_bigger }}</span></p>
-						<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
+						<a href="{{ $product_page_weekly }}" class="button">Sold out for 2020</a> 						
 					</div>
 				</div>
 					<div class="col-md-6">
 						<div>
 							<h5>Full Season (15 Weeks)</h5>
 							<p><span>${{ $price_season_bigger }}</span></p>
-							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+							<a href="{{ $product_page_season }}" class="button">Sold out for 2020</a> 
 						</div>
 					</div>
 				@else
@@ -194,7 +194,7 @@ $product_page_season = get_field('season_product_bigger');
 						<div>
 							<h5>Full Season (15 Weeks)</h5>
 							<p><span>${{ $price_season_bigger }}</span></p>
-							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+							<a href="{{ $product_page_season }}" class="button">Sold out for 2020</a> 
 						</div>
 					</div>
 				@endif
@@ -206,7 +206,7 @@ $product_page_season = get_field('season_product_bigger');
 			<div class="ghost">
 				<a class="row" href="{{ $product_page_weekly }}">
 					<h3 class="col-md-3">Week-to-week</h3>
-					<p class="col-md-9">Not around all summer? Want to choose which weeks of the season to pickup? <br /><span>Our Week-To-Week option is for you.</span></p>
+					<p class="col-md-9">Not around all summer? Want to choose which weeks of the season to pickup? <br /><span>Our Week-To-Week option is for you.</span> (Sold out for 2020)</p>
 				</a>
 			</div>
 		</div>
