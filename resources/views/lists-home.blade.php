@@ -84,6 +84,19 @@ $week14 = 'Week 14: ' . $week14_row['week'];
 $week15_row = $rows[14];
 $week15 = 'Week 15: ' . $week15_row['week']; 
 
+
+// Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
+$currentWeek = date('W');
+
+if($currentWeek&1){
+	$displayBiwk = true;
+}
+elseif($currentWeek = 26) {
+	$displayBiwk = true;
+}
+	else{
+	$displayBiwk = false;
+}
 @endphp
 
 @section('content')
@@ -244,6 +257,7 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 						</tfoot>						
 				</table>
 		</section>
+		@if ($displayBiwk)  
 		<section>
 			<h2>Bi-weekly</h2>
 		
@@ -300,6 +314,8 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 							</tr>
 						</tfoot>						
 				</table>
+		</section>
+		@endif
 
 		<section id="week-select">
 			<select>
@@ -438,13 +454,13 @@ $week15 = 'Week 15: ' . $week15_row['week'];
 				</tfoot>
 			</table>
 			</section>
-			<div class="count_box week week@php echo $week_in_season @endphp">
+			<div class="count_box week week{{ $week_in_season }}">
 				<h4>This week's totals:</h4>
 				<ul>
 					<li><strong>Bigger:</strong> @php echo( $weekly_count_bigger + $bigger_count + $total_biwk_sum ); @endphp</li>
 					<li><strong>Smaller:</strong> @php echo( $weekly_count_smaller + $smaller_count ); @endphp </li>
-					<li><strong>Extras:</strong>  26</li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $total_biwk_sum + 26 ); @endphp</li>
+					<li><strong>Extras:</strong>  28</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + $weekly_count_bigger + $weekly_count_smaller + $total_biwk_sum + 28 ); @endphp</li>
 				</ul>
 			</div>
 			@php }
