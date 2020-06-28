@@ -256,12 +256,12 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
                 </tr>
                 
                 @php
-                  $bigger_count_total += $bigger_count;
+									$bigger_count_total += $bigger_count;
                   $smaller_count_total += $smaller_count;
 									$extras_count_total += $extras;
 
-									$total_bigger = $bigger_count_total + $extras_count_total + 1;
-									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total;
+									$total_bigger = $bigger_count_total + $extras_count_total;
+									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total + 1;
                 @endphp
 							@endforeach
 							<tr>
@@ -271,13 +271,11 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
 									<td>0</td>
                   <td>1</td>
                 </tr>
-						
-
             </tbody>
             <tfoot>
               <tr>
                 <td scope="row"><strong>Totals</strong></td>
-                <td><strong>{{ $bigger_count_total }}</strong></td>
+                <td><strong>{{ $bigger_count_total + 1 }}</strong></td>
 								<td><strong>{{ $smaller_count_total }}</strong></td>
 								<td><strong>{{ $extras_count_total }}</strong></td>
                 <td><strong>{{ $total_count }}</strong></td>
