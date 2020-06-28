@@ -260,10 +260,17 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
                   $smaller_count_total += $smaller_count;
 									$extras_count_total += $extras;
 
-									$total_bigger = $bigger_count_total + $extras_count_total;
+									$total_bigger = $bigger_count_total + $extras_count_total + 1;
 									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total;
                 @endphp
 							@endforeach
+							<tr>
+                  <td><strong>Pickup At Farm </strong></td>
+                  <td>1</td>
+									<td>0</td>
+									<td>0</td>
+                  <td>1</td>
+                </tr>
 						
 
             </tbody>
