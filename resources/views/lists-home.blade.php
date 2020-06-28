@@ -152,7 +152,7 @@ elseif($currentWeek = 26) {
 		<section>
 			<h2>Packing Lists - {{ $year }}</h2>
 			<p>All locations receive 2 extra bigger bags except Schools and office locations</p>
-		
+			<p>** give ACME 1 more smaller than is displayed</p>
 			<table class="table footable" data-sorting="true">
 				<thead>
 					<tr>
@@ -296,7 +296,6 @@ elseif($currentWeek = 26) {
 						$biwk_total_count = $biwk_row->total_count;
 
 						$total_biwk_sum += $biwk_row->total_count;
-
 
 					@endphp
 						
