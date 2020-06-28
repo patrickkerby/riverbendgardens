@@ -286,7 +286,7 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
 				<div class="count_box week">
 					<h4>This week's totals:</h4>
 					<ul>
-						<li><strong>Bigger (+extra):</strong> {{ $total_bigger }}</li>
+						<li><strong>Bigger (+extra):</strong> {{ $total_bigger + 1 }}</li>
 						<li><strong>Smaller:</strong> {{ $smaller_count_total }}</li>
 						<li><strong>Total:</strong> {{ $total_count }}</li>
 					</ul>
