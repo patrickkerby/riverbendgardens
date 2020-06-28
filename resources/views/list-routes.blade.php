@@ -193,13 +193,16 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
                   
                   $location = $item['location']->slug;
                   $location_name = $item['location']->name;
-                  
-                  // if($extras):
-                  //   $extras = '2';
-                  // else:
-                  //   $extras = '0';
-                  // endif;
-              
+
+                  $extras = $item['extras'];
+
+                  if ($extras === true) {
+										$extras = 2;
+									}
+                  else {
+                    $extras = 0;
+                  }        
+                        
                   foreach ($order_ids as $order_id) {
                     $order = wc_get_order($order_id);
                     $order_items = $order->get_items();
@@ -230,10 +233,10 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
                   }
                   
                   if ($displayBiwk === true) {
-                    $bigger_count = $fullseason_bigger_count + $biweekly_total_count + $weekly_location_count_bigger;
+                    $bigger_count = $fullseason_bigger_count + $biweekly_total_count + $weekly_location_count_bigger + $extras;
                   }
                   else {
-                    $bigger_count = $fullseason_bigger_count + $weekly_location_count_bigger;
+                    $bigger_count = $fullseason_bigger_count + $weekly_location_count_bigger + $extras;
                   }
 
                   $smaller_count = $fullseason_smaller_count + $weekly_location_count_smaller;
