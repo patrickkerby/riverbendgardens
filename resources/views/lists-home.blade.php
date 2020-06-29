@@ -216,7 +216,8 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
                       $filtered_location_15wk = $order_item->get_meta('location'); //15 wk uses custom attributes
                       $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
                       $filtered_quantity = $order_item->get_quantity();
-                      $filtered_component = $order_item->get_meta('_composite_item'); //15wk uses custom attributes                      
+											$filtered_component = $order_item->get_meta('_composite_item'); //15wk uses custom attributes    
+											
 
                       if ($filtered_component == $current_component_id && $filtered_location == $location && $filtered_size === 'Smaller') {
                         $weekly_location_count_smaller += $filtered_quantity;

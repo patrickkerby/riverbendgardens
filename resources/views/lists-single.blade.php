@@ -115,7 +115,8 @@
   $seasonal_count = 0;
   $seasonal_count_bigger = 0;
   $seasonal_count_smaller = 0;	
-  $biwk_count = 0; 
+  $biwk_order_count = 0; 
+  $biwk_count = 0;
   $week_in_season = 0;
 
   // 15 week query
@@ -319,22 +320,24 @@ foreach ($order_ids as $order_id) {
             <tbody>
               @foreach ($filtered_order_ids_biwk as $details)
                 @php
-                $biwk_count++;
+                $biwk_order_count++;
 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
                   $customer_note = $details->get_customer_note();
 
                   foreach ($details->get_items() as $item_id => $item) {
-                    $quantity = $item->get_quantity();                                   
+                    $biwk_quantity = $item->get_quantity();                                   
                   }
+
+                  $biwk_count += $biwk_quantity;
                 @endphp
                 <tr>
                   <td class="name">
-                    <span>{{ $biwk_count }}</span> {{ $first_name }} {{ $last_name }}
+                    <span>{{ $biwk_order_count }}</span> {{ $first_name }} {{ $last_name }}
                   </td>
                   <td>Bigger</td>
-                  <td>{{ $quantity }}</td>
+                  <td>{{ $biwk_quantity }}</td>
                   <td>{{ $customer_note }}</td>
                 </tr>
               @endforeach	
