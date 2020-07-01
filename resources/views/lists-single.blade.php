@@ -194,8 +194,8 @@
 /// might need to tweak for winter csa. later.
 
 $args = array(
-    'orderby' => 'date',
-    'order' => 'DESC',
+    'orderby' => 'name',
+    'order' => 'ASC',
     'limit' => -1,
     'status' => 'processing'
 );
@@ -213,6 +213,7 @@ $filtered_order_ids_15wk = array();
 foreach ($order_ids as $order_id) {
   $order = wc_get_order($order_id);
   $order_items = $order->get_items();
+  $name = $order->get_billing_first_name();
   //iterate through an order's items
   foreach ($order_items as $item) {
     $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
@@ -263,7 +264,7 @@ foreach ($order_ids as $order_id) {
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
           <thead>
             <tr>
-              <th>Customer Name</th>
+              <th data-sorted="true">Customer Name</th>
               <th>Size</th>
               <th data-breakpoints="xs sm">Qty</th>
               <th data-breakpoints="xs sm" width="50%">Purchase Note</th>
@@ -295,7 +296,7 @@ foreach ($order_ids as $order_id) {
               @endphp
               <tr>
                 <td class="name">
-                  <span>{{ $seasonal_count }}</span> {{ $first_name }} {{ $last_name }}
+                   {{ $first_name }} {{ $last_name }}
                 </td>
                 <td>{{ $size }}</td>
                 <td>{{ $quantity }}</td>
@@ -311,7 +312,7 @@ foreach ($order_ids as $order_id) {
           <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
             <thead>
               <tr>
-                <th>Customer Name</th>
+                <th data-sorted="true">Customer Name</th>
                 <th>Size</th>
                 <th data-breakpoints="xs sm">Qty</th>
                 <th data-breakpoints="xs sm" width="50%">Purchase Note</th>
@@ -332,9 +333,9 @@ foreach ($order_ids as $order_id) {
 
                   $biwk_count += $biwk_quantity;
                 @endphp
-                <tr>
+                <tr>                  
                   <td class="name">
-                    <span>{{ $biwk_order_count }}</span> {{ $first_name }} {{ $last_name }}
+                    {{ $first_name }} {{ $last_name }}
                   </td>
                   <td>Bigger</td>
                   <td>{{ $biwk_quantity }}</td>
@@ -388,7 +389,7 @@ foreach ($order_ids as $order_id) {
                   <th colspan="4"><h3>Week to week - @php echo $component_data['title']; @endphp</h3></th>
                 </tr>
                 <tr>
-                  <th>Customer Name</th>
+                  <th data-sorted="true">Customer Name</th>
                   <th>Size</th>
                   <th data-breakpoints="xs sm" width="50%">Purchase Note</th>
                 </tr>
