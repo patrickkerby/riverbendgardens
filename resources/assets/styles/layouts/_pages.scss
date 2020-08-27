@@ -273,6 +273,10 @@
   }
 }
 
+.home .ghost {
+  width: 100%;
+}
+
 .photos {
   @include fullwidth();
 
