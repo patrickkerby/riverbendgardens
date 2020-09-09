@@ -94,6 +94,7 @@ $sub_title = get_field('sub_title');
                 'sort_column' => 'menu_order, post_title',
                 'show_option_none' => 'Show all locations...',
                 'option_none_value' => '58119',
+                'post_status' => array( 'publish', 'private' )
             );
             wp_dropdown_pages( $dropdown_args ); 
           @endphp
@@ -116,6 +117,7 @@ $sub_title = get_field('sub_title');
                 'sort_column' => 'menu_order, post_title',
                 'show_option_none' => 'Show all locations...',
                 'option_none_value' => '59243',
+                'post_status' => array( 'publish', 'private' )
             );
             wp_dropdown_pages( $dropdown_args ); 
           @endphp
