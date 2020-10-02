@@ -179,8 +179,8 @@ function weekCheck($prevWeek, $nextWeek) {
 				<ul>
 					<li><strong>Bigger:</strong> @php echo( $bigger_count ); @endphp</li>
 					<li><strong>Smaller:</strong> @php echo( $smaller_count ); @endphp </li>
-					<li><strong>Extras:</strong> 7 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 7 ); @endphp</li>
+					<li><strong>Extras:</strong> 11 </li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 11 ); @endphp</li>
 				</ul>
 			</div>
 			
