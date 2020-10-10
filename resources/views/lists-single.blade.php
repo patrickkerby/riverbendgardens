@@ -202,6 +202,7 @@ $args = array(
 
 $product_id_15wk = '5958';
 $product_id_biwk = '87354';
+$product_id_winter = '5484';
 
 //first get all the order ids
 $query = new WC_Order_Query( $args );
@@ -209,6 +210,7 @@ $order_ids = $query->get_orders();
 
 $filtered_order_ids_biwk = array();
 $filtered_order_ids_15wk = array();
+$filtered_order_ids_winter = array();
 
 foreach ($order_ids as $order_id) {
   $order = wc_get_order($order_id);
@@ -228,12 +230,14 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_15wk, $order_id);
       break;
     }
+    if ($item->get_product_id() == $product_id_winter && $filtered_location_winter == $location_name) {
+      array_push($filtered_order_ids_winter, $order_id);
+      break;
+    }
   }
 }
 
 @endphp
-
-
 
 @section('content')
 
@@ -272,37 +276,78 @@ foreach ($order_ids as $order_id) {
           </thead>
           <tbody>
             
-            @foreach ($filtered_order_ids_15wk as $details)		
-              @php 
-                $first_name = $details->get_billing_first_name();
-                $last_name = $details->get_billing_last_name();                
-                $customer_note = $details->get_customer_note();
+            
+            @unless($winter_location)
 
-                foreach ($details->get_items() as $item_id => $item) {
-                  $quantity = $item->get_quantity();
-                  $size = $item->get_meta( 'size', true );
+              @foreach ($filtered_order_ids_15wk as $details)		
+                @php 
+                  $first_name = $details->get_billing_first_name();
+                  $last_name = $details->get_billing_last_name();                
+                  $customer_note = $details->get_customer_note();
+
+                  foreach ($details->get_items() as $item_id => $item) {
+                    $quantity = $item->get_quantity();
+                    $size = $item->get_meta( 'size', true );
+                  }
+
+                $seasonal_count++;	
+                
+                if ($size == 'Bigger') {
+                  $seasonal_count_bigger += $quantity;
                 }
+                
+                if ($size == 'Smaller') {
+                  $seasonal_count_smaller += $quantity;              
+                }
+                
+                @endphp
+                <tr>
+                  <td class="name">
+                    {{ $first_name }} {{ $last_name }}
+                  </td>
+                  <td>{{ $size }}</td>
+                  <td>{{ $quantity }}</td>
+                  <td>{{ $customer_note }}</td>
+                </tr>
+              @endforeach
 
-              $seasonal_count++;	
+            @endunless
+
+            @if($winter_location)
+
+              @foreach ($filtered_order_ids_winter as $details)		
+                @php 
+                  $first_name = $details->get_billing_first_name();
+                  $last_name = $details->get_billing_last_name();                
+                  $customer_note = $details->get_customer_note();
+
+                  foreach ($details->get_items() as $item_id => $item) {
+                    $quantity = $item->get_quantity();
+                    $size = $item->get_meta( 'size', true );
+                  }
+
+                $seasonal_count++;	
+                
+                if ($size == 'Bigger') {
+                  $seasonal_count_bigger += $quantity;
+                }
+                
+                if ($size == 'Smaller') {
+                  $seasonal_count_smaller += $quantity;              
+                }
+                
+                @endphp
+                <tr>
+                  <td class="name">
+                    {{ $first_name }} {{ $last_name }}
+                  </td>
+                  <td>{{ $size }}</td>
+                  <td>{{ $quantity }}</td>
+                  <td>{{ $customer_note }}</td>
+                </tr>
+              @endforeach
               
-              if ($size == 'Bigger') {
-                $seasonal_count_bigger += $quantity;
-              }
-              
-              if ($size == 'Smaller') {
-                $seasonal_count_smaller += $quantity;              
-              }
-              
-              @endphp
-              <tr>
-                <td class="name">
-                   {{ $first_name }} {{ $last_name }}
-                </td>
-                <td>{{ $size }}</td>
-                <td>{{ $quantity }}</td>
-                <td>{{ $customer_note }}</td>
-              </tr>
-            @endforeach	
+            @endif
           </tbody>
         </table>
          
