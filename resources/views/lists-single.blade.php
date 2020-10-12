@@ -277,8 +277,7 @@ foreach ($order_ids as $order_id) {
             </tr>
           </thead>
           <tbody>
-            
-            
+
             @unless($winter_location)
 
               @foreach ($filtered_order_ids_15wk as $details)		
