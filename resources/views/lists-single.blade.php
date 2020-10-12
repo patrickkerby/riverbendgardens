@@ -111,6 +111,8 @@
   else:
   endif; 
 
+vardump($winter_location);
+
   // Counters
   $seasonal_count = 0;
   $seasonal_count_bigger = 0;
@@ -220,6 +222,7 @@ foreach ($order_ids as $order_id) {
   foreach ($order_items as $item) {
     $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
     $filtered_location_15wk = $item->get_meta('location'); //15 wk uses custom attributes
+    $filtered_location_winter = $item->get_meta('location');
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
