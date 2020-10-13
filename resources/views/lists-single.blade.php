@@ -111,6 +111,9 @@
   else:
   endif; 
 
+  var_dump($winter_location);
+  var_dump($location_name);
+
   // Counters
   $seasonal_count = 0;
   $seasonal_count_bigger = 0;
