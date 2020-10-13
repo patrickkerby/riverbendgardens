@@ -232,10 +232,10 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_15wk, $order_id);
       break;
     }
-    if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
-      array_push($filtered_order_ids_winter, $order_id);
-      break;
-    }
+    // if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
+    //   array_push($filtered_order_ids_winter, $order_id);
+    //   break;
+    // }
   }
 }
 
