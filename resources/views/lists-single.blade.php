@@ -353,7 +353,8 @@ foreach ($order_ids as $order_id) {
           </tbody>
         </table>
          
-      @if ($displayBiwk)  
+      @unless($winter_location)
+        @if ($displayBiwk)  
         <section class="bi-weekly">
           <h3>Bi-weekly Orders</h3>
           <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
@@ -393,6 +394,7 @@ foreach ($order_ids as $order_id) {
           </table>
         </section>
       @endif
+      @endunless
 
       @unless ($winter_location)        
         <section id="week-select">
