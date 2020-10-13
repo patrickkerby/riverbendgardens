@@ -232,10 +232,10 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_15wk, $order_id);
       break;
     }
-    // if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
-    //   array_push($filtered_order_ids_winter, $order_id);
-    //   break;
-    // }
+    if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
+      array_push($filtered_order_ids_winter, $order_id);
+      break;
+    }
   }
 }
 
@@ -316,7 +316,7 @@ foreach ($order_ids as $order_id) {
 
             @if($winter_location)
 
-              @foreach ($filtered_order_ids_winter as $details)		
+              {{-- @foreach ($filtered_order_ids_winter as $details)		
                 @php 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
@@ -346,7 +346,7 @@ foreach ($order_ids as $order_id) {
                   <td>{{ $quantity }}</td>
                   <td>{{ $customer_note }}</td>
                 </tr>
-              @endforeach
+              @endforeach --}}
               
             @endif
           </tbody>
