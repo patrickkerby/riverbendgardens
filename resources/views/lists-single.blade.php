@@ -111,9 +111,6 @@
   else:
   endif; 
 
-  var_dump($winter_location);
-  var_dump($location_name);
-
   // Counters
   $seasonal_count = 0;
   $seasonal_count_bigger = 0;
@@ -233,12 +230,14 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_15wk, $order_id);
       break;
     }
-    // if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
-    //   array_push($filtered_order_ids_winter, $order_id);
-    //   break;
-    // }
+    if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
+      array_push($filtered_order_ids_winter, $order_id);
+      break;
+    }
   }
 }
+
+var_dump($filtered_order_ids_winter);
 
 @endphp
 
