@@ -118,6 +118,9 @@
   $biwk_order_count = 0; 
   $biwk_count = 0;
   $week_in_season = 0;
+  $winter_count = 0;
+  $winter_count_bigger = 0;
+  $winter_count_smaller = 0;	
 
   // 15 week query
   // (all orders with a location of X and a product of Y. Product and Location is set via ACF on a Page.
@@ -237,8 +240,6 @@ foreach ($order_ids as $order_id) {
   }
 }
 
-var_dump($filtered_order_ids_winter);
-
 @endphp
 
 @section('content')
@@ -315,8 +316,8 @@ var_dump($filtered_order_ids_winter);
             @endunless
 
             @if($winter_location)
-
-              {{-- @foreach ($filtered_order_ids_winter as $details)		
+<h1>Test</h1>
+              @foreach ($filtered_order_ids_winter as $details)		
                 @php 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
@@ -327,14 +328,14 @@ var_dump($filtered_order_ids_winter);
                     $size = $item->get_meta( 'size', true );
                   }
 
-                $seasonal_count++;	
+                $winter_count++;	
                 
                 if ($size == 'Bigger') {
-                  $seasonal_count_bigger += $quantity;
+                  $winter_count_bigger += $quantity;
                 }
                 
                 if ($size == 'Smaller') {
-                  $seasonal_count_smaller += $quantity;              
+                  $winter_count_smaller += $quantity;              
                 }
                 
                 @endphp
@@ -346,7 +347,7 @@ var_dump($filtered_order_ids_winter);
                   <td>{{ $quantity }}</td>
                   <td>{{ $customer_note }}</td>
                 </tr>
-              @endforeach --}}
+              @endforeach
               
             @endif
           </tbody>
