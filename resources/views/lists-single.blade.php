@@ -316,7 +316,6 @@ foreach ($order_ids as $order_id) {
             @endunless
 
             @if($winter_location)
-<h1>Test</h1>
               @foreach ($filtered_order_ids_winter as $details)		
                 @php 
                   $first_name = $details->get_billing_first_name();
