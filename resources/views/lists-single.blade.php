@@ -497,11 +497,11 @@ foreach ($order_ids as $order_id) {
         @endforeach
       @endunless
 
-        {{-- @if($winter_location)
+        @if($winter_location)
           <section class="count_box week2">
             @php
-              $total_bigger = $seasonal_count_bigger;
-              $total_smaller = $seasonal_count_smaller;              
+              $total_bigger = $winter_count_bigger;
+              $total_smaller = $winter_count_smaller;              
               $total = $total_bigger + $total_smaller;
             @endphp
             <h4>Totals:</h4>
@@ -511,7 +511,7 @@ foreach ($order_ids as $order_id) {
               <li><strong>Smaller:</strong> {{ $total_smaller }}</li>
             </ul>
           </section> 
-        @endif --}}
+        @endif
    
       </section>
     </article>
