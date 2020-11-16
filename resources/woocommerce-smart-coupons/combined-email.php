@@ -23,6 +23,7 @@ if ( ! isset( $email ) ) {
 <html <?php language_attributes(); ?>>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>" />
+		<link rel="stylesheet" href="https://use.typekit.net/thb0pbt.css">
 		<title><?php echo get_bloginfo( 'name', 'display' ); ?></title>
 		<style>
 		
@@ -52,7 +53,7 @@ if ( ! isset( $email ) ) {
 				<img style="max-height: 440px; width: auto;" src="https://riverbendcsa.ca/email/giftcertificate.jpg" alt="Riverbend Gardens, Edmonton Alberta" />
 			</td>
 			<td>
-				<h1 class="" style="font-family: 'orpheuspro',serif; color: #333333; font-size: 42px; line-height: 38px; padding-bottom: 20px;">Gift Certificate</h1>
+				<h1 class="" style="font-family: shackleton-narrow, serif; color: #333333; font-size: 42px; line-height: 38px; padding-bottom: 20px;">Gift Certificate</h1>
 				<?php
 
 				if ( ! empty( $receiver_details ) ) {

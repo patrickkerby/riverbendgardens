@@ -20,6 +20,8 @@ $bloginfo = get_bloginfo( 'name', 'display' );
 	<head>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.0">
+		<link rel="stylesheet" href="https://use.typekit.net/thb0pbt.css">
+
 		<title><?php echo $bloginfo;  // phpcs:ignore ?></title>
 		<?php wp_head(); ?>
 		<?php
@@ -28,7 +30,6 @@ $bloginfo = get_bloginfo( 'name', 'display' );
 		}
 		?>
 				<style>
-			@import url("https://use.typekit.net/wvm4dbv.css");
 		</style>
 	</head>
 	<body <?php body_class(); ?>>
@@ -41,7 +42,7 @@ $bloginfo = get_bloginfo( 'name', 'display' );
 				<img style="max-height: 440px; width: auto; margin-right: 30px;" src="https://riverbendcsa.ca/email/giftcertificate.jpg" alt="Riverbend Gardens, Edmonton Alberta" />
 			</td>
 			<td>
-				<h1 class="tk-orpheuspro" style="font-family: 'orpheus pro', 'orpheuspro', 'orpheus-pro', Helvetica Neue, Helvetica, Roboto, Arial, sans-serif; color: #333333; font-size: 42px; line-height: 38px; padding-bottom: 20px;">Gift Certificate</h1>
+				<h1 style="font-family: shackleton-narrow, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif; color: #333333; font-size: 42px; line-height: 38px; padding-bottom: 20px;">Gift Certificate</h1>
 
 				
 			<?php
