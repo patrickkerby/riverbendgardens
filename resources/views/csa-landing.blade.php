@@ -195,14 +195,14 @@ $product_page_season = get_field('season_product_bigger');
 				{!! $bigger_csa_description !!}
 				<div class="row pricing">
 				@if ( $include_weeklies )	
-				<div class="col-md-6">
+				<div class="col-md-6  d-none">
 					<div>
 						<h5>Week-to-week</h5>
 						<p><span>${{ $price_per_week_bigger }}</span></p>
 						<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 					</div>
 				</div>
-					<div class="col-md-6">
+					<div class="col-md-6 d-none">
 						<div>
 							@if ($csa_type === 'regular')
 								<h5>Full Season (15 Weeks)</h5>
@@ -212,7 +212,7 @@ $product_page_season = get_field('season_product_bigger');
 						</div>
 					</div>
 				@else
-					<div class="col-md-12">
+					<div class="col-md-12 d-none">
 						<div>
 							@if ($csa_type === 'regular')
 								<h5>Full Season (15 Weeks)</h5>
