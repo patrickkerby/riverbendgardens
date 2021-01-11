@@ -111,11 +111,11 @@ $product_page_season = get_field('season_product_bigger');
 		
 		@if ($csa_type === 'regular')		
 			{{-- Pricing: Bi-weekly --}}
-			@if ($csa_subheading_biweekly)
+			@if ($csa_items_biweekly)
 			<div class="col-md-4 d-flex flex-wrap">
 				<div class="ghost">
 					<h3>Bi-weekly Bounty</h3>
-					<h4>{{ $csa_subheading_biweekly }}</h4>			
+					<h4>{{ $csa_items_biweekly }}</h4>			
 					{!! $biweekly_csa_description !!}
 					<div class="row pricing">
 						<div class="col-md-12">
