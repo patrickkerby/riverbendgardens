@@ -19,11 +19,11 @@ $product_intro = get_field('product_intro');
 $partners_description = get_field('partners_description');
 
 //Product Sizing and Pricing
-$csa_subheading_bigger = get_field('csa_subheading_bigger');
+$csa_subheading_bigger = get_field('csa_items_bigger');
 $csa_description_bigger = get_field('bigger_csa_description');
 $price_season_bigger = get_field('full_season_price_bigger');
-$csa_subheading_smaller = get_field('csa_subheading_smaller');
-$csa_description_smaller = get_field('smaller_csa_description');
+$csa_subheading_smaller = get_field('csa_items_smaller');
+$csa_description_smaller = get_fi	eld('smaller_csa_description');
 $include_weeklies = get_field('include_weeklies');
 $price_season_smaller = get_field('full_season_price_smaller');
 
