@@ -120,7 +120,7 @@ $product_page_season = get_field('season_product_bigger');
 					<div class="row pricing">
 						<div class="col-md-12">
 							<div>
-								<h5>Bi-weekly (8 weeks)</h5>
+								<h5>Bi-weekly (7 weeks)</h5>
 								<p><span>${{ $full_season_price_biweekly }}</span></p>
 								<a href="{{ $season_product_biweekly }}" class="button">Purchase</a> 
 							</div>
