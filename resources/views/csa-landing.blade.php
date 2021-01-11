@@ -19,10 +19,10 @@ $product_intro = get_field('product_intro');
 $partners_description = get_field('partners_description');
 
 //Product Sizing and Pricing
-$csa_items_bigger = get_field('csa_items_bigger');
+$csa_subheading_bigger = get_field('csa_subheading_bigger');
 $csa_description_bigger = get_field('bigger_csa_description');
 $price_season_bigger = get_field('full_season_price_bigger');
-$csa_items_smaller = get_field('csa_items_smaller');
+$csa_subheading_smaller = get_field('csa_subheading_smaller');
 $csa_description_smaller = get_field('smaller_csa_description');
 $include_weeklies = get_field('include_weeklies');
 $price_season_smaller = get_field('full_season_price_smaller');
@@ -111,14 +111,14 @@ $product_page_season = get_field('season_product_bigger');
 		
 		@if ($csa_type === 'regular')		
 			{{-- Pricing: Bi-weekly --}}
-			@if ($csa_items_biweekly)
+			@if ($csa_subheading_biweekly)
 			<div class="col-md-4 d-flex flex-wrap">
 				<div class="ghost">
 					<h3>Bi-weekly Bounty</h3>
-					<h4>{{ $csa_items_biweekly }} items of peak-season produce</h4>			
+					<h4>{{ $csa_subheading_biweekly }}</h4>			
 					{!! $biweekly_csa_description !!}
 					<div class="row pricing">
-						<div class="col-md-12 d-none">
+						<div class="col-md-12">
 							<div>
 								<h5>Bi-weekly (8 weeks)</h5>
 								<p><span>${{ $full_season_price_biweekly }}</span></p>
@@ -140,34 +140,34 @@ $product_page_season = get_field('season_product_bigger');
 			<div class="ghost">
 				<h3>Smaller Bounty</h3>
 				@if ($csa_type === 'regular')
-					<h4>{{ $csa_items_smaller }} items of peak-season produce</h4>
+					<h4>{{ $csa_subheading_smaller }}</h4>
 				@else
 					<h4>Great for small households!</h4>
 				@endif				
 				{!! $smaller_csa_description !!}
 				<div class="row pricing">
 				@if ( $include_weeklies )	
-					<div class="col-md-6  d-none">
+					<div class="col-md-6">
 						<div>
 							<h5>Week-to-week</h5>
 							<p><span>${{ $price_per_week_smaller }}</span></p>
 							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 						</div>
 					</div>
-					<div class="col-md-6  d-none">
+					<div class="col-md-6">
 						<div>
 							@if ($csa_type === 'regular')
-								<h5>Full Season (15 Weeks)</h5>
+								<h5>Full Season (14 Weeks)</h5>
 							@endif
 							<p><span>${{ $price_season_smaller }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
 					@else
-					<div class="col-md-12 d-none">
+					<div class="col-md-12">
 						<div>
 							@if ($csa_type === 'regular')
-								<h5>Full Season (15 Weeks)</h5>
+								<h5>Full Season (14 Weeks)</h5>
 							@endif
 							<p><span>${{ $price_season_smaller }}</span></p>								
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
@@ -188,34 +188,34 @@ $product_page_season = get_field('season_product_bigger');
 			<div class="ghost">
 				<h3>Bigger Bounty</h3>
 				@if ($csa_type === 'regular')
-					<h4>{{ $csa_items_bigger }} items of peak-season produce</h4>
+					<h4>{{ $csa_subheading_bigger }}</h4>
 				@else
 					<h4>Great for veggie-focussed households.</h4>
 				@endif
 				{!! $bigger_csa_description !!}
 				<div class="row pricing">
 				@if ( $include_weeklies )	
-				<div class="col-md-6 d-none">
+				<div class="col-md-6">
 					<div>
 						<h5>Week-to-week</h5>
 						<p><span>${{ $price_per_week_bigger }}</span></p>
 						<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
 					</div>
 				</div>
-					<div class="col-md-6 d-none">
+					<div class="col-md-6">
 						<div>
 							@if ($csa_type === 'regular')
-								<h5>Full Season (15 Weeks)</h5>
+								<h5>Full Season (14 Weeks)</h5>
 							@endif
 							<p><span>${{ $price_season_bigger }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
 						</div>
 					</div>
 				@else
-					<div class="col-md-12 d-none">
+					<div class="col-md-12">
 						<div>
 							@if ($csa_type === 'regular')
-								<h5>Full Season (15 Weeks)</h5>
+								<h5>Full Season (14 Weeks)</h5>
 							@endif
 							<p><span>${{ $price_season_bigger }}</span></p>
 							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
