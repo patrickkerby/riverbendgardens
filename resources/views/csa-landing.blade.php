@@ -239,7 +239,7 @@ $product_page_season = get_field('season_product_bigger');
 
 		{{-- Pricing: Weekly --}}
 		<div class="row season_expectations justify-content-center">
-			<div class="col-md-8">{!! $season_expectations !!}</div>
+			<div class="col-md-9">{!! $season_expectations !!}</div>
 		</div>
 	</section>	
 
