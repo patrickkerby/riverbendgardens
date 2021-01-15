@@ -1,5 +1,5 @@
 {{--
-  Template Name: Delivery List
+  Template Name: Lists Index
 --}}
 
 @extends('layouts.app')
@@ -91,7 +91,7 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
     $displayBiwk = true;
   }
 
-  $year = "CSA 2020 - 15 week";
+  $year = "CSA 2021 - 14 week";
   $school = "School CSA";
   $late_season = "Late Season CSA";
 

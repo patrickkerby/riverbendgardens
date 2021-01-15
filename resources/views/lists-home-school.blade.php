@@ -1,5 +1,5 @@
 {{--
-  Template Name: Lists Index
+  Template Name: Lists Index - with schools
 --}}
 
 @extends('layouts.app')
