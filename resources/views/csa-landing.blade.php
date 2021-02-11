@@ -104,7 +104,7 @@ $product_page_season = get_field('season_product_bigger');
 	</section>
 	<section class="row sizes">
 		@if ($csa_type === 'regular')
-			<h2 class="col-12">Available in two sizes, full season or bi-weekly:</h2>
+			<h2 class="col-12">Available for full season or bi-weekly:</h2>
 		@else
 			<h2 class="col-12">Available in two sizes:</h2>
 		@endif
