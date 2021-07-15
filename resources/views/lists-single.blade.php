@@ -31,6 +31,12 @@
   // Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
   $currentWeek = date('W');
 
+  $currentCSAWeek = $currentWeek - 26;
+
+  if ($currentCSAWeek === 0) {
+    $currentCSAWeek = 1;
+  }
+
   if($currentWeek&1){
     $displayBiwk = true;
   }
@@ -344,8 +350,8 @@ foreach ($order_ids as $order_id) {
                 @break
 
               @default
-                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
-                Week 1: {{ $weekDate }}
+                @php $weekDate = date('F d, Y', strtotime($week'. $currentCSAWeek .'_row['week'])); @endphp
+                Week {{ $currentCSAWeek }}: {{ $weekDate }}
             @endswitch
         </h2>
       <section>
