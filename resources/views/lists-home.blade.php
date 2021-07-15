@@ -172,11 +172,11 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
       </section>
             
         <section class="week {{ $week_in_season }}">
-          {{-- 
+          <!-- 
             <h2>{{ $current_component_title }}</h2> 
             currentCSAWeek: {{ $currentCSAWeek }}
             week_in_season: {{ $week_in_season }}
-            --}}
+          -->
 
 
           <h2>{{ $week_in_season }}: </h2>
