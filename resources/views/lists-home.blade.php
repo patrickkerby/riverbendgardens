@@ -182,14 +182,14 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
   
 
           <h2> Week {{ $currentCSAWeek }}: 
-            @switch($currentCSAWeek)
-              @case(1)
+            @switch($week_in_season)
+              @case(week1)
                   
                 @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                 {{ $weekDate }}
                 @break
 
-              @case(2)
+              @case(week2)
                 @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
                 {{ $weekDate }}
                 @break
@@ -224,7 +224,6 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
 									
 									$extras = $item['extras'];
 									
-
                   if ($extras === true) {
 										$extras = 2;
 									}
