@@ -105,7 +105,7 @@
 
   <ul>
     <li>currentCSAWeek: {{ $currentCSAWeek }}</li>
-    <li>weekX_row: {{ $weekX_row }}</li>
+    <li>weekX_row: @dump($weekX_row)</li>
     <li>weekX: {{ $weekX }}</li>
   </ul>
 
