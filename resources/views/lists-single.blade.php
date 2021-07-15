@@ -48,6 +48,16 @@
   }
 
 
+
+  // $week15_row = $rows[14];
+  // $week15 = 'Week 15: ' . $week15_row['week']; 
+
+  $weekX_row = $rows[$currentCSAWeek];
+  $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
+  
+  var_dump($weekX_row);
+  var_dump($weekX);
+
   // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
   // TODO: see if these dates can be provided on composite product item _rather_ than global options.
 
@@ -97,6 +107,8 @@
 
   $week15_row = $rows[14];
   $week15 = 'Week 15: ' . $week15_row['week']; 
+
+
 
   // Get location, set by ACF in page
   $product = get_field('product');
@@ -273,13 +285,8 @@ foreach ($order_ids as $order_id) {
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
       <h2>
-
-        @php
-          $weekX = "\$week".$currentCSAWeek."_row['week']";
-          $weekDate = date('F d, Y', strtotime($weekX));
-        @endphp
         
-        Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekX }}
+        Week {{ $currentCSAWeek }}: {{ $weekDate }} / {{ $weekX }}
 
         {{-- @switch($currentCSAWeek)
               @case(1)                  
