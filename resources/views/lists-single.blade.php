@@ -275,11 +275,11 @@ foreach ($order_ids as $order_id) {
       <h2>
 
         @php
-          $weekX = 'week'.$currentCSAWeek.'_row[\'week\']';
+          $weekX = "week".$currentCSAWeek."_row[\'week\']";
           $weekDate = date('F d, Y', strtotime($weekX));
         @endphp
         
-        Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekx }}
+        Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekX }}
 
         {{-- @switch($currentCSAWeek)
               @case(1)                  
