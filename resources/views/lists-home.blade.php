@@ -181,7 +181,7 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
   
   
 
-          <h2>
+          <h2> Week {{ $currentCSAWeek }}: 
             @switch($currentCSAWeek)
               @case(1)
                   
