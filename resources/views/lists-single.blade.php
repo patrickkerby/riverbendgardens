@@ -350,8 +350,13 @@ foreach ($order_ids as $order_id) {
                 @break
 
               @default
-                @php $weekDate = date('F d, Y', strtotime($week'. $currentCSAWeek .'_row['week'])); @endphp
-                Week {{ $currentCSAWeek }}: {{ $weekDate }}
+                @if($currentCSAWeek != 1)
+                  @php $weekDate = date('F d, Y', strtotime($week'. $currentCSAWeek .'_row['week'])); @endphp
+                  Week {{ $currentCSAWeek }}: {{ $weekDate }}
+                @else
+                  @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
+                  Week 1: {{ $weekDate }}
+                @endif
             @endswitch
         </h2>
       <section>
