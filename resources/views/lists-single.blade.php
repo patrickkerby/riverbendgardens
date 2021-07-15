@@ -48,16 +48,6 @@
   }
 
 
-
-  // $week15_row = $rows[14];
-  // $week15 = 'Week 15: ' . $week15_row['week']; 
-
-  $weekX_row = $rows[$currentCSAWeek];
-  $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
-  
-  var_dump($weekX_row);
-  var_dump($weekX);
-
   // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
   // TODO: see if these dates can be provided on composite product item _rather_ than global options.
 
@@ -108,6 +98,11 @@
   $week15_row = $rows[14];
   $week15 = 'Week 15: ' . $week15_row['week']; 
 
+  $weekX_row = $rows[$currentCSAWeek];
+  $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
+  
+  var_dump($weekX_row);
+  var_dump($weekX);
 
 
   // Get location, set by ACF in page
