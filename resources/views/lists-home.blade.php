@@ -172,7 +172,14 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
       </section>
             
         <section class="week {{ $week_in_season }}">
-          <h2>{{ $current_component_title }}</h2>
+          {{-- 
+            <h2>{{ $current_component_title }}</h2> 
+            currentCSAWeek: {{ $currentCSAWeek }}
+            week_in_season: {{ $week_in_season }}
+            --}}
+
+
+          <h2>{{ $week_in_season }}: </h2>
           <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> weeklies and extras.</p>
           <table class="table footable">
             <thead>
