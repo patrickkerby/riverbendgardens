@@ -359,7 +359,7 @@ foreach ($order_ids as $order_id) {
                   Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekx }}
                 @else
                   @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
-                  Week 1: {{ $weekDate }}
+                  Week 1: {{ $weekDate }} HA
                 @endif
             @endswitch
         </h2>
