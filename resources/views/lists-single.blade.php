@@ -101,9 +101,15 @@
   $weekX_row = $rows[$currentCSAWeek];
   $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
   
-  var_dump($weekX_row);
-  var_dump($weekX);
+  @endphp
 
+  <ul>
+    <li>currentCSAWeek: {{ $currentCSAWeek }}</li>
+    <li>weekX_row: {{ $weekX_row }}</li>
+    <li>weekX: {{ $weekX }}</li>
+  </ul>
+
+  @php
 
   // Get location, set by ACF in page
   $product = get_field('product');
