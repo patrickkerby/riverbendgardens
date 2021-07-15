@@ -185,12 +185,14 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
             @switch($currentCSAWeek)
               @case(1)
                   
-                  $weekDate = $week1_row['week'];
-                  @break
+                @php $weekDate = $week1_row['week']; @endphp
+                {{ $weekDate }}
+                @break
 
               @case(2)
-              $weekDate = $week2_row['week'];
-              @break
+                @php $weekDate = $week2_row['week']; @endphp
+                {{ $weekDate }}
+                @break
 
               @default
                   Default case...
