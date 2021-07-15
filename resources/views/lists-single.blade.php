@@ -98,7 +98,7 @@
   $week15_row = $rows[14];
   $week15 = 'Week 15: ' . $week15_row['week']; 
 
-  $weekX_row = $rows[$currentCSAWeek];
+  $weekX_row = $rows[$currentCSAWeek-1];
   $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
   
   @endphp
