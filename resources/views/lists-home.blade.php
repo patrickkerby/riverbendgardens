@@ -181,10 +181,14 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
 
 @php
   
-  $week_with_date = '$week'+$currentCSAWeek;
+  // $week_with_date = '$week'+$currentCSAWeek;
+
+  function weekTitle($currentCSAWeek) {
+    $week_with_date = "$week"+$currentCSAWeek; 
+  }
 
 @endphp
-          <h2>{{ $week_with_date }}: </h2>
+          <h2>@php weekTitle($currentCSAWeek); @endphp </h2>
           <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> weeklies and extras.</p>
           <table class="table footable">
             <thead>
