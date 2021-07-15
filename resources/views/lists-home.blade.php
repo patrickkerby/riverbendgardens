@@ -181,17 +181,16 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
   
   
 
-          <h2> Week {{ $currentCSAWeek }}: 
+          <h2> 
             @switch($week_in_season)
-              @case(week1)
-                  
+              @case(week1)                  
                 @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
-                {{ $weekDate }}
+                Week 1: {{ $weekDate }}
                 @break
 
               @case(week2)
                 @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
-                {{ $weekDate }}
+                Week 2: {{ $weekDate }}
                 @break
 
               @default
