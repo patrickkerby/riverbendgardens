@@ -363,7 +363,7 @@ foreach ($order_ids as $order_id) {
                 @endif
             @endswitch
         </h2>
-      <section class="$currentCSAWeek">
+      <section class="{{ $currentCSAWeek }}">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
           <thead>
