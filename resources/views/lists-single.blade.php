@@ -356,14 +356,14 @@ foreach ($order_ids as $order_id) {
                     $weekDate = date('F d, Y', strtotime($weekX));
                   @endphp
                     
-                  Week {{ $currentCSAWeek }}: {{ $weekDate }}
+                  Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekx }}
                 @else
                   @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                   Week 1: {{ $weekDate }}
                 @endif
             @endswitch
         </h2>
-      <section>
+      <section class="$currentCSAWeek">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
           <thead>
