@@ -275,7 +275,7 @@ foreach ($order_ids as $order_id) {
       <h2>
 
         @php
-          $weekX = "week".$currentCSAWeek."_row['week']";
+          $weekX = "$week".$currentCSAWeek."_row['week']";
           $weekDate = date('F d, Y', strtotime($weekX));
         @endphp
         
@@ -283,7 +283,7 @@ foreach ($order_ids as $order_id) {
 
         {{-- @switch($currentCSAWeek)
               @case(1)                  
-                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
+                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp 
                 Week 1: {{ $weekDate }}
                 @break
 
