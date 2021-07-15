@@ -98,14 +98,21 @@
   $week15_row = $rows[14];
   $week15 = 'Week 15: ' . $week15_row['week']; 
 
-  $weekX_row = $rows[$currentCSAWeek];
-  $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
-  
-  var_dump($weekX_row);
-  var_dump($weekX);
+  function weekTest($currentCSAWeek) {
+    $weekX_row = $rows[$currentCSAWeek];
+    var_dump($weekX_row);
+  }  
+
+    
+    $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
+    
+    var_dump($weekX);
+
+
 
 
   // Get location, set by ACF in page
+
   $product = get_field('product');
   $product_title = $product->post_title;
   $location_term = get_field('location');
