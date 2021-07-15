@@ -178,17 +178,24 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
             week_in_season: {{ $week_in_season }}
             week2: {{ $week2 }}
           -->
-
-@php
   
-  // $week_with_date = '$week'+$currentCSAWeek;
+  
 
-  function weekTitle($currentCSAWeek) {
-    $week_with_date = "$week"+$currentCSAWeek; 
-  }
+          <h2>
+            @switch($currentCSAWeek)
+              @case(1)
+                  
+                  $weekDate = $week1_row['week'];
+                  @break
 
-@endphp
-          <h2>@php weekTitle($currentCSAWeek); @endphp </h2>
+              @case(2)
+              $weekDate = $week2_row['week'];
+              @break
+
+              @default
+                  Default case...
+            @endswitch
+          </h2>
           <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> weeklies and extras.</p>
           <table class="table footable">
             <thead>
