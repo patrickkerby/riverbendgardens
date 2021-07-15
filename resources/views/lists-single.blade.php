@@ -266,6 +266,88 @@ foreach ($order_ids as $order_id) {
 
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
+      <h2>
+        @switch($week_in_season)
+              @case(week1)                  
+                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
+                Week 1: {{ $weekDate }}
+                @break
+
+              @case(week2)
+                @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
+                Week 2: {{ $weekDate }}
+                @break
+
+                @case(week3)
+                @php $weekDate = date('F d, Y', strtotime($week3_row['week'])); @endphp
+                Week 3: {{ $weekDate }}
+                @break
+
+                @case(week4)
+                @php $weekDate = date('F d, Y', strtotime($week4_row['week'])); @endphp
+                Week 4: {{ $weekDate }}
+                @break
+
+                @case(week5)
+                @php $weekDate = date('F d, Y', strtotime($week5_row['week'])); @endphp
+                Week 5: {{ $weekDate }}
+                @break
+
+                @case(week6)
+                @php $weekDate = date('F d, Y', strtotime($week6_row['week'])); @endphp
+                Week 6: {{ $weekDate }}
+                @break
+
+                @case(week7)
+                @php $weekDate = date('F d, Y', strtotime($week7_row['week'])); @endphp
+                Week 7: {{ $weekDate }}
+                @break
+
+                @case(week8)
+                @php $weekDate = date('F d, Y', strtotime($week8_row['week'])); @endphp
+                Week 8: {{ $weekDate }}
+                @break
+
+                @case(week9)
+                @php $weekDate = date('F d, Y', strtotime($week9_row['week'])); @endphp
+                Week 9: {{ $weekDate }}
+                @break
+
+                @case(week10)
+                @php $weekDate = date('F d, Y', strtotime($week10_row['week'])); @endphp
+                Week 10: {{ $weekDate }}
+                @break
+
+                @case(week11)
+                @php $weekDate = date('F d, Y', strtotime($week11_row['week'])); @endphp
+                Week 11: {{ $weekDate }}
+                @break
+
+                @case(week12)
+                @php $weekDate = date('F d, Y', strtotime($week12_row['week'])); @endphp
+                Week 12: {{ $weekDate }}
+                @break
+
+                @case(week13)
+                @php $weekDate = date('F d, Y', strtotime($week13_row['week'])); @endphp
+                Week 13: {{ $weekDate }}
+                @break
+
+                @case(week14)
+                @php $weekDate = date('F d, Y', strtotime($week14_row['week'])); @endphp
+                Week 14: {{ $weekDate }}
+                @break
+
+                @case(week15)
+                @php $weekDate = date('F d, Y', strtotime($week15_row['week'])); @endphp
+                Week 15: {{ $weekDate }}
+                @break
+
+              @default
+                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
+                Week 1: {{ $weekDate }}
+            @endswitch
+        </h2>
       <section>
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
