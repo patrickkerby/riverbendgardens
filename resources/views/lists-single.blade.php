@@ -273,28 +273,36 @@ foreach ($order_ids as $order_id) {
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
       <h2>
-        @switch($week_in_season)
-              @case(week1)                  
+
+        @php
+          $weekX = 'week'.$currentCSAWeek.'_row[\'week\']';
+          $weekDate = date('F d, Y', strtotime($weekX));
+        @endphp
+        
+        Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekx }}
+
+        {{-- @switch($currentCSAWeek)
+              @case(1)                  
                 @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                 Week 1: {{ $weekDate }}
                 @break
 
-              @case(week2)
+              @case(2)
                 @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
                 Week 2: {{ $weekDate }}
                 @break
 
-                @case(week3)
+              @case(3)
                 @php $weekDate = date('F d, Y', strtotime($week3_row['week'])); @endphp
                 Week 3: {{ $weekDate }}
                 @break
 
-                @case(week4)
+              @case(week4)
                 @php $weekDate = date('F d, Y', strtotime($week4_row['week'])); @endphp
                 Week 4: {{ $weekDate }}
                 @break
 
-                @case(week5)
+              @case(week5)
                 @php $weekDate = date('F d, Y', strtotime($week5_row['week'])); @endphp
                 Week 5: {{ $weekDate }}
                 @break
@@ -361,7 +369,7 @@ foreach ($order_ids as $order_id) {
                   @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                   Week 1: {{ $weekDate }} HA
                 @endif
-            @endswitch
+            @endswitch --}}
         </h2>
       <section class="{{ $currentCSAWeek }}">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
