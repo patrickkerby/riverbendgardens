@@ -37,10 +37,10 @@
     $currentCSAWeek = 1;
   }
 
-  if($currentWeek&1){
+  if($currentCSAWeek&1){
     $displayBiwk = true;
   }
-  elseif($currentWeek = 26) {
+  elseif($currentCSAWeek = 26) {
     $displayBiwk = true;
   }
    else{
@@ -99,7 +99,9 @@
   $week15 = 'Week 15: ' . $week15_row['week']; 
 
   $weekX_row = $rows[$currentCSAWeek-1];
-  $weekX = 'Week' .$currentCSAWeek.': ' . $weekX_row['week'];
+  $weekX = 'Week ' .$currentCSAWeek.': ' . $weekX_row['week'];
+
+  $weekXTitle = date('F d, Y', strtotime($weekX_row['week']));
   
   @endphp
 
@@ -285,100 +287,7 @@ foreach ($order_ids as $order_id) {
 
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-      <h2>
-        
-        Week {{ $currentCSAWeek }}: {{ $weekDate }} / {{ $weekX }}
-
-        {{-- @switch($currentCSAWeek)
-              @case(1)                  
-                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp 
-                Week 1: {{ $weekDate }}
-                @break
-
-              @case(2)
-                @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
-                Week 2: {{ $weekDate }}
-                @break
-
-              @case(3)
-                @php $weekDate = date('F d, Y', strtotime($week3_row['week'])); @endphp
-                Week 3: {{ $weekDate }}
-                @break
-
-              @case(week4)
-                @php $weekDate = date('F d, Y', strtotime($week4_row['week'])); @endphp
-                Week 4: {{ $weekDate }}
-                @break
-
-              @case(week5)
-                @php $weekDate = date('F d, Y', strtotime($week5_row['week'])); @endphp
-                Week 5: {{ $weekDate }}
-                @break
-
-                @case(week6)
-                @php $weekDate = date('F d, Y', strtotime($week6_row['week'])); @endphp
-                Week 6: {{ $weekDate }}
-                @break
-
-                @case(week7)
-                @php $weekDate = date('F d, Y', strtotime($week7_row['week'])); @endphp
-                Week 7: {{ $weekDate }}
-                @break
-
-                @case(week8)
-                @php $weekDate = date('F d, Y', strtotime($week8_row['week'])); @endphp
-                Week 8: {{ $weekDate }}
-                @break
-
-                @case(week9)
-                @php $weekDate = date('F d, Y', strtotime($week9_row['week'])); @endphp
-                Week 9: {{ $weekDate }}
-                @break
-
-                @case(week10)
-                @php $weekDate = date('F d, Y', strtotime($week10_row['week'])); @endphp
-                Week 10: {{ $weekDate }}
-                @break
-
-                @case(week11)
-                @php $weekDate = date('F d, Y', strtotime($week11_row['week'])); @endphp
-                Week 11: {{ $weekDate }}
-                @break
-
-                @case(week12)
-                @php $weekDate = date('F d, Y', strtotime($week12_row['week'])); @endphp
-                Week 12: {{ $weekDate }}
-                @break
-
-                @case(week13)
-                @php $weekDate = date('F d, Y', strtotime($week13_row['week'])); @endphp
-                Week 13: {{ $weekDate }}
-                @break
-
-                @case(week14)
-                @php $weekDate = date('F d, Y', strtotime($week14_row['week'])); @endphp
-                Week 14: {{ $weekDate }}
-                @break
-
-                @case(week15)
-                @php $weekDate = date('F d, Y', strtotime($week15_row['week'])); @endphp
-                Week 15: {{ $weekDate }}
-                @break
-
-              @default
-                @if($currentCSAWeek > 1)
-                  @php
-                    $weekX = 'week'.$currentCSAWeek.'_row[\'week\']';
-                    $weekDate = date('F d, Y', strtotime($weekX));
-                  @endphp
-                    
-                  Week {{ $currentCSAWeek }}: {{ $weekDate }} !!!! / {{ $weekx }}
-                @else
-                  @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
-                  Week 1: {{ $weekDate }} HA
-                @endif
-            @endswitch --}}
-        </h2>
+      <h2>{{ $weekXTitle }}</h2>
       <section class="{{ $currentCSAWeek }}">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
@@ -509,7 +418,7 @@ foreach ($order_ids as $order_id) {
       @endunless
 
       @unless ($winter_location)        
-        <section id="week-select">
+        {{-- <section id="week-select">
           <select>
             <option>Choose Week</option>
             <option value="week1" @php weekCheck("January 1", $week2_row['week']); @endphp>Week One</option>
@@ -528,7 +437,7 @@ foreach ($order_ids as $order_id) {
             <option value="week14" @php weekCheck($week13_row['week'], $week14_row['week']); @endphp>Week Fourteen</option>
             <option value="week15" @php weekCheck($week14_row['week'], $week15_row['week']); @endphp>Week Fifteen</option>
           </select>
-        </section>
+        </section> --}}
 
         @php 
           $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the composite weeks by component ID! This is special. 
@@ -543,7 +452,7 @@ foreach ($order_ids as $order_id) {
             $weekly_count_smaller = 0;
             $week_in_season++;
           @endphp
-          <section class="week week{{ $week_in_season }}">
+          {{-- <section class="week week{{ $week_in_season }}">
             <table class="table footable" data-sorting="true">
               <thead>
                 <tr>
@@ -590,7 +499,7 @@ foreach ($order_ids as $order_id) {
                 @endforeach
               </tbody>
             </table>
-          </section>
+          </section> --}}
 
           <section class="count_box week week{{ $week_in_season }}">
             @php
@@ -598,7 +507,7 @@ foreach ($order_ids as $order_id) {
               $total_smaller = $seasonal_count_smaller + $weekly_count_smaller;
               $total = $total_bigger + $total_smaller;
             @endphp
-            <h4>@php echo $component_data['title']; @endphp Totals:</h4>
+            <h4>{{ $currentCSAWeek }} Totals:</h4>
             <ul>
               <li><strong>Total:</strong> {{ $total }}</li>
               <li><strong>Bigger:</strong> {{ $total_bigger }}</li>
