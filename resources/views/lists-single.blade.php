@@ -30,7 +30,6 @@
 
   // Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
   $currentWeek = date('W');
-
   $currentCSAWeek = $currentWeek - 26;
 
   if ($currentCSAWeek === 0) {
@@ -40,13 +39,9 @@
   if($currentCSAWeek&1){
     $displayBiwk = true;
   }
-  elseif($currentCSAWeek = 26) {
-    $displayBiwk = true;
-  }
-   else{
+  else{
     $displayBiwk = false;
   }
-
 
   // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
   // TODO: see if these dates can be provided on composite product item _rather_ than global options.
