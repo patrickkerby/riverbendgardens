@@ -98,7 +98,9 @@
   $week15_row = $rows[14];
   $week15 = 'Week 15: ' . $week15_row['week']; 
 
-  $weekX_row = $rows[$currentCSAWeek-1];
+  // convert current week count to match with row indexes above
+  $currentCSAWeekIndexed = $currentCSAWeek - 1;
+  $weekX_row = $rows[$currentCSAWeekIndexed];
   $weekX = 'Week ' .$currentCSAWeek.': ' . $weekX_row['week'];
 
   $weekXTitle = date('F d, Y', strtotime($weekX_row['week']));
@@ -287,7 +289,7 @@ foreach ($order_ids as $order_id) {
 
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-      <h2>{{ $weekXTitle }}</h2>
+      <h2>{{ $weekXTitle }}        </h2>
       <section class="{{ $currentCSAWeek }}">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
