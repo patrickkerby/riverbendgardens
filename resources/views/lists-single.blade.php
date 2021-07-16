@@ -99,16 +99,7 @@
   $weekX = 'Week ' .$currentCSAWeek.': ' . $weekX_row['week'];
 
   $weekXTitle = date('F d, Y', strtotime($weekX_row['week']));
-  
-  @endphp
 
-  <ul>
-    <li>currentCSAWeek: {{ $currentCSAWeek }}</li>
-    <li>weekX_row: @dump($weekX_row)</li>
-    <li>weekX: {{ $weekX }}</li>
-  </ul>
-
-  @php
 
   // Get location, set by ACF in page
   $product = get_field('product');
@@ -284,7 +275,7 @@ foreach ($order_ids as $order_id) {
 
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-      <h2>{{ $weekXTitle }}        </h2>
+      <h2>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h2>
       <section class="{{ $currentCSAWeek }}">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
