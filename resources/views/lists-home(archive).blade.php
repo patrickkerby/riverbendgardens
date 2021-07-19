@@ -8,7 +8,7 @@
 @php
 //List of global variables
 global $wpdb, $woocommerce;
-
+$pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the composite weeks by component ID! This is special.
 
 // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
 // TODO: see if these dates can be provided on composite product item _rather_ than global options.
@@ -67,6 +67,7 @@ global $wpdb, $woocommerce;
   if ($currentCSAWeek === 0) {
     $currentCSAWeek = 1;
   }
+
   if($currentCSAWeek&1){
     $displayBiwk = true;
   }
@@ -97,11 +98,13 @@ global $wpdb, $woocommerce;
   $bigger_count = 0;
   $smaller_count = 0;  
 
+  $weekly_count_bigger = 0;
+  $weekly_count_smaller = 0;
+
   $bigger_count_total = 0;
   $smaller_count_total = 0;
   $smaller_crates_total = 0;
   $bigger_crates_total = 0;
-  $extras_count_total = 0;
 
 ////********** Query the orders! 
   $args = array(
@@ -115,6 +118,9 @@ global $wpdb, $woocommerce;
   $product_id_biwk = '87354';
 	$product_id_weekly = '59432';
 	
+	// $locations = wc_get_product_terms( $product_id_biwk, 'pa_pickup-location', array( 'fields' => 'slugs' ));
+	// $locations_names = wc_get_product_terms( $product_id_biwk, 'pa_pickup-location', array( 'fields' => 'name' ));
+
 
 //first get all the order ids
   $query = new WC_Order_Query( $args );
@@ -122,6 +128,17 @@ global $wpdb, $woocommerce;
 
   $filtered_order_ids_biwk = array();
   $filtered_order_ids_15wk = array();
+
+  //Weeklies
+  $weekly_components = array();
+  $i = 1;
+  foreach ($pickup_weeks as $component_id => $component_data ) {
+      $weekly_components['week' . $i]['title'] = $component_data['title'];
+      $weekly_components['week' . $i]['id'] = $component_data['component_id'];
+      $i++;
+  }
+  $current_component_id = $weekly_components[$week_in_season]['id'];
+  $current_component_title = $weekly_components[$week_in_season]['title'];
 
 @endphp
 
@@ -154,80 +171,87 @@ global $wpdb, $woocommerce;
         </form>
       </section>
             
-        <section class="week {{ $week_in_season }}">  
+        <section class="week {{ $week_in_season }}">
+          <!-- 
+            <h2>{{ $current_component_title }}</h2> 
+            currentCSAWeek: {{ $currentCSAWeek }}
+            week_in_season: {{ $week_in_season }}
+            week2: {{ $week2 }}
+          -->
+  
           <h2> 
             @switch($week_in_season)
-              @case("week1")                  
+              @case(week1)                  
                 @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                 Week 1: {{ $weekDate }}
                 @break
 
-              @case("week2")
+              @case(week2)
                 @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
                 Week 2: {{ $weekDate }}
                 @break
 
-                @case("week3")
+                @case(week3)
                 @php $weekDate = date('F d, Y', strtotime($week3_row['week'])); @endphp
                 Week 3: {{ $weekDate }}
                 @break
 
-                @case("week4")
+                @case(week4)
                 @php $weekDate = date('F d, Y', strtotime($week4_row['week'])); @endphp
                 Week 4: {{ $weekDate }}
                 @break
 
-                @case("week5")
+                @case(week5)
                 @php $weekDate = date('F d, Y', strtotime($week5_row['week'])); @endphp
                 Week 5: {{ $weekDate }}
                 @break
 
-                @case("week6")
+                @case(week6)
                 @php $weekDate = date('F d, Y', strtotime($week6_row['week'])); @endphp
                 Week 6: {{ $weekDate }}
                 @break
 
-                @case("week7")
+                @case(week7)
                 @php $weekDate = date('F d, Y', strtotime($week7_row['week'])); @endphp
                 Week 7: {{ $weekDate }}
                 @break
 
-                @case("week8")
+                @case(week8)
                 @php $weekDate = date('F d, Y', strtotime($week8_row['week'])); @endphp
                 Week 8: {{ $weekDate }}
                 @break
 
-                @case("week9")
+                @case(week9)
                 @php $weekDate = date('F d, Y', strtotime($week9_row['week'])); @endphp
                 Week 9: {{ $weekDate }}
                 @break
 
-                @case("week10")
+                @case(week10)
                 @php $weekDate = date('F d, Y', strtotime($week10_row['week'])); @endphp
                 Week 10: {{ $weekDate }}
                 @break
 
-                @case("week11")
+                @case(week11)
                 @php $weekDate = date('F d, Y', strtotime($week11_row['week'])); @endphp
                 Week 11: {{ $weekDate }}
                 @break
 
-                @case("week12")
+                @case(week12)
                 @php $weekDate = date('F d, Y', strtotime($week12_row['week'])); @endphp
                 Week 12: {{ $weekDate }}
                 @break
 
-                @case("week13")
+                @case(week13)
                 @php $weekDate = date('F d, Y', strtotime($week13_row['week'])); @endphp
                 Week 13: {{ $weekDate }}
                 @break
 
-                @case("week14")
+                @case(week14)
                 @php $weekDate = date('F d, Y', strtotime($week14_row['week'])); @endphp
                 Week 14: {{ $weekDate }}
                 @break
 
-                @case("week15")
+                @case(week15)
                 @php $weekDate = date('F d, Y', strtotime($week15_row['week'])); @endphp
                 Week 15: {{ $weekDate }}
                 @break
@@ -249,13 +273,14 @@ global $wpdb, $woocommerce;
               </tr>	
             </thead>
             <tbody>
-            
 							@foreach ($select_locations_index as $item)
                 @php
                   $weekly_count = 0;
                   $biweekly_total_count = 0;
                   $fullseason_smaller_count = 0;
-                  $fullseason_bigger_count = 0;                
+                  $fullseason_bigger_count = 0;
+                  $weekly_location_count_bigger = 0;
+                  $weekly_location_count_smaller = 0;	 
                   
                   $location = $item['location']->slug;
 									$location_name = $item['location']->name;
@@ -278,8 +303,16 @@ global $wpdb, $woocommerce;
                       $filtered_location_15wk = $order_item->get_meta('location'); //15 wk uses custom attributes
                       $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
                       $filtered_quantity = $order_item->get_quantity();
+											$filtered_component = $order_item->get_meta('_composite_item'); //15wk uses custom attributes    
+											
 
-                      if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
+                      if ($filtered_component == $current_component_id && $filtered_location == $location && $filtered_size === 'Smaller') {
+                        $weekly_location_count_smaller += $filtered_quantity;
+                      }
+                      elseif ($filtered_component == $current_component_id && $filtered_location == $location && $filtered_size === 'Bigger') {
+                        $weekly_location_count_bigger += $filtered_quantity;
+                      }
+                      elseif ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
                         $biweekly_total_count += $filtered_quantity;
                       }
                       elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location_15wk == $location_name && $filtered_size === 'Bigger') {
@@ -292,13 +325,13 @@ global $wpdb, $woocommerce;
                   }
                   
                   if ($displayBiwk === true) {
-                    $bigger_count = $fullseason_bigger_count + $biweekly_total_count;
+                    $bigger_count = $fullseason_bigger_count + $biweekly_total_count + $weekly_location_count_bigger;
                   }
                   else {
-                    $bigger_count = $fullseason_bigger_count;
+                    $bigger_count = $fullseason_bigger_count + $weekly_location_count_bigger;
                   }
 
-                  $smaller_count = $fullseason_smaller_count;
+                  $smaller_count = $fullseason_smaller_count + $weekly_location_count_smaller;
 									$total_location_count = $bigger_count + $smaller_count + $extras;
                 @endphp
 
