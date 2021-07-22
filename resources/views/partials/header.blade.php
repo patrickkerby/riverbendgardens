@@ -15,6 +15,8 @@ $news_title = get_the_title( get_option('page_for_posts', true) );
 $hero_product = get_field('shop_header_image', 'option');
 
 $sub_title = get_field('sub_title');
+$subtitle_news = get_field('sub_title', get_option('page_for_posts'));	
+
 
 @endphp
 
@@ -62,7 +64,9 @@ $sub_title = get_field('sub_title');
     
   @elseif ( is_home() )
     <h1 class="page-title"><?php echo $news_title; ?></h1>    	        				        			    
-    <div class="col-md-7">@php echo $sub_title; @endphp </div>
+    <div class="row subtitle justify-content-center">
+      <div class="col-md-7">@php echo $subtitle_news; @endphp </div>
+    </div>
 
   @elseif ( is_shop() )
     <h1 class="page-title"><?php echo $shop_title; ?></h1>    	        				        			    
@@ -130,7 +134,8 @@ $sub_title = get_field('sub_title');
     <h1 class="page-title"><?php the_title(); ?></h1>
     <div class="row subtitle justify-content-center no-gutters">
       <div class="col-md-7">@php echo $sub_title; @endphp </div>
-    </div>    	        				        			    
+    </div>    	
+            				        			    
   @endif
 
 </header>
