@@ -193,6 +193,14 @@ foreach ($order_ids as $order_id) {
 
 @section('content')
 
+<script type="text/javascript">
+  ( function($) {
+    $(document).ready(function(){    
+      $('.table').footable();
+    });
+  } ) ( jQuery );
+</script>
+
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
       <h2>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h2>
@@ -211,7 +219,7 @@ foreach ($order_ids as $order_id) {
 
             @unless($winter_location)
 
-              @foreach ($filtered_order_ids_15wk as $details)		
+              @foreach ($filtered_order_ids_15wk as $details)
                 @php 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
