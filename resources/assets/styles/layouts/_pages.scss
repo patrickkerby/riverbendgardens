@@ -44,6 +44,19 @@
   }
 }
 
+//Single Posts
+.single-post {
+  .wrap {
+    padding-top: 3rem;
+    padding-bottom: 10rem;
+
+    article {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+  }
+}
+
 // CSA Landing Page
 .season_details {
   background: $light_grey;
