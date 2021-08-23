@@ -91,7 +91,7 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
     $displayBiwk = true;
   }
 
-  $year = "CSA 2020 - 15 week";
+  $year = "CSA 2020 - 14 week";
   $school = "School CSA";
   $late_season = "Late Season CSA";
 
@@ -168,7 +168,88 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
       </section>
             
         <section class="week {{ $week_in_season }}">
-          <h2>{{ $current_component_title }}</h2>
+          <h2> 
+            @switch($week_in_season)
+              @case("week1")                  
+                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
+                Week 1: {{ $weekDate }}
+                @break
+
+              @case("week2")
+                @php $weekDate = date('F d, Y', strtotime($week2_row['week'])); @endphp
+                Week 2: {{ $weekDate }}
+                @break
+
+                @case("week3")
+                @php $weekDate = date('F d, Y', strtotime($week3_row['week'])); @endphp
+                Week 3: {{ $weekDate }}
+                @break
+
+                @case("week4")
+                @php $weekDate = date('F d, Y', strtotime($week4_row['week'])); @endphp
+                Week 4: {{ $weekDate }}
+                @break
+
+                @case("week5")
+                @php $weekDate = date('F d, Y', strtotime($week5_row['week'])); @endphp
+                Week 5: {{ $weekDate }}
+                @break
+
+                @case("week6")
+                @php $weekDate = date('F d, Y', strtotime($week6_row['week'])); @endphp
+                Week 6: {{ $weekDate }}
+                @break
+
+                @case("week7")
+                @php $weekDate = date('F d, Y', strtotime($week7_row['week'])); @endphp
+                Week 7: {{ $weekDate }}
+                @break
+
+                @case("week8")
+                @php $weekDate = date('F d, Y', strtotime($week8_row['week'])); @endphp
+                Week 8: {{ $weekDate }}
+                @break
+
+                @case("week9")
+                @php $weekDate = date('F d, Y', strtotime($week9_row['week'])); @endphp
+                Week 9: {{ $weekDate }}
+                @break
+
+                @case("week10")
+                @php $weekDate = date('F d, Y', strtotime($week10_row['week'])); @endphp
+                Week 10: {{ $weekDate }}
+                @break
+
+                @case("week11")
+                @php $weekDate = date('F d, Y', strtotime($week11_row['week'])); @endphp
+                Week 11: {{ $weekDate }}
+                @break
+
+                @case("week12")
+                @php $weekDate = date('F d, Y', strtotime($week12_row['week'])); @endphp
+                Week 12: {{ $weekDate }}
+                @break
+
+                @case("week13")
+                @php $weekDate = date('F d, Y', strtotime($week13_row['week'])); @endphp
+                Week 13: {{ $weekDate }}
+                @break
+
+                @case("week14")
+                @php $weekDate = date('F d, Y', strtotime($week14_row['week'])); @endphp
+                Week 14: {{ $weekDate }}
+                @break
+
+                @case("week15")
+                @php $weekDate = date('F d, Y', strtotime($week15_row['week'])); @endphp
+                Week 15: {{ $weekDate }}
+                @break
+
+              @default
+                @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
+                Week 1: {{ $weekDate }}
+            @endswitch
+          </h2>
           <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> weeklies and extras.</p>
           <table class="table footable">
             <thead>
