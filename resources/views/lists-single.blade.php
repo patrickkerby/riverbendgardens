@@ -234,10 +234,12 @@ foreach ($order_ids as $order_id) {
                 
                 if ($size == 'Bigger') {
                   $seasonal_count_bigger += $quantity;
+                  $size = "Bigger (Clear Bag)"
                 }
                 
                 if ($size == 'Smaller') {
                   $seasonal_count_smaller += $quantity;              
+                  $size = "Smaller (White Bag)"
                 }
                 
                 @endphp
