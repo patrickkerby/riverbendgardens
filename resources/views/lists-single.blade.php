@@ -208,6 +208,7 @@ foreach ($order_ids as $order_id) {
       <section class="{{ $currentCSAWeek }}">
         @if($winter_location)
           <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
+          <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
         @endif
         @unless($winter_location)
           <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
@@ -274,17 +275,16 @@ foreach ($order_ids as $order_id) {
                   }
 
                 $winter_count++;	
-                
+
                 if ($size == 'Bigger') {
                   $winter_count_bigger += $quantity;
-                  $size = "2 Clear bags (Bigger Bounty)";
+                  $size = "2 CLEAR bags";
                 }
-                
+
                 if ($size == 'Smaller') {
                   $winter_count_smaller += $quantity; 
-                  $size = "2 White bags (Smaller Bounty)";             
+                  $size = "2 WHITE bags";             
                 }
-                
                 @endphp
                 <tr>
                   <td class="name">
