@@ -212,7 +212,7 @@ foreach ($order_ids as $order_id) {
               <th data-sorted="true">Customer Name</th>
               <th>Size</th>
               <th data-breakpoints="xs sm">Qty</th>
-              <th data-breakpoints="xs sm" width="50%">Purchase Note</th>
+              <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
             </tr>
           </thead>
           <tbody>
