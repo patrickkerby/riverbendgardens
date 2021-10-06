@@ -204,6 +204,9 @@ foreach ($order_ids as $order_id) {
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
       <h2>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h2>
+      @if($winter_location)
+        <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
+      @endif
       <section class="{{ $currentCSAWeek }}">
         <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
@@ -269,11 +272,11 @@ foreach ($order_ids as $order_id) {
 
                 $winter_count++;	
                 
-                if ($size == 'Bigger') {
+                if ($size == '2 Clear bags (Bigger Bounty)') {
                   $winter_count_bigger += $quantity;
                 }
                 
-                if ($size == 'Smaller') {
+                if ($size == '2 White bags (Smaller Bounty)') {
                   $winter_count_smaller += $quantity;              
                 }
                 
@@ -302,7 +305,7 @@ foreach ($order_ids as $order_id) {
                 <th data-sorted="true">Customer Name</th>
                 <th>Size</th>
                 <th data-breakpoints="xs sm">Qty</th>
-                <th data-breakpoints="xs sm" width="50%">Purchase Note</th>
+                <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
               </tr>
             </thead>
             <tbody>
