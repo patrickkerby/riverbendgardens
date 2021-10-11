@@ -203,7 +203,10 @@ foreach ($order_ids as $order_id) {
 
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-      <h2>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h2>
+      
+      @unless($winter_location)
+        <h2>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h2>
+      @endunless
       
       <section class="{{ $currentCSAWeek }}">
         @if($winter_location)
