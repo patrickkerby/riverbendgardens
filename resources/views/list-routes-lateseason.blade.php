@@ -38,8 +38,8 @@ $late_season = "Late Season CSA"
           <tr>
             <th>Delivery Time</th>
 						<th scope="col">Location</th>
-            <th data-type="number" scope="col">Clear Bags</th>
-            <th data-type="number" scope="col">White Bags</th>
+            <th data-type="number" scope="col">Clear Bag Crates</th>
+            <th data-type="number" scope="col">White Bag Crates</th>
 					</tr>	
 				</thead>
 				<tbody>
