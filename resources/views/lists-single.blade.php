@@ -319,7 +319,7 @@ foreach ($order_ids as $order_id) {
             <tbody>
               @foreach ($filtered_order_ids_biwk as $details)
                 @php
-                $biwk_order_count++;
+                // $biwk_order_count++;
 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
@@ -330,6 +330,8 @@ foreach ($order_ids as $order_id) {
                   }
 
                   $biwk_count += $biwk_quantity;
+                  $biwk_order_count += $biwk_quantity;
+
                 @endphp
                 <tr>                  
                   <td class="name">
@@ -353,7 +355,7 @@ foreach ($order_ids as $order_id) {
               $total_smaller = $seasonal_count_smaller;
               $total = $total_bigger + $total_smaller;
             @endphp
-            <h4>{{ $currentCSAWeek }} Totals:</h4>
+            <h4>Week {{ $currentCSAWeek }} Totals:</h4>
             <ul>
               <li><strong>Total:</strong> {{ $total }}</li>
               <li><strong>Bigger:</strong> {{ $total_bigger }}</li>
