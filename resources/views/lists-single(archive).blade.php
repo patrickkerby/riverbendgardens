@@ -1,5 +1,5 @@
 {{--
-  Template Name: Lists Single
+  Template Name: Lists Single (Archive)
 --}}
 
 @extends('layouts.app')
