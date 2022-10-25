@@ -160,13 +160,19 @@ function weekCheck($prevWeek, $nextWeek) {
 								<td data-sort-value="@php echo($row->smaller_count); @endphp">@php echo($row->smaller_count); @endphp</td>
 								<td data-sort-value="@php echo($row->total_count); @endphp">@php echo($row->total_count); @endphp</td>
 							</tr>					
-						@php } @endphp						
+						@php } @endphp		
+						
+						<td><strong>Pick up at farm</td>
+								<td data-sort-value="0">0</td>
+								<td data-sort-value="1">1</td>
+								<td data-sort-value="1">1</td>
+							</tr>	
 						</tbody>
 						<tfoot>
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
 								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count ); @endphp</td>
+								<td>Smaller: @php echo( $smaller_count + 1 ); @endphp</td>
 								<td>Total: @php echo( $bigger_count + $smaller_count ); @endphp</td>
 							</tr>
 						</tfoot>						
@@ -177,9 +183,9 @@ function weekCheck($prevWeek, $nextWeek) {
 				<h4>This week's totals:</h4>
 				<ul>
 					<li><strong>Bigger:</strong> @php echo( $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $smaller_count ); @endphp </li>
+					<li><strong>Smaller:</strong> @php echo( $smaller_count + 1 ); @endphp </li>
 					<li><strong>Extras:</strong> 10 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 10 ); @endphp</li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 1 + 10 ); @endphp</li>
 				</ul>
 			</div>
 			
