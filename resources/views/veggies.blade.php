@@ -53,7 +53,7 @@
     <section class="row">
        @foreach ($veggie_loop as $item)
           <div class="col-sm-10 col-md-6 col-lg-4 justify-content-center">
-          <a href="#" data-toggle="modal" data-target="#pickupModal-{{ $loop->index }}" class="card">
+          <a href="#" data-toggle="modal" data-target="#pickupModal-{{ $item['slug'] }}" class="card">
               <div class="veggie-img">
                 {!! $item['thumbnail'] !!}
               </div>
@@ -62,7 +62,7 @@
                 <h4>{{ $item['family'] }}</h4>
               </div>
             </a>
-            <div class="modal fullmodal fade" id="pickupModal-{{ $loop->index }}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fullmodal fade" id="pickupModal-{{ $item['slug'] }}" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">

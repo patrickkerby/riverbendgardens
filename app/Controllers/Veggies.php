@@ -16,6 +16,7 @@ class Veggies extends Controller
     return array_map(function ($post) {
         return [
             'title' => get_the_title($post->ID),
+            'slug' => $post->post_name,
             'family' => get_field('family', $post),
             'storage' => get_field('storage', $post),
             'thumbnail' => get_the_post_thumbnail($post->ID, 'large'),

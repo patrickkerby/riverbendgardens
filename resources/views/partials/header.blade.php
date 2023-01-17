@@ -34,8 +34,8 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
   @endif
 @else
   <header class="banner sm">
-
 @endif
+
   <nav class="nav-primary d-none d-md-block">
     @if (has_nav_menu('primary_navigation'))
       {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']) !!}
@@ -136,6 +136,9 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
         </form>
       </nav>
     </div> 
+  
+  @elseif (is_singular('recipe'))
+    <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.4), rgba(45,51,55,0.4)), url('{{ $recipe_photos[0]->url }}');">
 
   @else
     <h1 class="page-title"><?php the_title(); ?></h1>

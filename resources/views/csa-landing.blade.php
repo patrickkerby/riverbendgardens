@@ -250,7 +250,7 @@ $product_page_season = get_field('season_product_bigger');
 				@foreach( $gallery as $item )
 					<div class="col-md-3 col-sm-4 col-xs-6">
 						<a href="{{ $item->url }}" target="_blank">
-							<img src="{{ $item->sizes->thumbnail }};" alt="{{ $item->alt }}" />
+							<img src="{{ $item->sizes->thumbnail }}" alt="{{ $item->alt }}" />
 						</a>
 					</div>
 				@endforeach
