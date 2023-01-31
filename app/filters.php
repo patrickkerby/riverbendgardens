@@ -97,3 +97,41 @@ remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_r
 
 add_filter( 'woocommerce_composite_force_old_style_price_html', '__return_true' );
 
+
+/**
+ * Add custom field to the checkout
+ */
+add_action( 'woocommerce_after_order_notes', 'App\custom_checkout_field_pickupname' );
+
+function custom_checkout_field_pickupname( $checkout ) {
+
+    echo '<div id="custom_checkout_field_pickupname"><h2>' . __('Pickup Details') . '</h2>';
+
+    woocommerce_form_field( 'pickup_name', array(
+        'type'          => 'text',
+        'class'         => array('pickup-names form-row-wide'),
+        'label'         => __('Name(s) of those who will pickup this CSA'),
+        'placeholder'   => __('Your name + anyone else who may pickup'),
+        ), $checkout->get_value( 'pickup_name' ));
+
+    echo '</div>';
+}
+    /**
+     * Update the order meta with field value
+     */
+    add_action( 'woocommerce_checkout_update_order_meta', 'App\custom_checkout_field_pickupname_update_order_meta' );
+
+    function custom_checkout_field_pickupname_update_order_meta( $order_id ) {
+        if ( ! empty( $_POST['pickup_name'] ) ) {
+            update_post_meta( $order_id, 'Pickup Name(s)', sanitize_text_field( $_POST['pickup_name'] ) );
+        }
+    }
+
+    /**
+     * Display field value on the order edit page
+     */
+    add_action( 'woocommerce_admin_order_data_after_billing_address', 'App\custom_checkout_field_pickupname_display_admin_order_meta', 10, 1 );
+
+    function custom_checkout_field_pickupname_display_admin_order_meta($order){
+        echo '<p><strong>'.__('Pickup Name(s)').':</strong> ' . get_post_meta( $order->id, 'Pickup Name(s)', true ) . '</p>';
+    }

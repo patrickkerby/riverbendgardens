@@ -143,7 +143,7 @@ add_action('after_setup_theme', function () {
 /**
  * Remove product data tabs
  */
-add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
+add_filter( 'woocommerce_product_tabs', 'App\woo_remove_product_tabs', 98 );
 
 function woo_remove_product_tabs( $tabs ) {
 
