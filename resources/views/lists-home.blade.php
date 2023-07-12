@@ -321,8 +321,8 @@ global $wpdb, $woocommerce;
 							@endforeach
 							<tr>
                   <td><strong>Pickup At Farm </strong></td>
-                  <td>1</td>
-									<td>0</td>
+                  <td></td>
+									<td>1</td>
 									<td>0</td>
                   <td>1</td>
                 </tr>
@@ -330,8 +330,8 @@ global $wpdb, $woocommerce;
             <tfoot>
               <tr>
                 <td scope="row"><strong>Totals</strong></td>
-                <td><strong>{{ $bigger_count_total + 1 }}</strong></td>
-								<td><strong>{{ $smaller_count_total }}</strong></td>
+                <td><strong>{{ $bigger_count_total }}</strong></td>
+								<td><strong>{{ $smaller_count_total + 1 }}</strong></td>
 								<td><strong>{{ $extras_count_total }}</strong></td>
                 <td><strong>{{ $total_count }}</strong></td>
               </tr>
