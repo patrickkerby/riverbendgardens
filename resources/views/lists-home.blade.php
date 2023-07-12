@@ -321,7 +321,7 @@ global $wpdb, $woocommerce;
 							@endforeach
 							<tr>
                   <td><strong>Pickup At Farm </strong></td>
-                  <td></td>
+                  <td>0</td>
 									<td>1</td>
 									<td>0</td>
                   <td>1</td>
