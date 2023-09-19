@@ -68,7 +68,7 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
       <div class="col-md-7">@php echo $subtitle_news; @endphp </div>
     </div>
 
-  @elseif ( is_single() && !is_product )
+  @elseif ( is_single() && !is_product() )
     <h1 class="page-title"><?php the_title(); ?></h1>  	        				        			    
     @include('partials/entry-meta')
     <div class="row subtitle justify-content-center">      
