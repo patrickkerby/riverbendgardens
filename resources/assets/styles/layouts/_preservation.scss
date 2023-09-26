@@ -1,0 +1,149 @@
+body.preservation {
+  .nav-primary .sub-menu {
+    display: none;
+  }
+
+  .banner {
+    min-height: 0;
+  }
+
+  .preservation-content {
+    margin-top: 1rem;
+
+    ul.nav {
+      background: #fff;
+      padding: 2rem 0;
+
+      li {
+        margin: 0;
+        width: 25%;
+
+        button {
+          font-family: $font-family-serif;
+          font-size: 1.45rem;
+          color: #7a7a7a;
+          padding: 1.2rem 1.75rem;
+          box-shadow: 0 1px 11px -2px rgba(0, 0, 0, 0.11);
+          border-radius: 2px;
+          width: 94%;
+          height: 100%;
+          transition: all 0.4s ease-in-out;
+
+          &.pickling-fermenting {
+            font-size: 1.25rem;
+            line-height: 1;
+          }
+
+          &.active {
+            background-color: $dark-green;
+            color: #fff;
+            transition: all 0.4s ease-in-out;
+
+            &:hover {
+              background-color: #68a237;
+              transition: all 0.3s ease-in-out;
+            }
+          }
+
+          &:focus {
+            border: none;
+            outline: 0;
+          }
+
+          &:hover {
+            background-color: #f2f2f2;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+      }
+    }
+
+    .veggie_select {
+      border-top: solid 3px #f2f2f2;
+      display: flex;
+      justify-content: center;
+      width: 90%;
+      margin-top: 1.5rem;
+
+      .dropdown-toggle {
+        margin-top: -1.5rem;
+        background: #fff;
+        font-weight: 700;
+        font-size: 1.025rem;
+        color: #7a7a7a;
+        border: solid 3px #f2f2f2;
+        border-radius: 2rem;
+        display: flex;
+        position: relative;
+        padding: 0.25rem 1rem 0.25rem 1.5rem;
+
+        &::after {
+          margin: auto 0 auto 3rem;
+        }
+
+        &::before {
+          content: "";
+          width: calc(100% + 46px);
+          border: solid 20px #fff;
+          position: absolute;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          height: 116%;
+          margin: 0;
+          left: -23px;
+          border-bottom: none;
+          border-top: none;
+        }
+
+        &:focus {
+          box-shadow: none;
+          transition: all 0.25s ease-in-out;
+          color: $forest-green;
+        }
+      }
+    }
+
+    .tab-pane {
+      section {
+        margin: 3rem 0;
+      }
+
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 18px;
+
+        strong {
+          color: #707070;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .related_veggies {
+    border-top: dotted 4px #dcdcdc;
+    padding-top: 4.25rem;
+    padding-bottom: 6rem;
+    text-align: center;
+
+    h4 {
+      background: #fff;
+      position: relative;
+      margin: -7rem auto 0 auto;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #555;
+      letter-spacing: 0.06rem;
+      width: 67%;
+      box-shadow: 0 0 13px -9px;
+    }
+  }
+}

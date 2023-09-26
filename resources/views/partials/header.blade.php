@@ -88,7 +88,8 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
     </div>
 
   @elseif ( is_tax() )
-    <h1 class="page-title"><?php echo $termname; ?></h1> 
+    {{-- <h1 class="page-title"><?php echo $termname; ?></h1>  --}}
+    <h1 class="page-title"><?php the_title(); ?></h1> 
     <div class="description"><?php echo term_description(); ?></div>   	        				        			    
 
   @elseif ( is_page( 'lists' ) || '58119' == $post->post_parent ) )
