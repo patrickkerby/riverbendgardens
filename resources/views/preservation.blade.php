@@ -52,7 +52,7 @@
             </section>
             
             <div class="row related_veggies justify-content-center">              
-              <h2 class="col-12">Vegetables that are well suited to canning:</h2>
+              <h2 class="col-12">Vegetables that are well suited to {{ $type->name }}</h2>
               <p class="col-sm-6"><strong>Choose a veggie and learn everything you need  to keep it through the seasons.</strong></p>
               <div class="row">
                 @foreach ($preservation_loop as $item)                    
