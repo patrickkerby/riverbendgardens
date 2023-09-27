@@ -32,6 +32,8 @@ $max_font: 20px;
 p,
 ul,
 ul li,
+ol,
+ol li,
 a,
 div,
 label,
@@ -42,7 +44,8 @@ input[type="submit"] {
 }
 
 p,
-ul li {
+ul li,
+ol li {
   font-size: 19px;
   color: #8b8b8b;
   line-height: 28px;
