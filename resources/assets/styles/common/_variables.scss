@@ -26,6 +26,16 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
 @font-face {
   font-family: "Venti";
   src:
+    url("../fonts/VentiCF-Light.woff2") format("woff2"),
+    url("../fonts/VentiCF-Light.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: "Venti";
+  src:
     url("../fonts/VentiCF-Medium.woff2") format("woff2"),
     url("../fonts/VentiCF-Medium.woff") format("woff");
   font-weight: 500;

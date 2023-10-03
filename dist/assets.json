@@ -5,13 +5,17 @@
   "fonts/VentiCF-Bold.woff2": "fonts/VentiCF-Bold_8dd08afb.woff2",
   "fonts/VentiCF-DemiBold.woff": "fonts/VentiCF-DemiBold_d15525a2.woff",
   "fonts/VentiCF-DemiBold.woff2": "fonts/VentiCF-DemiBold_a4f9ddf9.woff2",
+  "fonts/VentiCF-Light.woff": "fonts/VentiCF-Light_0841f040.woff",
+  "fonts/VentiCF-Light.woff2": "fonts/VentiCF-Light_2e486911.woff2",
   "fonts/VentiCF-Medium.woff": "fonts/VentiCF-Medium_c72da3eb.woff",
   "fonts/VentiCF-Medium.woff2": "fonts/VentiCF-Medium_3be6f48f.woff2",
+  "images/arrow-left.svg": "images/arrow-left_06e2b266.svg",
+  "images/arrow.svg": "images/arrow_629f740e.svg",
   "images/facebook.svg": "images/facebook_5eca4a76.svg",
   "images/instagram.svg": "images/instagram_e2bcb157.svg",
   "images/twitter.svg": "images/twitter_7e6d9af5.svg",
   "vendor/ajax-loader.gif": "vendor/ajax-loader_c5cd7f53.gif",
-  "scripts/customizer.js": "scripts/customizer_7b2ab7f9.js",
-  "styles/main.css": "styles/main_7b2ab7f9.css",
-  "scripts/main.js": "scripts/main_7b2ab7f9.js"
+  "scripts/customizer.js": "scripts/customizer_98905d5f.js",
+  "styles/main.css": "styles/main_98905d5f.css",
+  "scripts/main.js": "scripts/main_98905d5f.js"
 }
