@@ -203,6 +203,10 @@ body.preservation {
 
     .title {
       font-size: 32px;
+
+      &:hover {
+        text-decoration: none;
+      }
     }
 
     .collapse-indicator {

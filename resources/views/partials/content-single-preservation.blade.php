@@ -16,12 +16,17 @@
     <div class="entry-content col-md-9 order-first order-md-last">
       @foreach ($preservation_technique as $item)
         <div class="preservation-block @if(!$item['content']) empty @endif">
-          <h2 class="title">{{ $item['title'] }}</h2>
-          <p>{{ $item['intro'] }}</p>        
-          @if ($item['content'])  
+                  
+          @if ($item['content'])
+            <a class="title" data-toggle="collapse" href="#collapseExample-{{ $loop->iteration }}" role="button" aria-expanded="false" aria-controls="collapseExample-{{ $loop->iteration }}"><h2 class="title">{{ $item['title'] }}</h2></a>
+            <p>{{ $item['intro'] }}</p>  
             <a class="collapse-indicator" data-toggle="collapse" href="#collapseExample-{{ $loop->iteration }}" role="button" aria-expanded="false" aria-controls="collapseExample-{{ $loop->iteration }}">+</a>
             <div class="collapse" id="collapseExample-{{ $loop->iteration }}">
               {!! $item['content'] !!}
+            </div>
+          @else
+              <h2 class="title">{{ $item['title'] }}</h2>
+              <p>{{ $item['intro'] }}</p>
             </div>
           @endif  
         </div>      
