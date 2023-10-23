@@ -162,12 +162,7 @@ function weekCheck($prevWeek, $nextWeek) {
 							</tr>					
 						@php } @endphp		
 						
-						<td><strong>Pick up at farm</td>
-								<td data-sort-value="0">0</td>
-								<td data-sort-value="1">1</td>
-								<td data-sort-value="1">1</td>
-							</tr>	
-						</tbody>
+						
 						<tfoot>
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
@@ -184,8 +179,8 @@ function weekCheck($prevWeek, $nextWeek) {
 				<ul>
 					<li><strong>Bigger:</strong> @php echo( $bigger_count ); @endphp</li>
 					<li><strong>Smaller:</strong> @php echo( $smaller_count + 1 ); @endphp </li>
-					<li><strong>Extras:</strong> 10 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 1 + 10 ); @endphp</li>
+					<li><strong>Extras:</strong> 12 </li>
+					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 12 ); @endphp</li>
 				</ul>
 			</div>
 			
