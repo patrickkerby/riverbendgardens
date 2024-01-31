@@ -135,3 +135,44 @@ function custom_checkout_field_pickupname( $checkout ) {
     function custom_checkout_field_pickupname_display_admin_order_meta($order){
         echo '<p><strong>'.__('Pickup Name(s)').':</strong> ' . get_post_meta( $order->id, 'Pickup Name(s)', true ) . '</p>';
     }
+    
+
+
+/**
+ * Add custom field to the checkout
+ */
+add_action( 'woocommerce_after_order_notes', 'App\custom_checkout_field_referral' );
+
+function custom_checkout_field_referral( $checkout ) {
+
+    echo '<div id="custom_checkout_field_referral"><h2>' . __('Referral Email Address') . '</h2>';
+
+    woocommerce_form_field( 'referral', array(
+        'type'          => 'text',
+        'class'         => array('referral-names form-row-wide'),
+        'label'         => __('Email Address of who referred you'),
+        'placeholder'   => __('example@test.com'),
+        ), $checkout->get_value( 'referral' ));
+
+    echo '</div>';
+}
+    /**
+     * Update the order meta with field value
+     */
+    add_action( 'woocommerce_checkout_update_order_meta', 'App\custom_checkout_field_referral_update_order_meta' );
+
+    function custom_checkout_field_referral_update_order_meta( $order_id ) {
+        if ( ! empty( $_POST['referral'] ) ) {
+            update_post_meta( $order_id, 'Referral', sanitize_text_field( $_POST['referral'] ) );
+        }
+    }
+
+    /**
+     * Display field value on the order edit page
+     */
+    add_action( 'woocommerce_admin_order_data_after_billing_address', 'App\custom_checkout_field_referral_display_admin_order_meta', 10, 1 );
+
+    function custom_checkout_field_referral_display_admin_order_meta($order){
+        echo '<p><strong>'.__('Referral').':</strong> ' . get_post_meta( $order->id, 'Referral', true ) . '</p>';
+    }
+    
