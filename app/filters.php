@@ -145,7 +145,7 @@ add_action( 'woocommerce_after_order_notes', 'App\custom_checkout_field_referral
 
 function custom_checkout_field_referral( $checkout ) {
 
-    echo '<div id="custom_checkout_field_referral"><h3>' . __('Referral Information:') . '</h3>';
+    echo '<div id="custom_checkout_field_referral"><h2>' . __('Referral Info:') . '</h2>';
 
     woocommerce_form_field( 'referral', array(
         'type'          => 'text',
