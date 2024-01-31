@@ -145,7 +145,7 @@ add_action( 'woocommerce_after_order_notes', 'App\custom_checkout_field_referral
 
 function custom_checkout_field_referral( $checkout ) {
 
-    echo '<div id="custom_checkout_field_referral"><h2>' . __('Referral Email Address') . '</h2>';
+    echo '<div id="custom_checkout_field_referral"><h3>' . __('Referral Information:') . '</h3>';
 
     woocommerce_form_field( 'referral', array(
         'type'          => 'text',
@@ -153,6 +153,13 @@ function custom_checkout_field_referral( $checkout ) {
         'label'         => __('Email Address of who referred you'),
         'placeholder'   => __('example@test.com'),
         ), $checkout->get_value( 'referral' ));
+
+    woocommerce_form_field( 'referral-code', array(
+        'type'          => 'text',
+        'class'         => array('referral-names form-row-wide'),
+        'label'         => __('Referral Code'),
+        'placeholder'   => __('CSA2023-XXXXXX'),
+        ), $checkout->get_value( 'referral-code' ));
 
     echo '</div>';
 }
@@ -165,6 +172,9 @@ function custom_checkout_field_referral( $checkout ) {
         if ( ! empty( $_POST['referral'] ) ) {
             update_post_meta( $order_id, 'referral', sanitize_text_field( $_POST['referral'] ) );
         }
+        if ( ! empty( $_POST['referral-code'] ) ) {
+            update_post_meta( $order_id, 'referral-code', sanitize_text_field( $_POST['referral-code'] ) );
+        }
     }
 
     /**
@@ -173,6 +183,7 @@ function custom_checkout_field_referral( $checkout ) {
     add_action( 'woocommerce_admin_order_data_after_billing_address', 'App\custom_checkout_field_referral_display_admin_order_meta', 10, 1 );
 
     function custom_checkout_field_referral_display_admin_order_meta($order){
-        echo '<p><strong>'.__('Referral').':</strong> ' . get_post_meta( $order->id, 'referral', true ) . '</p>';
+        echo '<p><strong>'.__('Referral Email').':</strong> ' . get_post_meta( $order->id, 'referral', true ) . '</p>';
+        echo '<p><strong>'.__('Referral Code').':</strong> ' . get_post_meta( $order->id, 'referral-code', true ) . '</p>';
     }
     
