@@ -163,7 +163,7 @@ function custom_checkout_field_referral( $checkout ) {
 
     function custom_checkout_field_referral_update_order_meta( $order_id ) {
         if ( ! empty( $_POST['referral'] ) ) {
-            update_post_meta( $order_id, 'Referral', sanitize_text_field( $_POST['referral'] ) );
+            update_post_meta( $order_id, 'referral', sanitize_text_field( $_POST['referral'] ) );
         }
     }
 
@@ -173,6 +173,6 @@ function custom_checkout_field_referral( $checkout ) {
     add_action( 'woocommerce_admin_order_data_after_billing_address', 'App\custom_checkout_field_referral_display_admin_order_meta', 10, 1 );
 
     function custom_checkout_field_referral_display_admin_order_meta($order){
-        echo '<p><strong>'.__('Referral').':</strong> ' . get_post_meta( $order->id, 'Referral', true ) . '</p>';
+        echo '<p><strong>'.__('Referral').':</strong> ' . get_post_meta( $order->id, 'referral', true ) . '</p>';
     }
     
