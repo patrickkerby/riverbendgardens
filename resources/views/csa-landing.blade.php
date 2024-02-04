@@ -75,146 +75,10 @@ $product_page_season = get_field('season_product_bigger');
 			{!! $partners_description !!}
 		</div>
 	</section>
-
-	{{-- Pricing: Smaller --}}
-	@if ($csa_type === 'regular')
-	<div class="col-md-4 d-flex flex-wrap">	
-@else
-	<div class="col-md-6 d-flex flex-wrap">	
-@endif
-	<div class="ghost">
-		<h3>Smaller Bounty</h3>
-		@if ($csa_type === 'regular')
-			<h4>{{ $csa_items_smaller }}</h4>
-		@else
-			<h4>Great for small households!</h4>
-		@endif				
-		{!! $smaller_csa_description !!}
-		<div class="row pricing">
-		@if ( $include_weeklies )	
-			<div class="col-md-6">
-				<div>
-					<h5>Week-to-week</h5>
-					<p><span>${{ $price_per_week_smaller }}</span></p>
-					<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div>
-					@if ($csa_type === 'regular')
-						<h5>Full Season (14 Weeks)</h5>
-					@endif
-					<p><span>${{ $price_season_smaller }}</span></p>
-					<a href="{{ $product_page_season }}" class="button">Purchase</a> 
-				</div>
-			</div>
-			@else
-			<div class="col-md-12">
-				<div>
-					@if ($csa_type === 'regular')
-						<h5>Full Season (14 Weeks)</h5>
-					@endif
-					<p><span>${{ $price_season_smaller }}</span></p>								
-					<a href="{{ $product_page_season }}" class="button">Purchase</a> 
-				</div>
-			</div>
-			@endif
-		</div>
-	</div>
-</div>	
-
-{{-- Pricing: Bigger --}}
-@if ($csa_type === 'regular')
-	<div class="col-md-4 d-flex flex-wrap">	
-@else
-	<div class="col-md-6 d-flex flex-wrap">	
-@endif
-
-	<div class="ghost">
-		<h3>Bigger Bounty</h3>
-		@if ($csa_type === 'regular')
-			<h4>{{ $csa_items_bigger }}</h4>
-		@else
-			<h4>Great for veggie-focussed households.</h4>
-		@endif
-		{!! $bigger_csa_description !!}
-		<div class="row pricing">
-		@if ( $include_weeklies )	
-		<div class="col-md-6">
-			<div>
-				<h5>Week-to-week</h5>
-				<p><span>${{ $price_per_week_bigger }}</span></p>
-				<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
-			</div>
-		</div>
-			<div class="col-md-6">
-				<div>
-					@if ($csa_type === 'regular')
-						<h5>Full Season (14 Weeks)</h5>
-					@endif
-					<p><span>${{ $price_season_bigger }}</span></p>
-					<a href="{{ $product_page_season }}" class="button">Purchase</a> 
-				</div>
-			</div>
-		@else
-			<div class="col-md-12">
-				<div>
-					@if ($csa_type === 'regular')
-						<h5>Full Season (14 Weeks)</h5>
-					@endif
-					<p><span>${{ $price_season_bigger }}</span></p>
-					<a href="{{ $product_page_season }}" class="button">Purchase</a> 
-				</div>
-			</div>
-		@endif
-		</div>
-	</div>
-</div>
-@if ( $include_weeklies )	
-{{-- Pricing: Weekly --}}
-<div class="col-md-12 weekly">
-	<div class="ghost">
-		<a class="row" href="{{ $product_page_weekly }}">
-			<h3 class="col-md-3">Week-to-week</h3>
-			<p class="col-md-9">Not around all summer? Want to choose which weeks of the season to pickup? <br /><span>Our Week-To-Week option is for you.</span> (Sold out for 2020)</p>
-		</a>
-	</div>
-</div>
-@endif
-
-{{-- Pricing: Weekly --}}
-<div class="row season_expectations justify-content-center">
-	<div class="col-md-9">{!! $season_expectations !!}</div>
-</div>
-</section>	
-
 	<section class="locations row no-gutters">
 		@include('partials.locations-csa-landing')
 	</section>
-	<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
-		<h5>How does it work?</h5>	
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
-		</ol>
-		<div class="carousel-inner col-md-6">
-			<div class="carousel-item active">	
-			<h2>So how does this work? <br>What makes it so great?</h2>
-			</div>
-			@if( have_rows('csa_steps') )
-				@foreach ($csa_steps as $item)			
-					<div class="carousel-item">	
-						<p>{{ $item->csa_step }}</p>
-					</div>
-				@endforeach
-			@endif
-		</div>
-	</section>
+
 	<section class="row sizes">
 		@if ($csa_type === 'regular')
 			<h2 class="col-12">Available for full season or bi-weekly:</h2>
@@ -244,6 +108,142 @@ $product_page_season = get_field('season_product_bigger');
 			@endif
 		@endif
 
+		{{-- Pricing: Smaller --}}
+		@if ($csa_type === 'regular')
+			<div class="col-md-4 d-flex flex-wrap">	
+		@else
+			<div class="col-md-6 d-flex flex-wrap">	
+		@endif
+			<div class="ghost">
+				<h3>Smaller Bounty</h3>
+				@if ($csa_type === 'regular')
+					<h4>{{ $csa_items_smaller }}</h4>
+				@else
+					<h4>Great for small households!</h4>
+				@endif				
+				{!! $smaller_csa_description !!}
+				<div class="row pricing">
+				@if ( $include_weeklies )	
+					<div class="col-md-6">
+						<div>
+							<h5>Week-to-week</h5>
+							<p><span>${{ $price_per_week_smaller }}</span></p>
+							<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div>
+							@if ($csa_type === 'regular')
+								<h5>Full Season (14 Weeks)</h5>
+							@endif
+							<p><span>${{ $price_season_smaller }}</span></p>
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+						</div>
+					</div>
+					@else
+					<div class="col-md-12">
+						<div>
+							@if ($csa_type === 'regular')
+								<h5>Full Season (14 Weeks)</h5>
+							@endif
+							<p><span>${{ $price_season_smaller }}</span></p>								
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+						</div>
+					</div>
+					@endif
+				</div>
+			</div>
+		</div>	
+
+		{{-- Pricing: Bigger --}}
+		@if ($csa_type === 'regular')
+			<div class="col-md-4 d-flex flex-wrap">	
+		@else
+			<div class="col-md-6 d-flex flex-wrap">	
+		@endif
+
+			<div class="ghost">
+				<h3>Bigger Bounty</h3>
+				@if ($csa_type === 'regular')
+					<h4>{{ $csa_items_bigger }}</h4>
+				@else
+					<h4>Great for veggie-focussed households.</h4>
+				@endif
+				{!! $bigger_csa_description !!}
+				<div class="row pricing">
+				@if ( $include_weeklies )	
+				<div class="col-md-6">
+					<div>
+						<h5>Week-to-week</h5>
+						<p><span>${{ $price_per_week_bigger }}</span></p>
+						<a href="{{ $product_page_weekly }}" class="button">Purchase</a> 						
+					</div>
+				</div>
+					<div class="col-md-6">
+						<div>
+							@if ($csa_type === 'regular')
+								<h5>Full Season (14 Weeks)</h5>
+							@endif
+							<p><span>${{ $price_season_bigger }}</span></p>
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+						</div>
+					</div>
+				@else
+					<div class="col-md-12">
+						<div>
+							@if ($csa_type === 'regular')
+								<h5>Full Season (14 Weeks)</h5>
+							@endif
+							<p><span>${{ $price_season_bigger }}</span></p>
+							<a href="{{ $product_page_season }}" class="button">Purchase</a> 
+						</div>
+					</div>
+				@endif
+				</div>
+			</div>
+		</div>
+		@if ( $include_weeklies )	
+		{{-- Pricing: Weekly --}}
+		<div class="col-md-12 weekly">
+			<div class="ghost">
+				<a class="row" href="{{ $product_page_weekly }}">
+					<h3 class="col-md-3">Week-to-week</h3>
+					<p class="col-md-9">Not around all summer? Want to choose which weeks of the season to pickup? <br /><span>Our Week-To-Week option is for you.</span> (Sold out for 2020)</p>
+				</a>
+			</div>
+		</div>
+		@endif
+
+		{{-- Pricing: Weekly --}}
+		<div class="row season_expectations justify-content-center">
+			<div class="col-md-9">{!! $season_expectations !!}</div>
+		</div>
+	</section>
+
+	<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
+		<h5>How does it work?</h5>	
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+		</ol>
+		<div class="carousel-inner col-md-6">
+			<div class="carousel-item active">	
+			<h2>So how does this work? <br>What makes it so great?</h2>
+			</div>
+			@if( have_rows('csa_steps') )
+				@foreach ($csa_steps as $item)			
+					<div class="carousel-item">	
+						<p>{{ $item->csa_step }}</p>
+					</div>
+				@endforeach
+			@endif
+		</div>
+	</section>
 		
 
 	{{-- Photo Gallery --}}
