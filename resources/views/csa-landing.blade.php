@@ -75,9 +75,6 @@ $product_page_season = get_field('season_product_bigger');
 			{!! $partners_description !!}
 		</div>
 	</section>
-	<section class="locations row no-gutters">
-		@include('partials.locations-csa-landing')
-	</section>
 
 	<section class="row sizes">
 		@if ($csa_type === 'regular')
@@ -220,6 +217,10 @@ $product_page_season = get_field('season_product_bigger');
 		</div>
 	</section>
 
+	<section class="locations row no-gutters">
+		@include('partials.locations-csa-landing')
+	</section>
+	
 	<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
 		<h5>How does it work?</h5>	
 		<ol class="carousel-indicators">
