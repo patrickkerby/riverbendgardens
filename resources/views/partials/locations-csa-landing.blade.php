@@ -5,7 +5,6 @@
 @if ($csa_type === 'regular')
   <div class="side-nav col-3">
     <h4>Locations</h4>
-    <button data-toggle="collapse" class="btn btn-link show" data-target="#collapsePublic" role="button" aria-expanded="true" aria-controls="collapsePublic">Public Pickups</button>
   </div>
   <div class="location-cards col-9" id="locations">
     <div id="collapsePublic" class="collapse show" data-parent="#locations">

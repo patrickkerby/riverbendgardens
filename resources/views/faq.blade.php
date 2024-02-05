@@ -10,7 +10,6 @@
 
     <div class="row">
       <div class="col-md-3 side-nav faq-nav">          
-        <a href="#covid">About COVID-19</a>
         <a href="#program">About the program</a>
         <a href="#farm">About the farm</a>
         <a href="#veggies">About the veggies</a>
@@ -21,12 +20,6 @@
         
         $count = 0;	@endphp
         <div id="accordion1" class="accordion">
-          <h2 id="covid">About COVID-19</h2>
-          @php while ( have_rows('faq') ) : the_row();
-          if( get_sub_field('faq_category') == 'covid' ): 
-            $faq_title = get_sub_field('faq_title');
-            $faq_content = get_sub_field('faq_content');
-          @endphp
 
           <h3><button class="btn btn-link faq" data-toggle="collapse" data-target="#collapse-{{ $count }}" aria-expanded="false" aria-controls="collapse-{{ $count }}">@php echo($faq_title); @endphp </button></h3>
           <div id="collapse-{{ $count }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion1">

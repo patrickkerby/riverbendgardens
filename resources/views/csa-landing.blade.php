@@ -82,28 +82,7 @@ $product_page_season = get_field('season_product_bigger');
 		@else
 			<h2 class="col-12">Available in two sizes:</h2>
 		@endif
-		
-		@if ($csa_type === 'regular')		
-			{{-- Pricing: Bi-weekly --}}
-			@if ($csa_items_biweekly)
-			<div class="col-md-4 d-flex flex-wrap">
-				<div class="ghost">
-					<h3>Bi-weekly Bounty</h3>
-					<h4>{{ $csa_items_biweekly }}</h4>			
-					{!! $biweekly_csa_description !!}
-					<div class="row pricing">
-						<div class="col-md-12">
-							<div>
-								<h5>Bi-weekly (7 weeks)</h5>
-								<p><span>${{ $full_season_price_biweekly }}</span></p>
-								<a href="{{ $season_product_biweekly }}" class="button">Purchase</a> 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>	
-			@endif
-		@endif
+	
 
 		{{-- Pricing: Smaller --}}
 		@if ($csa_type === 'regular')
@@ -199,6 +178,28 @@ $product_page_season = get_field('season_product_bigger');
 				</div>
 			</div>
 		</div>
+
+		@if ($csa_type === 'regular')		
+			{{-- Pricing: Bi-weekly --}}
+			@if ($csa_items_biweekly)
+			<div class="col-md-4 d-flex flex-wrap">
+				<div class="ghost">
+					<h3>Bi-weekly Bounty</h3>
+					<h4>{{ $csa_items_biweekly }}</h4>			
+					{!! $biweekly_csa_description !!}
+					<div class="row pricing">
+						<div class="col-md-12">
+							<div>
+								<h5>Bi-weekly (7 weeks)</h5>
+								<p><span>${{ $full_season_price_biweekly }}</span></p>
+								<a href="{{ $season_product_biweekly }}" class="button">Purchase</a> 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+			@endif
+		@endif
 		@if ( $include_weeklies )	
 		{{-- Pricing: Weekly --}}
 		<div class="col-md-12 weekly">
