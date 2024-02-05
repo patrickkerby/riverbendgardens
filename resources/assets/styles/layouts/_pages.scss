@@ -448,6 +448,19 @@ div.faq {
   display: none;
 }
 
+.FYI {
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  span {
+    font-size: 0.875rem;
+    text-decoration: underline;
+    color: #74af43;
+    font-weight: bold;
+  }
+}
+
 .woocommerce a.remove {
   line-height: 1.25em;
 }
