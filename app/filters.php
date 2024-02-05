@@ -189,3 +189,5 @@ function custom_checkout_field_referral( $checkout ) {
         echo '<p><strong>'.__('Referral Code').':</strong> ' . get_post_meta( $order->id, 'referral-code', true ) . '</p>';
     }
     
+    
+add_filter( 'woocommerce_cart_needs_shipping', '__return_true' );
