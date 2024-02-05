@@ -451,6 +451,7 @@ div.faq {
 .FYI {
   border: solid 6px #74af43;
   padding: 1rem;
+  margin-bottom: 2rem;
 
   h2 {
     font-size: 1.6rem;
@@ -461,6 +462,10 @@ div.faq {
     text-decoration: underline;
     color: #74af43;
     font-weight: bold;
+  }
+
+  p {
+    margin: 0;
   }
 }
 
