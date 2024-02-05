@@ -152,7 +152,7 @@ function custom_checkout_field_referral( $checkout ) {
         'class'         => array('referral-names form-row-wide'),
         'label'         => __('Email Address of who referred you'),
         'placeholder'   => __('example@test.com'),
-        'required'      => true,
+        'required'      => false,
         ), $checkout->get_value( 'referral' ));
 
     woocommerce_form_field( 'referral-code', array(
@@ -160,7 +160,7 @@ function custom_checkout_field_referral( $checkout ) {
         'class'         => array('referral-names form-row-wide'),
         'label'         => __('Referral Code'),
         'placeholder'   => __('CSA2023-XXXXXX'),
-        'required'      => true,
+        'required'      => false,
         ), $checkout->get_value( 'referral-code' ));
 
     echo '</div>';
