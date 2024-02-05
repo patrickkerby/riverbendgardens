@@ -468,10 +468,10 @@ div.faq {
   p {
     margin: 0;
   }
-}
 
-a .FYI:hover {
-  text-decoration: none;
+  a:hover {
+    text-decoration: none;
+  }
 }
 
 .woocommerce a.remove {
