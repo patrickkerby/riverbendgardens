@@ -82,7 +82,6 @@ $product_page_season = get_field('season_product_bigger');
 		@else
 			<h2 class="col-12">Available in two sizes:</h2>
 		@endif
-	
 
 		{{-- Pricing: Smaller --}}
 		@if ($csa_type === 'regular')
@@ -242,9 +241,11 @@ $product_page_season = get_field('season_product_bigger');
 		@include('partials.locations-csa-landing')
 	</section>
 	
-	<div class="row season_expectations justify-content-center">
-		<div class="col-md-9">{!! $season_expectations !!}</div>
-	</div>
+	<section class="row sizes">
+		<div class="row season_expectations justify-content-center">
+			<div class="col-md-9">{!! $season_expectations !!}</div>
+		</div>
+	</section>
 
 	{{-- Photo Gallery --}}
 	<section class="row photos no-gutters">			
