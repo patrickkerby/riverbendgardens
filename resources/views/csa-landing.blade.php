@@ -212,41 +212,39 @@ $product_page_season = get_field('season_product_bigger');
 		</div>
 		@endif
 
-		{{-- Pricing: Weekly --}}
-		<div class="row season_expectations justify-content-center">
-			<div class="col-md-9">{!! $season_expectations !!}</div>
-		</div>
+		<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
+			<h5>How does it work?</h5>	
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+			</ol>
+			<div class="carousel-inner col-md-6">
+				<div class="carousel-item active">	
+				<h2>So how does this work? <br>What makes it so great?</h2>
+				</div>
+				@if( have_rows('csa_steps') )
+					@foreach ($csa_steps as $item)			
+						<div class="carousel-item">	
+							<p>{{ $item->csa_step }}</p>
+						</div>
+					@endforeach
+				@endif
+			</div>
+		</section>
 	</section>
 
 	<section class="locations row no-gutters">
 		@include('partials.locations-csa-landing')
 	</section>
 	
-	<section id="carouselExampleIndicators" class="carousel slide row no-gutters" data-ride="carousel">
-		<h5>How does it work?</h5>	
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
-		</ol>
-		<div class="carousel-inner col-md-6">
-			<div class="carousel-item active">	
-			<h2>So how does this work? <br>What makes it so great?</h2>
-			</div>
-			@if( have_rows('csa_steps') )
-				@foreach ($csa_steps as $item)			
-					<div class="carousel-item">	
-						<p>{{ $item->csa_step }}</p>
-					</div>
-				@endforeach
-			@endif
-		</div>
-	</section>
-		
+	<div class="row season_expectations justify-content-center">
+		<div class="col-md-9">{!! $season_expectations !!}</div>
+	</div>
 
 	{{-- Photo Gallery --}}
 	<section class="row photos no-gutters">			
