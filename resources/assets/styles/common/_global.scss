@@ -101,6 +101,10 @@ section {
   margin-bottom: 90px;
 }
 
+section.location {
+  margin-bottom: 0;
+}
+
 .carousel {
   @include fullwidth();
 
