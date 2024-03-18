@@ -90,7 +90,7 @@ global $wpdb, $woocommerce;
     $displayBiwk = true;
   }
 
-  $year = "CSA 2021 - 14 week";
+  $year = "CSA 2024 - 14 week";
   $school = "School CSA";
   $late_season = "Late Season CSA";
 
@@ -275,7 +275,9 @@ global $wpdb, $woocommerce;
 
                     foreach ($order_items as $order_item) {
                       $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
-                      $filtered_location_15wk = $order_item->get_meta('location'); //15 wk uses custom attributes
+                      // $filtered_location_15wk = $order_item->get_meta('location'); //15 wk uses custom attributes
+                      $filtered_location_15wk = $order_item->get_meta('pa_pickup-location'); //15 wk uses custom attributes
+
                       $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
                       $filtered_quantity = $order_item->get_quantity();
 
