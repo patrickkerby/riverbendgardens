@@ -693,10 +693,17 @@ div#composite_data_59432 {
   max-width: 48%;
 }
 
-.gallery .grid-item img {
-  height: 100%;
-  object-fit: cover;
-  margin: 0;
-}
+.gallery .grid-item {
+  a {
+    margin: 0 0.25rem;
+    display: flex;
+    height: 100%;
+  }
 
+  img {
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+  }
+}
 /* stylelint-enable no-descending-specificity */
