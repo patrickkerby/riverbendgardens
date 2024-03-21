@@ -692,4 +692,11 @@ div#composite_data_59432 {
 .woocommerce-page .col2-set .col-2 {
   max-width: 48%;
 }
+
+.gallery .grid-item img {
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+}
+
 /* stylelint-enable no-descending-specificity */
