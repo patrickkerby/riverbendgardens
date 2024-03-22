@@ -31,8 +31,9 @@
   // Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
   $currentWeek = date('W');
   $currentCSAWeek = $currentWeek - 26;
+  var_dump($currentCSAWeek);
 
-  if ($currentCSAWeek === 0) {
+  if ($currentCSAWeek <= 0) {
     $currentCSAWeek = 1;
   }
 
@@ -171,18 +172,17 @@ foreach ($order_ids as $order_id) {
   //iterate through an order's items
   foreach ($order_items as $item) {
     $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
-    $filtered_location_15wk = $item->get_meta('location'); //15 wk uses custom attributes
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
       array_push($filtered_order_ids_biwk, $order_id);
       // break;
     }
-    if ($item->get_product_id() == $product_id_15wk && $filtered_location_15wk == $location_name) {
+    if ($item->get_product_id() == $product_id_15wk && $filtered_location == $location_slug) {
       array_push($filtered_order_ids_15wk, $order_id);
       // break;
     }
-    if ($item->get_product_id() == $product_id_winter && $filtered_location_15wk == $location_name) {
+    if ($item->get_product_id() == $product_id_winter && $filtered_location == $location_slug) {
       array_push($filtered_order_ids_winter, $order_id);
       // break;
     }
