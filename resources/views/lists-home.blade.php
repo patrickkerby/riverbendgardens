@@ -274,20 +274,17 @@ global $wpdb, $woocommerce;
                     $order_items = $order->get_items();
 
                     foreach ($order_items as $order_item) {
-                      $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
-                      // $filtered_location_15wk = $order_item->get_meta('location'); //15 wk uses custom attributes
-                      $filtered_location_15wk = $order_item->get_meta('pa_pickup-location'); //15 wk uses custom attributes
-
+                      $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes                      
                       $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
                       $filtered_quantity = $order_item->get_quantity();
 
                       if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
                         $biweekly_total_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location_15wk == $location_name && $filtered_size === 'Bigger') {
+                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Bigger') {
                         $fullseason_bigger_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location_15wk == $location_name && $filtered_size === 'Smaller') {
+                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Smaller') {
                         $fullseason_smaller_count += $filtered_quantity;
                       }
                     }
@@ -318,16 +315,9 @@ global $wpdb, $woocommerce;
 									$extras_count_total += $extras;
 
 									$total_bigger = $bigger_count_total + $extras_count_total;
-									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total + 1;
+									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total;
                 @endphp
-							@endforeach
-							<tr>
-                  <td><strong>Pickup At Farm </strong></td>
-                  <td>0</td>
-									<td>1</td>
-									<td>0</td>
-                  <td>1</td>
-                </tr>
+							@endforeach							
             </tbody>
             <tfoot>
               <tr>
