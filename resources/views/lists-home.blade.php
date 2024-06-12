@@ -114,6 +114,7 @@ global $wpdb, $woocommerce;
   $product_id_15wk = '5958';
   $product_id_biwk = '87354';
 	$product_id_weekly = '59432';
+  $product_id_delivery = '102902';
 	
 
 //first get all the order ids
@@ -122,6 +123,7 @@ global $wpdb, $woocommerce;
 
   $filtered_order_ids_biwk = array();
   $filtered_order_ids_15wk = array();
+  $filtered_order_ids_delivery = array();
 
 @endphp
 
@@ -249,14 +251,21 @@ global $wpdb, $woocommerce;
               </tr>	
             </thead>
             <tbody>
-            
+            @php
+                
+            @endphp
 							@foreach ($select_locations_index as $item)
                 @php
+
                   $weekly_count = 0;
                   $biweekly_total_count = 0;
                   $fullseason_smaller_count = 0;
-                  $fullseason_bigger_count = 0;                
-                  
+                  $fullseason_bigger_count = 0;
+
+                  $delivery_smaller_count = 0;
+                  $delivery_bigger_count = 0;
+                  $delivery_biweekly_count = 0;
+
                   $location = $item['location']->slug;
 									$location_name = $item['location']->name;
 									
@@ -277,6 +286,7 @@ global $wpdb, $woocommerce;
                       $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes                      
                       $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
                       $filtered_quantity = $order_item->get_quantity();
+                      $filtered_frequency = $order_item->get_meta('frequency');
 
                       if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
                         $biweekly_total_count += $filtered_quantity;
@@ -286,6 +296,18 @@ global $wpdb, $woocommerce;
                       }
                       elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Smaller') {
                         $fullseason_smaller_count += $filtered_quantity;
+                      }
+                      elseif ($order_item->get_product_id() == $product_id_delivery && $filtered_size === 'Smaller') {
+                        $delivery_smaller_count += $filtered_quantity;
+                      }
+                      elseif ($order_item->get_product_id() == $product_id_delivery && $filtered_size === 'Bigger') {
+                        $delivery_bigger_count += $filtered_quantity;
+                      }
+                      elseif ($order_item->get_product_id() == $product_id_delivery && $filtered_size === 'Bigger' && $filtered_frequency === 'Bi-weekly (7 weeks)') {
+                        $delivery_biweekly_count += $filtered_quantity;
+                      }
+                      else {
+                        //do nothing                        
                       }
                     }
                   }
@@ -302,7 +324,7 @@ global $wpdb, $woocommerce;
                 @endphp
 
                 <tr>
-                  <td><strong>{{ $item['location']->name }} </strong></td>
+                  <td><strong>{!! $item['location']->name !!} </strong></td>
                   <td>{{ $bigger_count }}</td>
 									<td>{{ $smaller_count }}</td>
 									<td>{{ $extras }}</td>
@@ -317,15 +339,29 @@ global $wpdb, $woocommerce;
 									$total_bigger = $bigger_count_total + $extras_count_total;
 									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total;
                 @endphp
-							@endforeach							
+							@endforeach	
+              
+              @if ($displayBiwk === true)
+                @php
+                    $delivery_bigger_count = $delivery_bigger_count + $delivery_biweekly_count;
+                @endphp
+              @endif
+                <tr>
+                  <td><strong>Delivery </strong></td>
+                  <td>{{ $delivery_bigger_count }}</td>
+                  <td>{{ $delivery_smaller_count }}</td>
+                  <td>0</td>
+                  <td>{{ $delivery_bigger_count + $delivery_smaller_count }}</td>
+                </tr>              
+
             </tbody>
             <tfoot>
               <tr>
                 <td scope="row"><strong>Totals</strong></td>
-                <td><strong>{{ $bigger_count_total }}</strong></td>
-								<td><strong>{{ $smaller_count_total + 1 }}</strong></td>
+                <td><strong>{{ $bigger_count_total + $delivery_bigger_count }}</strong></td>
+								<td><strong>{{ $smaller_count_total + $delivery_smaller_count }}</strong></td>
 								<td><strong>{{ $extras_count_total }}</strong></td>
-                <td><strong>{{ $total_count }}</strong></td>
+                <td><strong>{{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</strong></td>
               </tr>
             </tfoot>						
           </table>		
@@ -333,7 +369,7 @@ global $wpdb, $woocommerce;
 				<div class="count_box week">
 					<h4>This week's totals:</h4>
 					<ul>
-						<li><strong>Bigger (+extra):</strong> {{ $total_bigger + 1 }}</li>
+						<li><strong>Bigger (+extra):</strong> {{ $total_bigger}}</li>
 						<li><strong>Smaller:</strong> {{ $smaller_count_total }}</li>
 						<li><strong>Total:</strong> {{ $total_count }}</li>
 					</ul>
