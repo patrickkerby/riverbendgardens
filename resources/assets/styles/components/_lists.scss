@@ -143,6 +143,14 @@ table.footable > tbody > tr > th {
   .fooicon {
     display: none !important;
   }
+
+  .lists-printall header.banner {
+    display: none;
+  }
+
+  section {
+    margin-top: 0;
+  }
 }
 
 table td.name span {
@@ -158,5 +166,27 @@ section#week-select.row {
 
   form select {
     float: none;
+  }
+}
+
+.totalsline {
+  display: flex;
+  width: 100%;
+  border: solid 2px #333;
+  padding: 1rem;
+
+  * {
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+  }
+
+  ul {
+    display: flex;
+    list-style-type: none;
+
+    li {
+      margin-right: 1rem;
+    }
   }
 }
