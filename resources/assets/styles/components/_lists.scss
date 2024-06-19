@@ -190,3 +190,20 @@ section#week-select.row {
     }
   }
 }
+
+.bagsize {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  background: #c5c3c3;
+  padding: 0.15rem 0.5rem 0 0.5rem;
+  margin-left: 0.5rem;
+  color: #fff;
+  border-radius: 10px;
+  display: inline-flex;
+}
+
+.note {
+  font-size: 0.95rem;
+  line-height: 1.15rem !important;
+}

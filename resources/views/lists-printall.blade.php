@@ -207,6 +207,7 @@ foreach ($orders as $order) {
           $winter_count = 0;
           $winter_count_bigger = 0;
           $winter_count_smaller = 0;
+          $has_biwk = false;
 
           $location_object = get_term_by( 'name', $location, 'pa_pickup-location' );
           $extras_setting = get_field('extras', $location_object);
@@ -227,7 +228,7 @@ foreach ($orders as $order) {
                 <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
                 <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
               @endif --}}
-              <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
+              {{-- <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p> --}}
             </div>
 
             <table style="break-inside: auto; break-before: avoid; break-after:avoid;" class="table footable" data-sorting="true" data-filtering="false" data-sorted="true" data-direction="ASC">
@@ -251,21 +252,21 @@ foreach ($orders as $order) {
                       @php
                         if ($details['items']['size'] == 'Bigger') {
                           $seasonal_count_bigger += $details['items']['quantity'];
-                          $size = "Bigger (Clear Bag)";
+                          $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
                         }
                         
                         if ($details['items']['size'] == 'Smaller') {
                           $seasonal_count_smaller += $details['items']['quantity'];              
-                          $size = "Smaller (White Bag)";
+                          $size = "Smaller <span class=\"bagsize\">White Bag</span>";
                         }
                       @endphp
                       <tr>
                         <td class="name">
                           {{ $details['first_name'] }} {{ $details['last_name'] }}
                         </td>
-                        <td>{{ $size }}</td>
+                        <td>{!! $size !!}</td>
                         <td>{{ $details['items']['quantity'] }}</td>
-                        <td>{{ $details['customer_note'] }}</td>
+                        <td class="note">{{ $details['customer_note'] }}</td>
                       </tr>
                     @endif
                   @endforeach
@@ -293,9 +294,9 @@ foreach ($orders as $order) {
                           <td class="name">
                             {{ $details['first_name'] }} {{ $details['last_name'] }}
                           </td>
-                          <td>Bigger (Clear Bag)</td>
+                          <td>Bigger <span class="bagsize">Clear Bag</span></td>
                           <td>{{ $details['items']['quantity'] }}</td>
-                          <td>{{ $details['customer_note'] }}</td>
+                          <td class="note">{{ $details['customer_note'] }}</td>
                         </tr>
                       @endif
                     @endforeach
