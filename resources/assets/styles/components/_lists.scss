@@ -123,6 +123,11 @@ table.footable > tbody > tr > th {
 
   table.footable > tbody > tr > td {
     font-size: 22px;
+
+    &.note {
+      font-size: 15px !important;
+      line-height: 18px !important;
+    }
   }
 
   .page-template-lists-single table {
