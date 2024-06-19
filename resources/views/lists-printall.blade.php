@@ -219,16 +219,18 @@ foreach ($orders as $order) {
           }
         @endphp
         @unless($location == 'Delivery')
-          <section class="{{ $currentCSAWeek }}" style="page-break-inside: avoid;">  
-            <h2>{!! $location !!}</h2>
-            <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
-            {{-- @if($winter_location)
-              <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
-              <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
-            @endif --}}
-            <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
+          <section class="{{ $currentCSAWeek }}">  
+            <div class="titleblock" style="break-after: avoid;">
+              <h2>{!! $location !!}</h2>
+              <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
+              {{-- @if($winter_location)
+                <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
+                <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
+              @endif --}}
+              <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p>
+            </div>
 
-            <table class="table footable" data-sorting="true" data-filtering="false" data-sorted="true" data-direction="ASC">
+            <table style="break-inside: auto; break-before: avoid; break-after:avoid;" class="table footable" data-sorting="true" data-filtering="false" data-sorted="true" data-direction="ASC">
               <thead>
                 <tr>
                   <th data-sorted="true">Customer Name</th>
