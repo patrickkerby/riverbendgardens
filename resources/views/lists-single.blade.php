@@ -151,41 +151,69 @@ $args = array(
     'limit' => -1,
     'status' => 'processing'
 );
-
-$product_id_15wk = '5958';
+$product_id_fullseason = '5958';
 $product_id_biwk = '87354';
+$product_id_delivery= '102902';
 $product_id_winter = '5484';
+
+if ($product->ID == $product_id_delivery) {
+  $delivery_list = true;
+}
+else {
+  $delivery_list = false;
+}
 
 //first get all the order ids
 $query = new WC_Order_Query( $args );
 $order_ids = $query->get_orders();
 
 $filtered_order_ids_biwk = array();
-$filtered_order_ids_15wk = array();
+$filtered_order_ids_fullseason = array();
 $filtered_order_ids_winter = array();
+$filtered_order_ids_delivery_fullseason = array();
+$filtered_order_ids_delivery_biwk = array();
+
 
 foreach ($order_ids as $order_id) {
   $order = wc_get_order($order_id);
   $order_items = $order->get_items();
   $name = $order->get_billing_first_name();
+
   //iterate through an order's items
   foreach ($order_items as $item) {
     $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
+    $delivery_frequency = $item->get_meta('frequency');
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
       array_push($filtered_order_ids_biwk, $order_id);
       // break;
     }
-    if ($item->get_product_id() == $product_id_15wk && $filtered_location == $location_slug) {
-      array_push($filtered_order_ids_15wk, $order_id);
+    if ($item->get_product_id() == $product_id_fullseason && $filtered_location == $location_slug) {
+      array_push($filtered_order_ids_fullseason, $order_id);
       // break;
     }
     if ($item->get_product_id() == $product_id_winter && $filtered_location == $location_slug) {
       array_push($filtered_order_ids_winter, $order_id);
       // break;
     }
+    if ($item->get_product_id() == $product_id_delivery && $delivery_frequency == "Every Week (14 weeks)") {
+      array_push($filtered_order_ids_delivery_fullseason, $order_id);
+      // break;
+    }
+    if ($item->get_product_id() == $product_id_delivery && $delivery_frequency == "Bi-weekly (7 weeks)") {
+      array_push($filtered_order_ids_delivery_biwk, $order_id);
+      // break;
+    }
   }
+}
+
+if($delivery_list) {
+  $filtered_order_ids = $filtered_order_ids_delivery_fullseason;
+  $filtered_order_ids_biwk = $filtered_order_ids_delivery_biwk;
+}
+else {
+  $filtered_order_ids = $filtered_order_ids_fullseason;
 }
 
 @endphp
@@ -206,7 +234,6 @@ foreach ($order_ids as $order_id) {
       @unless($winter_location)
         <h2>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h2>
       @endunless
-      
       <section class="{{ $currentCSAWeek }}">
         @if($winter_location)
           <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
@@ -219,6 +246,9 @@ foreach ($order_ids as $order_id) {
           <thead>
             <tr>
               <th data-sorted="true">Customer Name</th>
+              @if($delivery_list)
+                <th class="address">Address</th>
+              @endif
               <th>Size</th>
               <th data-breakpoints="xs sm">Qty</th>
               <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
@@ -228,12 +258,14 @@ foreach ($order_ids as $order_id) {
 
             @unless($winter_location)
 
-              @foreach ($filtered_order_ids_15wk as $details)
+              @foreach ($filtered_order_ids as $details)
                 @php 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
                   $customer_note = $details->get_customer_note();
-
+                  $address = $details->get_shipping_address_1();
+                  $city = $details->get_shipping_city();
+                  
                   foreach ($details->get_items() as $item_id => $item) {
                     $quantity = $item->get_quantity();
                     $size = $item->get_meta( 'size', true );
@@ -252,16 +284,19 @@ foreach ($order_ids as $order_id) {
                 }
                 
                 @endphp
-                <tr>
-                  <td class="name">
-                    {{ $first_name }} {{ $last_name }}
-                  </td>
-                  <td>{{ $size }}</td>
-                  <td>{{ $quantity }}</td>
-                  <td>{{ $customer_note }}</td>
-                </tr>
-              @endforeach
 
+                  <tr>
+                    <td class="name">
+                      {{ $first_name }} {{ $last_name }}
+                    </td>
+                    @if($delivery_list)
+                      <td class="address">{{ $address }}, {{ $city }}</td>
+                    @endif
+                    <td>{{ $size }}</td>
+                    <td>{{ $quantity }}</td>
+                    <td>{{ $customer_note }}</td>
+                  </tr>                
+              @endforeach
             @endunless
 
             @if($winter_location)
@@ -270,6 +305,8 @@ foreach ($order_ids as $order_id) {
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
                   $customer_note = $details->get_customer_note();
+                  $address = $details->get_shipping_address_1();
+                  $city = $details->get_shipping_city();
 
                   foreach ($details->get_items() as $item_id => $item) {
                     $quantity = $item->get_quantity();
@@ -292,12 +329,14 @@ foreach ($order_ids as $order_id) {
                   <td class="name">
                     {{ $first_name }} {{ $last_name }}
                   </td>
+                  @if($delivery_list)
+                      <td class="address">{{ $address }}, {{ $city }}</td>
+                    @endif
                   <td>{{ $size }}</td>
                   <td>{{ $quantity }}</td>
                   <td>{{ $customer_note }}</td>
                 </tr>
               @endforeach
-              
             @endif
           </tbody>
         </table>
@@ -310,6 +349,9 @@ foreach ($order_ids as $order_id) {
             <thead>
               <tr>
                 <th data-sorted="true">Customer Name</th>
+                @if($delivery_list)
+                      <th class="address">Address</td>
+                    @endif
                 <th>Size</th>
                 <th data-breakpoints="xs sm">Qty</th>
                 <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
@@ -323,6 +365,8 @@ foreach ($order_ids as $order_id) {
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
                   $customer_note = $details->get_customer_note();
+                  $address = $details->get_shipping_address_1();
+                  $city = $details->get_shipping_city();
 
                   foreach ($details->get_items() as $item_id => $item) {
                     $biwk_quantity = $item->get_quantity();                                   
@@ -336,6 +380,9 @@ foreach ($order_ids as $order_id) {
                   <td class="name">
                     {{ $first_name }} {{ $last_name }}
                   </td>
+                  @if($delivery_list)
+                      <td class="address">{{ $address }}, {{ $city }}</td>
+                    @endif
                   <td>Bigger</td>
                   <td>{{ $biwk_quantity }}</td>
                   <td>{{ $customer_note }}</td>
