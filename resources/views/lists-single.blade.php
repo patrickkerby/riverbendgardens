@@ -197,13 +197,15 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_winter, $order_id);
       // break;
     }
-    if ($item->get_product_id() == $product_id_delivery && $delivery_frequency == "Every Week (14 weeks)") {
-      array_push($filtered_order_ids_delivery_fullseason, $order_id);
-      // break;
+    if ($displayBiwk) {
+      if ($item->get_product_id() == $product_id_delivery) {
+        array_push($filtered_order_ids_delivery_fullseason, $order_id);
+      }      
     }
-    if ($item->get_product_id() == $product_id_delivery && $delivery_frequency == "Bi-weekly (7 weeks)") {
-      array_push($filtered_order_ids_delivery_biwk, $order_id);
-      // break;
+    else {
+      if ($item->get_product_id() == $product_id_delivery && $delivery_frequency == "Every Week (14 weeks)") {
+        array_push($filtered_order_ids_delivery_fullseason, $order_id);
+      }
     }
   }
 }
@@ -245,8 +247,9 @@ else {
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
           <thead>
             <tr>
-              <th data-sorted="true">Customer Name</th>
-              @if($delivery_list)
+              <th data-sorted="true">#</th>
+              <th>Customer Name</th>
+              @if  ($delivery_list)
                 <th class="address">Address</th>
               @endif
               <th>Size</th>
@@ -265,6 +268,10 @@ else {
                   $customer_note = $details->get_customer_note();
                   $address = $details->get_shipping_address_1();
                   $city = $details->get_shipping_city();
+                  $phone = $details->get_billing_phone();
+                  $phone = preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $phone);
+
+                  $order_of_display = $details->get_meta('order_of_display');
                   
                   foreach ($details->get_items() as $item_id => $item) {
                     $quantity = $item->get_quantity();
@@ -283,14 +290,19 @@ else {
                   $size = "Smaller (White Bag)";
                 }
                 
+                $display_order = sprintf("%'.02d\n", $order_of_display);
                 @endphp
 
                   <tr>
+                    <td>{{ $display_order }}</td>
                     <td class="name">
-                      {{ $first_name }} {{ $last_name }}
+                     
+                     {{ $first_name }} {{ $last_name }}<br>
+                     <span style="font-size: 15px;">{{ $phone }}</span>
+
                     </td>
                     @if($delivery_list)
-                      <td class="address">{{ $address }}, {{ $city }}</td>
+                      <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
                     @endif
                     <td>{{ $size }}</td>
                     <td>{{ $quantity }}</td>
@@ -341,7 +353,7 @@ else {
           </tbody>
         </table>
          
-      @unless($winter_location)
+      @unless($winter_location || $delivery_list)
         @if ($displayBiwk)  
         <section class="bi-weekly">
           <h3>Bi-weekly Orders</h3>
