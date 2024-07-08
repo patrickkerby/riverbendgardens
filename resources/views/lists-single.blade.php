@@ -296,7 +296,7 @@ else {
                 @endphp
 
                   <tr>
-                    @if ($delivery_list)
+                    @if ($delivery_list)                      
                       <td>{{ $display_order }}</td>
                     @endif
                     <td class="name">                     
@@ -313,7 +313,7 @@ else {
                     <td>{{ $customer_note }}</td>
                   </tr>                
               @endforeach
-              @if ($delivery_list)
+              @if ($delivery_list)                
                 <tr>
                   <td>99</td>
                   <td class="name">Town Square Brewing <br>
@@ -321,9 +321,17 @@ else {
                   </td>
                   <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
                   @if ($displayBiwk)
-                    <td>17 Bigger | 11 Smaller</td>
+                    <td>16 Bigger | 12 Smaller</td>
+                    @php
+                      $seasonal_count_bigger += 16; 
+                      $seasonal_count_smaller += 12;     
+                    @endphp
                   @else
-                    <td>12 Bigger | 11 Smaller</td>
+                    <td>11 Bigger | 12 Smaller</td>
+                    @php
+                      $seasonal_count_bigger += 12;
+                      $seasonal_count_smaller += 12;
+                    @endphp
                   @endif
                   <td></td>
                   <td></td>
