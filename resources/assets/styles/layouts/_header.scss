@@ -18,6 +18,13 @@
 
   @include slowfade();
 
+  @include media-breakpoint-down(sm) {
+    .lists & {
+      min-height: unset;
+      height: auto;
+    }
+  }
+
   &.sm {
     height: 450px;
     min-height: 400px;
@@ -175,6 +182,12 @@
 
     .sub-nav-selector {
       padding: 3rem 0;
+
+      @include media-breakpoint-down(sm) {
+        select {
+          max-width: 60%;
+        }
+      }
     }
   }
 }

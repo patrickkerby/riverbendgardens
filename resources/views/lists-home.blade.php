@@ -369,7 +369,7 @@ global $wpdb, $woocommerce;
 				<div class="count_box week">
 					<h4>This week's totals:</h4>
 					<ul>
-						<li><strong>Bigger (+extra):</strong> {{ $total_bigger + $delivery_bigger_count}}</li>
+						<li><strong>Bigger:</strong> {{ $total_bigger + $delivery_bigger_count}}</li>
 						<li><strong>Smaller:</strong> {{ $smaller_count_total + $delivery_smaller_count }}</li>
 						<li><strong>Total:</strong> {{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</li>
 					</ul>

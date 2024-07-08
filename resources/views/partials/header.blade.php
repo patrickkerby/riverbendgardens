@@ -101,7 +101,7 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
 
   @elseif ( is_page( 'lists' ) || '58119' == $post->post_parent ) )
     <h1 class="page-title"><?php the_title(); ?></h1>
-    <div class="row subtitle justify-content-center">
+    <div class="row subtitle no-gutters justify-content-center">
       <div class="col-md-7">@php echo $sub_title; @endphp </div>
       <nav class="col-md-8 sub-nav-selector">
         <form action="@php bloginfo('url'); @endphp" method="get">

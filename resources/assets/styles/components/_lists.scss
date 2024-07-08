@@ -46,6 +46,38 @@ section.week table {
     margin: 0 auto;
     padding: 0;
   }
+
+  @include media-breakpoint-down(sm) {
+    width: 100vw;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    h4 {
+      display: none;
+    }
+
+    ul {
+      display: flex;
+      justify-content: space-around;
+
+      li {
+        display: flex;
+        flex-direction: column;
+        font-size: 2rem;
+
+        strong {
+          margin: 0;
+          padding: 0;
+          color: #7db84b;
+          font-size: 13px;
+          text-transform: uppercase;
+          font-weight: 800;
+          top: 0;
+        }
+      }
+    }
+  }
 }
 
 .count_box h4,
@@ -69,22 +101,11 @@ table.footable > tbody > tr > th {
   display: table-cell;
 }
 
-// #component_1562141833,
-// #component_1452447170,
-// #component_1452448748,
-// #component_1452448749,
-// #component_1452448750,
-// #component_1452448751,
-// #component_1452448752,
-// #component_1452448753,
-// #component_1452448754,
-// #component_1452448755,
-// #component_1452448756,
-// #component_1452448757,
-// #component_1452448758,
-// #component_1452448759 {
-//   display: none !important;
-// }
+.lists table.footable thead tr th {
+  @include media-breakpoint-down(sm) {
+    transform: rotate(0deg) !important;
+  }
+}
 
 @media print {
   .banner .nav-primary,
@@ -168,6 +189,10 @@ table td.name span {
 
 section#week-select.row {
   margin-bottom: -9rem;
+
+  @include media-breakpoint-down(sm) {
+    margin: 0;
+  }
 
   form select {
     float: none;
