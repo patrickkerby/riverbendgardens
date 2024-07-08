@@ -62,7 +62,7 @@ $pickup_weeks = get_post_meta(59432, '_bto_data', true); // This gets all the co
 
 // Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
   $currentWeek = date('W');
-  $currentCSAWeek = $currentWeek - 27;
+  $currentCSAWeek = $currentWeek - 28;
 
   if ($currentCSAWeek === 0) {
     $currentCSAWeek = 1;
