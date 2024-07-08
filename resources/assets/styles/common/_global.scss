@@ -197,3 +197,11 @@ body {
 .fullwidth {
   @include fullwidth;
 }
+
+//sitewide banner
+.woocommerce-store-notice {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  top: unset;
+}
