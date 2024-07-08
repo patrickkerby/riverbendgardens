@@ -243,7 +243,6 @@ foreach ($orders as $order) {
               <tbody>
                   @foreach ($orders_formatted as $details)
                     @php 
-                      // print('<pre>'.print_r($details,true).'</pre>');
                       if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_biwk) {
                         $has_biwk = true;
                       }
@@ -288,7 +287,7 @@ foreach ($orders as $order) {
                     @foreach ($orders_formatted as $details)                    
                       @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_biwk)
                         @php
-                          $biwk_count += $quantity;
+                          $biwk_count += $details['items']['quantity'];
                         @endphp
                         <tr>
                           <td class="name">
