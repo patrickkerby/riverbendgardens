@@ -247,7 +247,9 @@ else {
         <table class="table footable" data-sorting="true" data-filtering="true" data-sorted="true" data-direction="ASC">
           <thead>
             <tr>
-              <th data-sorted="true">#</th>
+              @if ($delivery_list)
+                <th data-sorted="true">#</th>
+              @endif
               <th>Customer Name</th>
               @if  ($delivery_list)
                 <th class="address">Address</th>
@@ -294,12 +296,14 @@ else {
                 @endphp
 
                   <tr>
-                    <td>{{ $display_order }}</td>
-                    <td class="name">
-                     
-                     {{ $first_name }} {{ $last_name }}<br>
-                     <span style="font-size: 15px;">{{ $phone }}</span>
-
+                    @if ($delivery_list)
+                      <td>{{ $display_order }}</td>
+                    @endif
+                    <td class="name">                     
+                      {{ $first_name }} {{ $last_name }}
+                      @if ($delivery_list)
+                        <br><span style="font-size: 15px;">{{ $phone }}</span>
+                      @endif
                     </td>
                     @if($delivery_list)
                       <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
@@ -309,6 +313,22 @@ else {
                     <td>{{ $customer_note }}</td>
                   </tr>                
               @endforeach
+              @if ($delivery_list)
+                <tr>
+                  <td>99</td>
+                  <td class="name">Town Square Brewing <br>
+                    <span style="font-size: 15px;">(780) 244-0212</span>
+                  </td>
+                  <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
+                  @if ($displayBiwk)
+                    <td>17 Bigger | 11 Smaller</td>
+                  @else
+                    <td>12 Bigger | 11 Smaller</td>
+                  @endif
+                  <td></td>
+                  <td></td>
+                </tr>  
+              @endif
             @endunless
 
             @if($winter_location)

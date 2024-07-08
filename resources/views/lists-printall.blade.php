@@ -213,7 +213,7 @@ foreach ($orders as $order) {
           $extras_setting = get_field('extras', $location_object);
                  
           if($extras_setting == true) {
-            $extras = 2;
+            $extras = 1;
           }
           else {
             $extras = 0;

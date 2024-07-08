@@ -272,7 +272,7 @@ global $wpdb, $woocommerce;
 									$extras = $item['extras'];
 									
                   if ($extras === true) {
-										$extras = 2;
+										$extras = 1;
 									}
                   else {
                     $extras = 0;
