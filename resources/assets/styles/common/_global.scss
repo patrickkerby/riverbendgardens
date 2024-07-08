@@ -200,8 +200,7 @@ body {
 
 //sitewide banner
 .woocommerce-store-notice {
-  display: block;
-  position: fixed;
-  bottom: 0;
-  top: unset;
+  position: fixed !important;
+  bottom: 0 !important;
+  top: unset !important;
 }
