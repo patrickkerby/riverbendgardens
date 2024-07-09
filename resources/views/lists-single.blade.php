@@ -315,7 +315,7 @@ else {
               @endforeach
               @if ($delivery_list)                
                 <tr>
-                  <td>99</td>
+                  <td>00</td>
                   <td class="name">Town Square Brewing <br>
                     <span style="font-size: 15px;">(780) 244-0212</span>
                   </td>
