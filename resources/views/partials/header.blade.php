@@ -111,7 +111,7 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
                 'depth' => '-1',
                 'child_of'  => '58119',
                 'sort_column' => 'menu_order, post_title',
-                'show_option_none' => 'Show all locations...',
+                'show_option_none' => 'Lists Home Page...',
                 'option_none_value' => '58119',
                 'post_status' => array( 'publish', 'private' )
             );
