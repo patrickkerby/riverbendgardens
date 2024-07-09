@@ -321,15 +321,15 @@ else {
                   </td>
                   <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
                   @if ($displayBiwk)
-                    <td>16 Bigger | 13 Smaller</td>
+                    <td>15 Bigger | 13 Smaller</td>
                     @php
-                      $seasonal_count_bigger += 16; 
+                      $seasonal_count_bigger += 15; 
                       $seasonal_count_smaller += 13;     
                     @endphp
                   @else
-                    <td>11 Bigger | 13 Smaller</td>
+                    <td>10 Bigger | 13 Smaller</td>
                     @php
-                      $seasonal_count_bigger += 12;
+                      $seasonal_count_bigger += 10;
                       $seasonal_count_smaller += 13;
                     @endphp
                   @endif
