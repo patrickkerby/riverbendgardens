@@ -346,22 +346,30 @@ global $wpdb, $woocommerce;
                     $delivery_bigger_count = $delivery_bigger_count + $delivery_biweekly_count;
                 @endphp
               @endif
-                <tr>
-                  <td><strong>Delivery </strong></td>
-                  <td>{{ $delivery_bigger_count }}</td>
-                  <td>{{ $delivery_smaller_count }}</td>
-                  <td>0</td>
-                  <td>{{ $delivery_bigger_count + $delivery_smaller_count }}</td>
-                </tr>              
+                
+              <tr>
+                <td><strong>Pickup on Farm </strong></td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td><strong>Delivery </strong></td>
+                <td>{{ $delivery_bigger_count }}</td>
+                <td>{{ $delivery_smaller_count }}</td>
+                <td>0</td>
+                <td>{{ $delivery_bigger_count + $delivery_smaller_count }}</td>
+              </tr>              
 
             </tbody>
             <tfoot>
               <tr>
                 <td scope="row"><strong>Totals</strong></td>
                 <td><strong>{{ $bigger_count_total + $delivery_bigger_count }}</strong></td>
-								<td><strong>{{ $smaller_count_total + $delivery_smaller_count }}</strong></td>
+								<td><strong>{{ $smaller_count_total + $delivery_smaller_count + 1 }}</strong></td>
 								<td><strong>{{ $extras_count_total }}</strong></td>
-                <td><strong>{{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</strong></td>
+                <td><strong>{{ $total_count + $delivery_bigger_count + $delivery_smaller_count + 1 }}</strong></td>
               </tr>
             </tfoot>						
           </table>		
@@ -370,8 +378,8 @@ global $wpdb, $woocommerce;
 					<h4>This week's totals:</h4>
 					<ul>
 						<li><strong>Bigger:</strong> {{ $total_bigger + $delivery_bigger_count}}</li>
-						<li><strong>Smaller:</strong> {{ $smaller_count_total + $delivery_smaller_count }}</li>
-						<li><strong>Total:</strong> {{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</li>
+						<li><strong>Smaller:</strong> {{ $smaller_count_total + $delivery_smaller_count + 1 }}</li>
+						<li><strong>Total:</strong> {{ $total_count + $delivery_bigger_count + $delivery_smaller_count + 1 }}</li>
 					</ul>
 				</div>
       {{-- @endforeach --}}
