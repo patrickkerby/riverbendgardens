@@ -256,7 +256,8 @@ else {
               @endif
               <th>Size</th>
               <th data-breakpoints="xs sm">Qty</th>
-              <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
+              <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+              {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
             </tr>
           </thead>
           <tbody>
@@ -272,8 +273,10 @@ else {
                   $city = $details->get_shipping_city();
                   $phone = $details->get_billing_phone();
                   $phone = preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $phone);
-
+                  
                   $order_of_display = $details->get_meta('order_of_display');
+                  $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
+
                   
                   foreach ($details->get_items() as $item_id => $item) {
                     $quantity = $item->get_quantity();
@@ -284,12 +287,12 @@ else {
                 
                 if ($size == 'Bigger') {
                   $seasonal_count_bigger += $quantity;
-                  $size = "Bigger (Clear Bag)";
+                  $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
                 }
                 
                 if ($size == 'Smaller') {
                   $seasonal_count_smaller += $quantity;              
-                  $size = "Smaller (White Bag)";
+                  $size = "Smaller <span class=\"bagsize\">White Bag</span>";
                 }
                 
                 $display_order = sprintf("%'.02d\n", $order_of_display);
@@ -308,9 +311,13 @@ else {
                     @if($delivery_list)
                       <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
                     @endif
-                    <td>{{ $size }}</td>
+                    <td>{!! $size !!}</td>
                     <td>{{ $quantity }}</td>
-                    <td>{{ $customer_note }}</td>
+                    @if($delivery_list)
+                      <td>{{ $customer_note }}</td>
+                    @else
+                      <td class="note">{{ $alternate_pickup_names }}</td>
+                    @endif
                   </tr>                
               @endforeach
               @if ($delivery_list)                
@@ -347,6 +354,7 @@ else {
                   $customer_note = $details->get_customer_note();
                   $address = $details->get_shipping_address_1();
                   $city = $details->get_shipping_city();
+                  $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
 
                   foreach ($details->get_items() as $item_id => $item) {
                     $quantity = $item->get_quantity();
@@ -394,7 +402,8 @@ else {
                     @endif
                 <th>Size</th>
                 <th data-breakpoints="xs sm">Qty</th>
-                <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
+                <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+                {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
               </tr>
             </thead>
             <tbody>
@@ -407,6 +416,7 @@ else {
                   $customer_note = $details->get_customer_note();
                   $address = $details->get_shipping_address_1();
                   $city = $details->get_shipping_city();
+                  $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
 
                   foreach ($details->get_items() as $item_id => $item) {
                     $biwk_quantity = $item->get_quantity();                                   
@@ -421,11 +431,15 @@ else {
                     {{ $first_name }} {{ $last_name }}
                   </td>
                   @if($delivery_list)
-                      <td class="address">{{ $address }}, {{ $city }}</td>
-                    @endif
-                  <td>Bigger</td>
+                    <td class="address">{{ $address }}, {{ $city }}</td>
+                  @endif
+                  <td>Bigger <span class="bagsize">Clear Bag</span></td>
                   <td>{{ $biwk_quantity }}</td>
-                  <td>{{ $customer_note }}</td>
+                  @if($delivery_list)
+                    <td>{{ $customer_note }}</td>
+                  @else
+                    <td class="note">{{ $alternate_pickup_names }}</td>
+                  @endif
                 </tr>
               @endforeach	
             </tbody>

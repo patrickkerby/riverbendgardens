@@ -135,11 +135,13 @@ foreach ($orders as $order) {
   $last_name = $order->get_billing_last_name();                
   $customer_note = $order->get_customer_note();
   $order_id = $order->get_id();
+  $alternate_pickup_names = $order->get_meta('Pickup Name(s)');
 
   $orders_formatted[$order_id] = array(
     'first_name' => $first_name,
     'last_name' => $last_name,
-    'customer_note' => $customer_note
+    'customer_note' => $customer_note,
+    'alternate_pickup_names' => $alternate_pickup_names
   );
 
   //iterate through an order's items
@@ -237,7 +239,8 @@ foreach ($orders as $order) {
                   <th data-sorted="true">Customer Name</th>
                   <th>Size</th>
                   <th data-breakpoints="xs sm">Qty</th>
-                  <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
+                  <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+                  {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
                 </tr>
               </thead>
               <tbody>
@@ -265,7 +268,8 @@ foreach ($orders as $order) {
                         </td>
                         <td>{!! $size !!}</td>
                         <td>{{ $details['items']['quantity'] }}</td>
-                        <td class="note">{{ $details['customer_note'] }}</td>
+                        <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                        {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
                       </tr>
                     @endif
                   @endforeach
@@ -279,7 +283,8 @@ foreach ($orders as $order) {
                     <th data-sorted="true">Customer Name</th>
                     <th>Size</th>
                     <th data-breakpoints="xs sm">Qty</th>
-                    <th data-breakpoints="xs sm" width="30%">Purchase Note</th>
+                    <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+                    {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
                   </tr>
                 </thead>
                 <tbody>
@@ -295,7 +300,8 @@ foreach ($orders as $order) {
                           </td>
                           <td>Bigger <span class="bagsize">Clear Bag</span></td>
                           <td>{{ $details['items']['quantity'] }}</td>
-                          <td class="note">{{ $details['customer_note'] }}</td>
+                          <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                          {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
                         </tr>
                       @endif
                     @endforeach
