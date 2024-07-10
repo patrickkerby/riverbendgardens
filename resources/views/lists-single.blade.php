@@ -319,7 +319,7 @@ else {
                   <td class="name">Town Square Brewing <br>
                     <span style="font-size: 15px;">(780) 244-0212</span>
                   </td>
-                  <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
+                  <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr=2919 Ellwood Dr SW Edmonton">2919 Ellwood Dr SW, Edmonton</a></td>
                   @if ($displayBiwk)
                     <td>15 Bigger | 13 Smaller</td>
                     @php
