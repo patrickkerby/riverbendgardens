@@ -206,6 +206,7 @@ section#week-select.row {
   width: 100%;
   border: solid 2px #333;
   padding: 1rem;
+  page-break-after: always !important;
 
   * {
     margin: 0;

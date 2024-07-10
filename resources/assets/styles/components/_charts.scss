@@ -52,7 +52,9 @@ table thead th {
   font-size: 14px;
   text-transform: uppercase;
   color: $forest-green;
+}
 
+.veggies table thead th {
   @include media-breakpoint-down(sm) {
     transform: rotate(-90deg);
   }
