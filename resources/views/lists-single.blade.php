@@ -323,13 +323,13 @@ else {
                   @if ($displayBiwk)
                     <td>15 Bigger | 13 Smaller</td>
                     @php
-                      $seasonal_count_bigger += 15; 
+                      $seasonal_count_bigger += 16; 
                       $seasonal_count_smaller += 13;     
                     @endphp
                   @else
                     <td>10 Bigger | 13 Smaller</td>
                     @php
-                      $seasonal_count_bigger += 10;
+                      $seasonal_count_bigger += 11;
                       $seasonal_count_smaller += 13;
                     @endphp
                   @endif
