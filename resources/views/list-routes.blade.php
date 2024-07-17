@@ -60,7 +60,7 @@ global $wpdb, $woocommerce;
 
 // Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
   $currentWeek = date('W');
-  $currentCSAWeek = $currentWeek - 28;
+  $currentCSAWeek = $currentWeek - 27;
 
   if ($currentCSAWeek == 0) {
     $currentCSAWeek = 1;
