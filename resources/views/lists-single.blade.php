@@ -328,13 +328,13 @@ else {
                   </td>
                   <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr=2919 Ellwood Dr SW Edmonton">2919 Ellwood Dr SW, Edmonton</a></td>
                   @if ($displayBiwk)
-                    <td>15 Bigger | 13 Smaller</td>
+                    <td>17 Bigger | 13 Smaller</td>
                     @php
-                      $seasonal_count_bigger += 16; 
+                      $seasonal_count_bigger += 17; 
                       $seasonal_count_smaller += 13;     
                     @endphp
                   @else
-                    <td>10 Bigger | 13 Smaller</td>
+                    <td>11 Bigger | 13 Smaller</td>
                     @php
                       $seasonal_count_bigger += 11;
                       $seasonal_count_smaller += 13;
