@@ -373,9 +373,9 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><i class="fas fa-check-circle"></i></td>
+        <td><i class="fas fa-check-circle"></i></td>
+        <td><i class="fas fa-check-circle"></i></td>
         {{-- <td><i class="fas fa-check-circle"></i></td> --}}
       </tr>
       <tr>
