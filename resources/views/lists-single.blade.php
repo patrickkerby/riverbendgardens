@@ -182,6 +182,7 @@ foreach ($order_ids as $order_id) {
   //iterate through an order's items
   foreach ($order_items as $item) {
     $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
+    $filtered_location_winter = $item->get_meta('location');;
     $delivery_frequency = $item->get_meta('frequency');
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
@@ -193,7 +194,7 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_fullseason, $order_id);
       // break;
     }
-    if ($item->get_product_id() == $product_id_winter && $filtered_location == $location_slug) {
+    if ($item->get_product_id() == $product_id_winter && $filtered_location_winter == $location_name) {
       array_push($filtered_order_ids_winter, $order_id);
       // break;
     }

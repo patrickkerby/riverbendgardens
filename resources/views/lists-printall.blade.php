@@ -99,6 +99,13 @@
 
   $weekXTitle = date('F d, Y', strtotime($weekX_row['week']));
 	
+if($currentCSAWeek > 14) {
+  $late_season = true;
+ }
+ else {
+  $late_season = false;
+ }
+
   // 15 week query
   // (all orders with a location of X and a product of Y. Product and Location is set via ACF on a Page.
 
@@ -130,13 +137,14 @@
 //Build base struture of all order data we need
 
 foreach ($orders as $order) {
+
   // $order = wc_get_order($order_id);
   $first_name = $order->get_billing_first_name();
   $last_name = $order->get_billing_last_name();                
   $customer_note = $order->get_customer_note();
   $order_id = $order->get_id();
   $alternate_pickup_names = $order->get_meta('Pickup Name(s)');
-
+  
   $orders_formatted[$order_id] = array(
     'first_name' => $first_name,
     'last_name' => $last_name,
@@ -151,13 +159,18 @@ foreach ($orders as $order) {
     $quantity = $item->get_quantity();
     $size = $item->get_meta( 'size', true );
     $location_slug = $item->get_meta('pa_pickup-location');
+    $location_name_winter = $item->get_meta('location');
     $location_object = get_term_by( 'slug', $location_slug, 'pa_pickup-location' );
     
     if($location_object) {
       $location = $location_object->name;
+      $extras_setting = get_field('extras', $location_object);
     }
-
-    $extras_setting = get_field('extras', $location_object);
+    elseif($location_name_winter) {
+      $location = $location_name_winter;
+      $location_slug = $location_name_winter;
+      $extras_setting = 1;
+    }
 
     if($product_id == $product_id_biwk) {
       $size = 'Bigger';
@@ -170,6 +183,7 @@ foreach ($orders as $order) {
     $active_locations[] = $location;
     $active_locations = array_unique($active_locations);
     sort($active_locations);
+
 
     $orders_formatted[$order_id]['items'] = array(
       'product_id' => $product_id,  
@@ -197,6 +211,26 @@ foreach ($orders as $order) {
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
     
+@dump($active_locations)
+
+      @php
+        $active_locations = [
+          'Highlands Area Pick Up',
+          'Catch of the Week',
+          'Confetti Sweets',
+          'Acme Meat Market',
+          "D'Arcy's Meats (Whitemud Crossing)",
+          'Town Square Brewing',
+          'Remedy (Terwillegar)',
+          'Bon Ton Bakery',
+          'Remedy (109th St)',
+          'Remedy (Jasper Ave)',
+          "D'Arcy's Meats (St Albert)",
+          'Ribeye Butcher Shop (Manning Location)',
+        ];
+        ksort($active_locations);
+      @endphp
+
       @foreach($active_locations as $location)
 
         @php        
@@ -220,12 +254,17 @@ foreach ($orders as $order) {
           else {
             $extras = 0;
           }
+          if($late_season) {
+            $extras = 1;
+          }
         @endphp
         @unless($location == 'Delivery')
           <section class="{{ $currentCSAWeek }}">  
             <div class="titleblock" style="break-after: avoid;">
               <h2>{!! $location !!}</h2>
-              <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
+              @unless($late_season)
+                <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
+              @endunless              
               {{-- @if($winter_location)
                 <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
                 <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
@@ -260,6 +299,29 @@ foreach ($orders as $order) {
                         if ($details['items']['size'] == 'Smaller') {
                           $seasonal_count_smaller += $details['items']['quantity'];              
                           $size = "Smaller <span class=\"bagsize\">White Bag</span>";
+                        }
+                      @endphp
+                      <tr>
+                        <td class="name">
+                          {{ $details['first_name'] }} {{ $details['last_name'] }}
+                        </td>
+                        <td>{!! $size !!}</td>
+                        <td>{{ $details['items']['quantity'] }}</td>
+                        <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                        {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
+                      </tr>
+                    @endif
+                    {{-- Winter CSA below --}}
+                    @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_winter)
+                      @php
+                        if ($details['items']['size'] == 'Bigger') {
+                          $seasonal_count_bigger += $details['items']['quantity'];
+                          $size = "Bigger <span class=\"bagsize\">2 Clear Bags</span>";
+                        }
+                        
+                        if ($details['items']['size'] == 'Smaller') {
+                          $seasonal_count_smaller += $details['items']['quantity'];              
+                          $size = "Smaller <span class=\"bagsize\">2 White Bags</span>";
                         }
                       @endphp
                       <tr>

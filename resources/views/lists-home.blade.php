@@ -369,7 +369,7 @@ global $wpdb, $woocommerce;
                 <td><strong>{{ $bigger_count_total + $delivery_bigger_count }}</strong></td>
 								<td><strong>{{ $smaller_count_total + $delivery_smaller_count + 1 }}</strong></td>
 								<td><strong>{{ $extras_count_total }}</strong></td>
-                <td><strong>{{ $total_count + $delivery_bigger_count + $delivery_smaller_count + 1 }}</strong></td>
+                <td><strong>{{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</strong></td>
               </tr>
             </tfoot>						
           </table>		
@@ -378,8 +378,8 @@ global $wpdb, $woocommerce;
 					<h4>This week's totals:</h4>
 					<ul>
 						<li><strong>Bigger:</strong> {{ $total_bigger + $delivery_bigger_count}}</li>
-						<li><strong>Smaller:</strong> {{ $smaller_count_total + $delivery_smaller_count + 1 }}</li>
-						<li><strong>Total:</strong> {{ $total_count + $delivery_bigger_count + $delivery_smaller_count + 1 }}</li>
+						<li><strong>Smaller:</strong> {{ $smaller_count_total + $delivery_smaller_count }}</li>
+						<li><strong>Total:</strong> {{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</li>
 					</ul>
 				</div>
       {{-- @endforeach --}}

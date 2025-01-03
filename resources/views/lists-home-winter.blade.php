@@ -78,7 +78,7 @@ function weekCheck($prevWeek, $nextWeek) {
 						<th scope="col">Location</th>
 						<th data-type="number" scope="col">Bigger</th>
 						<th data-type="number" scope="col">Smaller</th>
-						<th data-type="number" scope="col">Total (15wk)</th>
+						<th data-type="number" scope="col">Total</th>
 					</tr>	 
 				</thead>
 				<tbody>
@@ -167,7 +167,7 @@ function weekCheck($prevWeek, $nextWeek) {
 							<tr>
 								<th scope="row"><strong>Totals</strong></th>
 								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count + 1 ); @endphp</td>
+								<td>Smaller: @php echo( $smaller_count ); @endphp</td>
 								<td>Total: @php echo( $bigger_count + $smaller_count ); @endphp</td>
 							</tr>
 						</tfoot>						
@@ -178,7 +178,7 @@ function weekCheck($prevWeek, $nextWeek) {
 				<h4>This week's totals:</h4>
 				<ul>
 					<li><strong>Bigger:</strong> @php echo( $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $smaller_count + 1 ); @endphp </li>
+					<li><strong>Smaller:</strong> @php echo( $smaller_count ); @endphp </li>
 					<li><strong>Extras:</strong> 12 </li>
 					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 12 ); @endphp</li>
 				</ul>
