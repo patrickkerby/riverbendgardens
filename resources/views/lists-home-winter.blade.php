@@ -78,7 +78,7 @@ function weekCheck($prevWeek, $nextWeek) {
 						<th scope="col">Location</th>
 						<th data-type="number" scope="col">Bigger</th>
 						<th data-type="number" scope="col">Smaller</th>
-						<th data-type="number" scope="col">Total</th>
+						<th data-type="number" scope="col">Total (15wk)</th>
 					</tr>	 
 				</thead>
 				<tbody>

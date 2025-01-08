@@ -211,7 +211,6 @@ foreach ($orders as $order) {
   <div class="post-content">
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
     
-@dump($active_locations)
 
       @php
         $active_locations = [
