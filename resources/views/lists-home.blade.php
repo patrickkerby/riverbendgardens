@@ -107,8 +107,9 @@ global $wpdb, $woocommerce;
   $args = array(
       'orderby' => 'date',
       'order' => 'DESC',
-      'limit' => -1,
-      'status' => 'processing',
+      'limit' => 2000,
+      'status' => 'completed',
+      'date_created' => '2024-01-01...2024-07-31',
   );
 
   $product_id_15wk = '5958';
