@@ -41,7 +41,7 @@
     @include media-breakpoint-down(sm) {
       position: fixed;
       width: 100%;
-      z-index: 2;
+      z-index: 3;
     }
 
     .logo {
@@ -537,7 +537,7 @@ nav.nav-mobile nav {
     box-shadow: none;
     z-index: 2;
     border-radius: 0;
-    top: 7rem;
+    top: 4rem;
     padding-bottom: 9rem;
     right: 0;
   }
