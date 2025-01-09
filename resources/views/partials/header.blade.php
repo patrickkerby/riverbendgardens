@@ -37,21 +37,23 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
 @endif
 
   <nav class="nav-primary d-none d-md-block">
+    <a class="logo" href="/">Riverbend <span>Gardens</span></a>
     @if (has_nav_menu('primary_navigation'))
       {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']) !!}
     @endif
   </nav>
 
-   {{-- Hamburger Menu --}}
-    <button class="hamburger hamburger--minus d-md-none" type="button">
-      <span class="hamburger-box">
-        <span class="hamburger-inner"></span>
-      </span>
-    </button>
+    
     <nav class="nav-mobile">
-      @if (has_nav_menu('primary_navigation'))
-        {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']) !!}
-      @endif
+      <input class="menu-toggle-input" type="checkbox" id="side-menu"/>
+      <label class="hamb" for="side-menu">
+        <span class="hamb-line"></span>
+      </label>  
+      <nav class="mobile-nav-links col-md" role="navigation">
+        @if (has_nav_menu('primary_navigation'))
+          {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']) !!}
+        @endif
+      </nav>
     </nav>
 
   @if (!empty($logo))			
