@@ -38,6 +38,12 @@
     display: flex !important;
     justify-content: space-between;
 
+    @include media-breakpoint-down(sm) {
+      position: fixed;
+      width: 100%;
+      z-index: 1;
+    }
+
     .logo {
       display: flex;
       width: 24%;
@@ -52,6 +58,7 @@
       max-width: 350px;
       margin-bottom: -0.5rem;
       padding-bottom: 0.25rem;
+      z-index: 999;
 
       span {
         margin-left: 0.5rem;
@@ -90,6 +97,12 @@
           font-size: 24px;
           margin: 0;
         }
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: 40%;
+        max-width: 12rem;
+        padding: 1rem 0;
       }
 
       @include slowfade();
@@ -248,7 +261,7 @@
       transform: translateX(-50%);
       white-space: nowrap;
       box-shadow: 0 -3px 20px -20px rgba(0, 0, 0, 0.5);
-      z-index: 10;
+      z-index: 9999;
 
       @include slowfade();
 
@@ -342,7 +355,7 @@
       p {
         color: $white;
         font-size: 22px;
-        margin-top: 35px;
+        margin: 2rem 2rem 0 2rem;
       }
     }
 
@@ -378,53 +391,202 @@
   z-index: 2;
 }
 
-//Hamburger
-.hamburger {
-  position: absolute;
+// Mobile Menu
+// Button
+
+body.is-active {
+  overflow: hidden;
+}
+
+.hamb {
+  cursor: pointer;
+  float: right;
+  position: fixed;
+  top: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
+  padding: 0 0.875rem;
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamb-line {
+  background: #fff;
+  display: block;
+  height: 4px;
+  position: relative;
+  width: 24px;
+}
+
+.hamb-line::before,
+.hamb-line::after {
+  content: "";
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all 0.2s ease-out;
+  width: 100%;
+  background: #fff;
+}
+
+.logged-in .hamb {
+  top: 3rem;
+}
+
+.hamb-line::before {
+  top: 8px;
+}
+
+.hamb-line::after {
+  top: -8px;
+}
+
+.menu-toggle-input {
+  display: none;
+}
+
+// Mobile Nav
+nav.nav-mobile nav {
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  height: 100vh;
+  z-index: -1;
+  background: none;
+  overflow-y: scroll;
+  box-shadow: -1rem -2rem 2rem rgba(0, 0, 0, 0);
+  transition: all 0.5s ease-out;
+
+  @media (max-width: 580px) {
+    transition: all 0.2s ease;
+  }
+
+  ul {
+    margin: 0 auto;
+    padding: 0 1rem;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    li {
+      list-style-type: none;
+
+      a {
+        font-family: $font-family-serif;
+        font-size: 1.75rem;
+      }
+
+      ul li {
+        padding: 0;
+        line-height: 1;
+
+        a {
+          font-size: 1.25rem;
+          font-weight: 700;
+          font-family: $font-family-sans-serif;
+          padding: 0.5rem 0 0.5rem 1rem;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(xs) {
+    padding-top: 2rem;
+  }
+
+  @media (max-width: 580px) {
+    position: fixed;
+    height: 8.4rem;
+  }
+
+  @media (max-height: 580px) {
+    position: fixed;
+    height: 8.4rem;
+  }
+}
+
+// Toggle menu icon
+.menu-toggle-input:checked ~ nav {
+  width: 280px;
+  box-shadow: -1rem -2rem 2rem rgba(0, 0, 0, 0.3);
+  background: $bright-green;
+  z-index: 1;
+
+  ul {
+    opacity: 1;
+
+    li {
+      padding: 0.5rem 0;
+      min-width: 12rem;
+
+      a {
+        color: #fff;
+      }
+    }
+  }
+
+  @media (max-width: 580px) {
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    z-index: 2;
+    border-radius: 0;
+    top: 7rem;
+    padding-bottom: 9rem;
+    right: 0;
+  }
+
+  @media (max-height: 580px) {
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    z-index: 3;
+    border-radius: 0;
+    top: 0;
+    right: 0;
+  }
+}
+
+@media (max-height: 580px) {
+  .menu-toggle-input:checked ~ .hamb {
+    z-index: 4;
+  }
+}
+
+@media (max-width: 580px) {
+  .menu-toggle-input:checked ~ .hamb {
+    z-index: 4;
+  }
+}
+
+.menu-toggle-input:checked ~ .hamb .hamb-line {
+  background: transparent;
+}
+
+.menu-toggle-input:checked ~ .hamb .hamb-line::before {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.menu-toggle-input:checked ~ .hamb .hamb-line::after {
+  transform: rotate(45deg);
+  top: 0;
 }
 
 //Mobile Nav
 .nav-mobile {
-  background: $bright-green;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-
-  ul.nav {
+  @include media-breakpoint-down(md) {
     display: flex;
-    flex-direction: column;
-    margin: 45px 0 0 45px;
+  }
 
-    li.menu-item {
-      padding: 15px;
-      margin: 0;
-
-      a {
-        @extend h2;
-
-        font-size: 26px;
-        color: $white;
-        margin: 0;
-      }
-
-      ul {
-        padding: 0;
-        list-style: 0;
-        margin: 0 0 15px 45px;
-
-        li {
-          padding: 0;
-
-          a {
-            font-size: 18px;
-            margin: 0;
-          }
-        }
-      }
-    }
+  @include media-breakpoint-up(md) {
+    display: none;
   }
 }
 /* stylelint-enable no-descending-specificity */

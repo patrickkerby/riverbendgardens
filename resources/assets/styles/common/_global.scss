@@ -192,15 +192,6 @@ body {
   opacity: 0;
 }
 
-//Hamburger Nav
-.nav-mobile {
-  display: none;
-
-  &.is-active {
-    display: block;
-  }
-}
-
 .fullwidth {
   @include fullwidth;
 }

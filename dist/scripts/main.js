@@ -7413,7 +7413,7 @@ Router.prototype.loadEvents = function loadEvents () {
 /* harmony default export */ __webpack_exports__["a"] = ({
   init: function init() {
     // JavaScript to be fired on all pages
-    $('.hamburger').click(function() {
+    $('.hamb').click(function() {
       $(this).toggleClass('is-active');
       $('.nav-mobile').toggleClass('is-active');
       $('body').toggleClass('is-active');
