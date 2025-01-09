@@ -215,3 +215,9 @@ function bbloomer_simplify_checkout_virtual( $fields ) {
      
      return $fields;
 }
+
+// Remove the Private: prefix from titles
+add_filter('private_title_format', 'App\remove_private_prefix');
+function remove_private_prefix($format) {
+    return '%s';
+}
