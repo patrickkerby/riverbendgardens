@@ -221,3 +221,45 @@ add_filter('private_title_format', 'App\remove_private_prefix');
 function remove_private_prefix($format) {
     return '%s';
 }
+
+// ----------  ADDITIONAL FEES
+
+// Add fee to cart if delivery contains cooler items
+add_action('woocommerce_cart_calculate_fees', 'App\delivery_fee');
+
+function delivery_fee() {
+	if (is_admin() && !defined('DOING_AJAX')) {
+		return;
+	}
+ 
+    $customer_data = WC()->session->get('customer');
+    $billing_city = $customer_data['city'];
+
+    foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+        $product_id = $cart_item['product_id'];
+        $variation_pickup_location = $cart_item['variation']['attribute_pa_pickup-location'];
+
+        // Set fee for fullseason
+        if($product_id == 5958) {
+            $delivery_fee = 168;
+        }
+
+        // Set fee for biweekly
+        if($product_id == 87354) {
+            $delivery_fee = 168;
+        }
+
+        if ($variation_pickup_location == 'home-delivery') {
+
+            if($billing_city == 'Edmonton') {
+                WC()->cart->add_fee(__('Home Delivery Fee (Edmonton)', 'txtdomain'), $delivery_fee, true);
+            }
+            elseif($billing_city == 'Sherwood Park') {
+                WC()->cart->add_fee(__('Home Delivery Fee (Sherwood Park)', 'txtdomain'), $delivery_fee, true);
+            }
+            else {
+                WC()->cart->add_fee(__('Home Delivery only available for Edmonton or Sherwood Park addresses', 'txtdomain'), 0, true);
+            }
+        }
+    }
+}
