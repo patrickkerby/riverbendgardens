@@ -41,7 +41,62 @@ export default {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, ''));
       }
+
+      $(document).on('click', 'li.product a.add_to_cart_button', function() {
+        $('body').addClass('quickview-open');
+      });
+      $(document).on('click', '.openModal', function() {
+        $('body').addClass('quickview-open');
+      });
+      // remove class from body when close button is clicked  
+      $(document).on('click', '.close-product', function(e) {
+        if (!$(e.target).is('.quickview'))
+          $('.quickview-open').removeClass('quickview-open');
+      });
+      $(document).on('click', '.close', function(e) {
+        if (!$(e.target).is('.quickview'))
+          $('.quickview-open').removeClass('quickview-open');
+      });
+      // remove class from body when you click on the overlay
+      $(document).on('click', '.pp_overlay', function(e) {
+        if (!$(e.target).is('.quickview-open'))
+          $('.quickview-open').removeClass('quickview-open');
+      });        
+      // remove class from body when you hit escape
+      $(document).bind('keyup', function(e){ 
+        if(e.which == 27){
+          if (!$(e.target).is('.quickview-open'))
+          $('.quickview-open').removeClass('quickview-open');
+         }
+      });
+      // close the modal when you click on our new button  
+      $('.close-product').on('click',function() { $.prettyPhoto.close(); });
+
+      $('.modal').each(function () {
+        const modalId = `#${$(this).attr('id')}`;
+        if (window.location.href.indexOf(modalId) !== -1) {
+            $(modalId).modal('show');
+        }
+      });
+
+      // remove class from body when close button is clicked  
+      $(document).on('click', '.close-product', function(e) {
+        if (!$(e.target).is('.quickview')) {
+          $('.quickview-open').removeClass('quickview-open'); 
+        }
+      });
+      $(document).on('click', '.close', function(e) {
+        if (!$(e.target).is('.quickview')) {
+          $('.quickview-open').removeClass('quickview-open'); 
+        }
+      });
+
+      setTimeout(function() {
+        $('.woocommerce-message').fadeOut('fast');
+      }, 5000);
     },
+
+      
   };
 
 $(function () {

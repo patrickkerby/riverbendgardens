@@ -30,5 +30,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @php do_action('get_footer') @endphp
     @include('partials.footer')
     @php wp_footer() @endphp
+    <a href="#" class="close-product" onclick="return false;">close</a>
   </body>
 </html>
