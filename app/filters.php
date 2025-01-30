@@ -224,7 +224,7 @@ function remove_private_prefix($format) {
 
 // ----------  ADDITIONAL FEES
 
-// Add fee to cart if delivery contains cooler items
+// Add fee to cart if product pickup location is set to home delivery
 add_action('woocommerce_cart_calculate_fees', 'App\delivery_fee');
 
 function delivery_fee() {
@@ -249,17 +249,36 @@ function delivery_fee() {
             $delivery_fee = 168;
         }
 
-        if ($variation_pickup_location == 'home-delivery') {
+        if ($customer_data && $variation_pickup_location == 'home-delivery') {
 
             if($billing_city == 'Edmonton') {
                 WC()->cart->add_fee(__('Home Delivery Fee (Edmonton)', 'txtdomain'), $delivery_fee, true);
+                WC()->session->set('delivery_error', false);
+
             }
             elseif($billing_city == 'Sherwood Park') {
                 WC()->cart->add_fee(__('Home Delivery Fee (Sherwood Park)', 'txtdomain'), $delivery_fee, true);
+                WC()->session->set('delivery_error', false);
             }
             else {
                 WC()->cart->add_fee(__('Home Delivery only available for Edmonton or Sherwood Park addresses', 'txtdomain'), 0, true);
+                WC()->session->set('delivery_error', true);
             }
         }
     }
+}
+
+add_filter('woocommerce_order_button_html', 'App\disable_place_order_button_html');
+function disable_place_order_button_html( $button ) {
+    
+    $delivery_error_check = WC()->session->get('delivery_error');
+
+    if( $delivery_error_check ) {
+        echo '<div class="woocommerce-error" style="position: fixed; z-index: 999999; left: 1rem; right: 1rem; bottom: 1rem; width: 90%; margin-left: auto; margin-right: auto;">Home Delivery only available for Edmonton or Sherwood Park addresses. <br> Please <a href="/cart">return to cart</a> and choose a pickup location, or use a different Billing/Shipping address. </div>';
+
+        $style  = 'style="background:Silver !important; color:white !important; cursor: not-allowed !important; text-align:center;"';
+        $text   = apply_filters('woocommerce_order_button_text', __('Place order', 'woocommerce'));
+        $button = '<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr($text) . '" disabled="disabled" ' . $style . '>' . esc_html($text) . '</button>';
+    }
+    return $button;
 }
