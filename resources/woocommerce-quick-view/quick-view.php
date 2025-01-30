@@ -50,7 +50,24 @@ do_action( 'wc_quick_view_before_single_product' );
 			 */
 			do_action( 'woocommerce_single_product_summary' );
 			?>
+
+			<?php 
+			$terms = get_the_terms( $post->ID, 'product_cat' );
+			foreach ($terms as $term) {
+				$product_cat_name = $term->slug;
+				break;
+			}
 			
+			if($product_cat_name != 'clothing') {
+			?>			
+			<div class="description">
+				<p>If you are unable to pick up your bounty, please send a friend. All unclaimed veggies will be redistributed to good homes in our community at end of business on Thursday.</p>
+				<div class="alert">
+					<p>I understand that by subscribing to this CSA, I am willing to share in the risks and rewards involved with farming. I understand that if crops are unavailable due to weather, pests or other uncontrollable factors, my CSA is non-refundable.</p>
+					<p>(I also understand that Riverbend Gardens is awesome, and this is most likely going to be a FANTASTIC year!)</p>
+				</div>
+			</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>
