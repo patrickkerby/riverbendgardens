@@ -249,7 +249,7 @@ function delivery_fee() {
             $delivery_fee = 168;
         }
 
-        if ($billing_city && $variation_pickup_location == 'home-delivery') {
+        if ($billing_city != NULL && $variation_pickup_location == 'home-delivery') {
 
             if($billing_city == 'Edmonton') {
                 WC()->cart->add_fee(__('Home Delivery Fee (Edmonton)', 'txtdomain'), $delivery_fee, true);
