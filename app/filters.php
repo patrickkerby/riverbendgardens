@@ -265,6 +265,9 @@ function delivery_fee() {
                 WC()->session->set('delivery_error', true);
             }
         }
+        else {
+            WC()->session->set('delivery_error', false);
+        }
     }
 }
 
@@ -275,7 +278,6 @@ function disable_place_order_button_html( $button ) {
 
     if( $delivery_error_check ) {
         echo '<div class="woocommerce-error" style="position: fixed; z-index: 999999; left: 1rem; right: 1rem; bottom: 1rem; width: 90%; margin-left: auto; margin-right: auto;">Home Delivery only available for Edmonton or Sherwood Park addresses. <br> Please <a href="/cart">return to cart</a> and choose a pickup location, or use a different Billing/Shipping address. </div>';
-
         $style  = 'style="background:Silver !important; color:white !important; cursor: not-allowed !important; text-align:center;"';
         $text   = apply_filters('woocommerce_order_button_text', __('Place order', 'woocommerce'));
         $button = '<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr($text) . '" disabled="disabled" ' . $style . '>' . esc_html($text) . '</button>';
