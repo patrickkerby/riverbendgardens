@@ -245,7 +245,7 @@ function delivery_fee() {
         }
 
         // Set fee for biweekly
-        if($product_id == 87354) {
+        if($product_id == 87354 || $product_id == 103905) {
             $delivery_fee = 168;
         }
 
