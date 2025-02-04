@@ -29,13 +29,13 @@ the readme will list any important changes.
     @endphp
 
     @if(wc_get_loop_prop('total'))
-      @while(have_posts())
+      {{-- @while(have_posts()) --}}
         @php
+          do_action('woocommerce_shop_loop'); 
           the_post();
-          do_action('woocommerce_shop_loop');
-          wc_get_template_part('content', 'product');
+          // wc_get_template_part('content', 'product');
         @endphp
-      @endwhile
+      {{-- @endwhile --}}
     @endif
 
     @php

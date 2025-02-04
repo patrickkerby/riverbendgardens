@@ -293,6 +293,7 @@ remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_l
 
 // Setup for Product Modal Quickview
 // remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );              // Get rid of sku and categories on product modal
+
 /**
  * Remove related products output
  */
@@ -301,4 +302,34 @@ remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_r
 add_filter( 'woocommerce_product_add_to_cart_text', 'App\woocommerce_add_to_cart_button_text_archives' );  
 function woocommerce_add_to_cart_button_text_archives() {
     return __( 'View Product', 'woocommerce' );
+}
+
+/**
+ * @snippet       4 Products Per Category @ WooCommerce Shop
+ * @how-to        businessbloomer.com/woocommerce-customization
+ * @author        Rodolfo Melogli, Business Bloomer
+ * @compatible    WooCommerce 6
+ * @community     https://businessbloomer.com/club/
+ */
+ 
+ add_action( 'woocommerce_shop_loop', 'App\add_csa_to_shop' );
+ 
+ function add_csa_to_shop() {
+    echo do_shortcode( '[products limit="20" columns="1" category="' . 'csa' . '"]' );
+ }
+
+ add_action( 'woocommerce_shop_loop', 'App\add_merch_to_shop' );
+ 
+ function add_merch_to_shop() {
+    echo do_shortcode( '[products limit="20" columns="4" category="' . 'clothing, gift-certificate' . '"]' );
+ }
+
+ add_action( 'woocommerce_after_shop_loop_item_title', 'App\sp_wc_add_short_description' );
+function sp_wc_add_short_description() {
+    if( is_shop() ){
+        global $product;
+        echo '<div class="product-short-description">';
+        echo $product->post->post_excerpt;
+        echo '</div>';
+    }
 }

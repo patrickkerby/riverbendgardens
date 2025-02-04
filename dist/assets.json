@@ -9,6 +9,7 @@
   "fonts/VentiCF-Light.woff2": "fonts/VentiCF-Light_2e486911.woff2",
   "fonts/VentiCF-Medium.woff": "fonts/VentiCF-Medium_c72da3eb.woff",
   "fonts/VentiCF-Medium.woff2": "fonts/VentiCF-Medium_3be6f48f.woff2",
+  "images/arrow-bullet.svg": "images/arrow-bullet_6950f8ff.svg",
   "images/arrow-left.svg": "images/arrow-left_06e2b266.svg",
   "images/arrow-quickview.svg": "images/arrow-quickview_1925868d.svg",
   "images/arrow-sm.svg": "images/arrow-sm_5083be0f.svg",
@@ -20,7 +21,7 @@
   "images/menu-arrow.svg": "images/menu-arrow_ede235f0.svg",
   "images/twitter.svg": "images/twitter_7e6d9af5.svg",
   "vendor/ajax-loader.gif": "vendor/ajax-loader_c5cd7f53.gif",
-  "scripts/customizer.js": "scripts/customizer_33f8bd55.js",
-  "styles/main.css": "styles/main_33f8bd55.css",
-  "scripts/main.js": "scripts/main_33f8bd55.js"
+  "scripts/customizer.js": "scripts/customizer_d737dad1.js",
+  "styles/main.css": "styles/main_d737dad1.css",
+  "scripts/main.js": "scripts/main_d737dad1.js"
 }
