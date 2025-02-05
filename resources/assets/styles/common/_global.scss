@@ -279,6 +279,10 @@ div.pp_woocommerce_quick_view,
       }
     }
 
+    .woocommerce div.product .product_title {
+      color: $dark-green;
+    }
+
     .pp_content {
       width: auto !important;
       height: auto !important;
@@ -303,6 +307,23 @@ div.pp_woocommerce_quick_view,
       .summary {
         width: 80%;
         margin: 2rem auto;
+      }
+
+      .description {
+        background: #7db84b;
+        padding: 2rem;
+        margin: 2rem 0 0 0;
+        color: #fff;
+
+        p {
+          color: #fff;
+        }
+
+        .notice {
+          border-top: solid 2px #fff;
+          padding-top: 2rem;
+          margin-top: 2rem;
+        }
       }
     }
 

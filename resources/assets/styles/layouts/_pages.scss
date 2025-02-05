@@ -714,24 +714,35 @@ div#composite_data_59432 {
     border-radius: 5px;
 
     &.product_cat-csa {
+      width: 100% !important;
+
       h2 {
         font-size: 3.125rem;
         margin: 2.75rem 0 0 2.75rem;
         padding: 0;
         width: calc(43% - 5.5rem);
         line-height: 1;
+
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        }
       }
 
       img {
         float: right;
         height: 100%;
         width: 57%;
-        margin-left: 3rem;
         display: flex;
         max-height: 34rem;
         object-position: bottom;
         object-fit: cover;
         border-radius: 0 5px 5px 0;
+
+        @include media-breakpoint-down(md) {
+          width: 100%;
+          border-radius: 5px 5px 0 0;
+          margin-bottom: 2rem !important;
+        }
       }
 
       .product-short-description {
@@ -745,6 +756,10 @@ div#composite_data_59432 {
         -moz-osx-font-smoothing: grayscale;
         -webkit-font-smoothing: antialiased;
         line-height: 1.15;
+
+        @include media-breakpoint-down(md) {
+          width: calc(100% - 5.5rem);
+        }
 
         ul {
           margin: 1.1875rem auto 0 0;
@@ -765,12 +780,51 @@ div#composite_data_59432 {
         margin: 2rem 2.75rem;
       }
     }
+
+    a img {
+      margin: 0;
+    }
+  }
+}
+
+.merch ul li {
+  .product-short-description,
+  h2 {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  a.button {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    border-radius: 0 4px 4px 0;
+  }
+}
+
+.woocommerce-page .shop-divider {
+  h3 {
+    font-size: 2rem;
+    color: #707070;
+    text-align: center;
+    line-height: 2.5rem;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
 .woocommerce-page div.product div.images {
   width: 100%;
   margin: 2rem;
+
+  .woocommerce-product-gallery__image a {
+    pointer-events: none;
+    cursor: default;
+  }
 }
 
 /* stylelint-enable no-descending-specificity */
