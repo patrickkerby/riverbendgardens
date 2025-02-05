@@ -725,6 +725,11 @@ div#composite_data_59432 {
 
         @include media-breakpoint-down(md) {
           width: 100%;
+          font-size: 2.75rem;
+        }
+
+        @include media-breakpoint-down(sm) {
+          font-size: 2.5rem;
         }
       }
 
@@ -792,6 +797,10 @@ div#composite_data_59432 {
       position: absolute;
       top: 3rem;
       left: 43%;
+
+      @include media-breakpoint-down(md) {
+        left: 0;
+      }
     }
   }
 }
