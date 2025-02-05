@@ -416,6 +416,16 @@ div.pp_woocommerce .pp_close {
   display: block;
 }
 
+.close-modal {
+  font-size: 32px;
+  background: none;
+  border: 0;
+  position: absolute;
+  right: 1rem;
+  color: $bright-green;
+  z-index: 999999;
+}
+
 .woocommerce div.product div.images img {
   height: 30rem;
   object-fit: cover;

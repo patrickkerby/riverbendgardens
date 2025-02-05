@@ -718,6 +718,9 @@ div#composite_data_59432 {
 }
 
 .woocommerce-shop .callstoaction {
+  margin-left: 2rem;
+  margin-right: 2rem;
+
   h3,
   h3 a {
     font-size: 32px;
@@ -727,6 +730,10 @@ div#composite_data_59432 {
     line-height: 41px;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+
+    @include media-breakpoint-down(md) {
+      font-size: 1.5rem;
+    }
   }
 
   h3 a {
