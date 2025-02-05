@@ -342,7 +342,7 @@ function sp_wc_add_short_description() {
         echo '<div class="product-short-description">';
         echo $product->post->post_excerpt;
         echo '</div>';
-        echo '<div class="bounty_count">'. $bounty_count .' Bounties</div>';
+        echo '<div class="bounty_count">'. $bounty_count .' Weeks</div>';
     }
 }
 
