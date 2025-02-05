@@ -241,23 +241,25 @@ function delivery_fee() {
 
         // Set fee for fullseason
         if($product_id == 5958) {
-            $delivery_fee = 168;
+            $delivery_fee_edmonton = 168;
+            $delivery_fee_sherwoodpark = 280;
         }
 
         // Set fee for biweekly
         if($product_id == 87354 || $product_id == 103905) {
-            $delivery_fee = 168;
+            $delivery_fee_edmonton = 96;
+            $delivery_fee_sherwoodpark =160;
         }
 
         if ($billing_city != NULL && $variation_pickup_location == 'home-delivery') {
 
             if($billing_city == 'Edmonton') {
-                WC()->cart->add_fee(__('Home Delivery Fee (Edmonton)', 'txtdomain'), $delivery_fee, true);
+                WC()->cart->add_fee(__('Home Delivery Fee (Edmonton)', 'txtdomain'), $delivery_fee_edmonton, true);
                 WC()->session->set('delivery_error', false);
 
             }
             elseif($billing_city == 'Sherwood Park') {
-                WC()->cart->add_fee(__('Home Delivery Fee (Sherwood Park)', 'txtdomain'), $delivery_fee, true);
+                WC()->cart->add_fee(__('Home Delivery Fee (Sherwood Park)', 'txtdomain'), $delivery_fee_sherwoodpark, true);
                 WC()->session->set('delivery_error', false);
             }
             else {
