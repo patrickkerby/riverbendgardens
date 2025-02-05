@@ -292,7 +292,7 @@ remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_l
 // remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );           // We need to add our own button in for the quick view
 
 // Setup for Product Modal Quickview
-// remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );              // Get rid of sku and categories on product modal
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );              // Get rid of sku and categories on product modal
 
 /**
  * Remove related products output
@@ -333,3 +333,17 @@ function sp_wc_add_short_description() {
         echo '</div>';
     }
 }
+
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
+add_action( 'woocommerce_single_product_summary', 'App\bbloomer_template_single_long_description', 20 );
+
+function bbloomer_template_single_long_description() {
+    the_content();
+}
+
+// settings for product modal photo gallery. show bullets rather than thumbs. show prev and next arrows
+add_filter( 'woocommerce_single_product_carousel_options', function( $options ) {
+    $options['directionNav'] = true;
+    $options['controlNav'] = true;
+	return $options;
+} );

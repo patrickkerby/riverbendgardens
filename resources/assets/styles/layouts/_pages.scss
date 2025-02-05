@@ -728,7 +728,7 @@ div#composite_data_59432 {
         width: 57%;
         margin-left: 3rem;
         display: flex;
-        max-height: 30rem;
+        max-height: 34rem;
         object-position: bottom;
         object-fit: cover;
         border-radius: 0 5px 5px 0;
@@ -766,6 +766,11 @@ div#composite_data_59432 {
       }
     }
   }
+}
+
+.woocommerce-page div.product div.images {
+  width: 100%;
+  margin: 2rem;
 }
 
 /* stylelint-enable no-descending-specificity */
