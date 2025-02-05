@@ -333,13 +333,16 @@ function woocommerce_add_to_cart_button_text_archives() {
     }
  }
 
- add_action( 'woocommerce_after_shop_loop_item_title', 'App\sp_wc_add_short_description' );
+add_action( 'woocommerce_after_shop_loop_item_title', 'App\sp_wc_add_short_description' );
 function sp_wc_add_short_description() {
-    if( is_shop() ){
+    if( is_shop() ) {        
         global $product;
+
+        $bounty_count = get_field('bounty_count', $product->id);
         echo '<div class="product-short-description">';
         echo $product->post->post_excerpt;
         echo '</div>';
+        echo '<div class="bounty_count">'. $bounty_count .' Bounties</div>';
     }
 }
 

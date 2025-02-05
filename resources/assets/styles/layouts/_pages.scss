@@ -784,11 +784,21 @@ div#composite_data_59432 {
     a img {
       margin: 0;
     }
+
+    .bounty_count {
+      background: $dark-green;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      position: absolute;
+      top: 3rem;
+      left: 43%;
+    }
   }
 }
 
 .merch ul li {
   .product-short-description,
+  .bounty_count,
   h2 {
     display: none;
   }
