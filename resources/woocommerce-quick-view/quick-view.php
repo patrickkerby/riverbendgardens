@@ -58,7 +58,7 @@ do_action( 'wc_quick_view_before_single_product' );
 				break;
 			}
 			
-			if($product_cat_name != 'clothing' || $product_cat_name != 'Clothing') {
+			if($product_cat_name != 'clothing') {
 			?>			
 			<div class="description">
 				<p>If you are unable to pick up your bounty, please send a friend. All unclaimed veggies will be redistributed to good homes in our community at end of business on Thursday.</p>

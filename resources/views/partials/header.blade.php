@@ -20,7 +20,7 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
 
 @endphp
 
-@if ( !empty($hero) )
+@if ( !empty($hero) || !empty($hero_shop) )
   @if ( is_front_page() )
     <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.{{ $overlay }}), rgba(45,51,55,0.{{ $overlay }})), url('{{ $hero }}');">
   @elseif ( is_home() )
