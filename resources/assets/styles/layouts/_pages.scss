@@ -717,6 +717,23 @@ div#composite_data_59432 {
   }
 }
 
+.woocommerce-shop .callstoaction {
+  h3,
+  h3 a {
+    font-size: 32px;
+    font-family: $font-family-sans-serif;
+    color: #707070;
+    text-align: center;
+    line-height: 41px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h3 a {
+    color: $bright-green;
+  }
+}
+
 .woocommerce-shop ul.products {
   li.product {
     background: #fff;

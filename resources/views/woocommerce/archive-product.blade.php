@@ -21,7 +21,28 @@ the readme will list any important changes.
     do_action('get_header', 'shop');
     do_action('woocommerce_before_main_content');
   @endphp
-
+<section class="row justify-content-center">
+			<div class="col-md-10 veggie-content">
+				<div class="callstoaction row justify-content-center">
+          <h3>Pickup locations available across Edmonton.</h3>
+          <h3>Curious what to expect in your CSA? <a href="#" data-toggle="modal" data-target="#pickupModal-csa">Here's a handy chart!</a></h3>
+				</div>
+			</div>
+			<div class="modal fullmodal fade" id="pickupModal-csa" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<div class="modal-body">
+						<div class="container-fluid">                
+						 @include('partials.flexible-csachart')
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
   @if(woocommerce_product_loop())
     <section>
     @php
