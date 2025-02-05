@@ -314,17 +314,23 @@ function woocommerce_add_to_cart_button_text_archives() {
  
  add_action( 'woocommerce_shop_loop', 'App\add_csa_to_shop' );
  function add_csa_to_shop() {
-    echo do_shortcode( '[products limit="20" columns="1" category="' . 'csa' . '"]' );
+    if (!is_product()) {
+        echo do_shortcode( '[products limit="20" columns="1" category="' . 'csa' . '"]' );
+    }
  }
 
  add_action( 'woocommerce_shop_loop', 'App\add_merchtitle_to_shop' );
  function add_merchtitle_to_shop() {
-    echo '<section class="shop-divider"><h3>Merch merch merchy merch! <br>Pickup a gift certificate, or a fancy shirt with our custom veggie illustrations!</h3></section>';
+    if (!is_product()) {
+        echo '<section class="shop-divider"><h3>Merch merch merchy merch! <br>Pickup a gift certificate, or a fancy shirt with our custom veggie illustrations!</h3></section>';
+    }
  }
 
  add_action( 'woocommerce_shop_loop', 'App\add_merch_to_shop' );
  function add_merch_to_shop() {
-    echo do_shortcode( '[products limit="20" columns="4" class="merch" category="' . 'clothing, gift-certificate' . '"]' );
+    if (!is_product()) {
+        echo do_shortcode( '[products limit="20" columns="4" class="merch" category="' . 'clothing, gift-certificate' . '"]' );
+    }
  }
 
  add_action( 'woocommerce_after_shop_loop_item_title', 'App\sp_wc_add_short_description' );
