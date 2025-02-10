@@ -247,8 +247,8 @@ function delivery_fee() {
 
         // Set fee for biweekly
         if($product_id == 87354 || $product_id == 103905) {
-            $delivery_fee_edmonton = 96;
-            $delivery_fee_sherwoodpark =160;
+            $delivery_fee_edmonton = 84;
+            $delivery_fee_sherwoodpark = 140;
         }
 
         if ($billing_city != NULL && $variation_pickup_location == 'home-delivery') {
