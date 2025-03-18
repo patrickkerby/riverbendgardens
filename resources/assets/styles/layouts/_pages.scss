@@ -896,15 +896,15 @@ div#composite_data_59432 {
     }
 
     input.gform_button {
-      margin-top: 1.5rem;
+      margin-top: 1.5rem !important;
     }
 
     span.gfield_required_text {
-      margin-left: 0.25rem;
-      opacity: 0.8;
-      font-weight: normal;
-      text-transform: none;
-      letter-spacing: 0;
+      margin-left: 0.25rem !important;
+      opacity: 0.8 !important;
+      font-weight: normal !important;
+      text-transform: none !important;
+      letter-spacing: 0 !important;
     }
   }
 }
