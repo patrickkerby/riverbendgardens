@@ -894,6 +894,18 @@ div#composite_data_59432 {
     input {
       width: 100%;
     }
+
+    input.gform_button {
+      margin-top: 1.5rem;
+    }
+
+    span.gfield_required_text {
+      margin-left: 0.25rem;
+      opacity: 0.8;
+      font-weight: normal;
+      text-transform: none;
+      letter-spacing: 0;
+    }
   }
 }
 
