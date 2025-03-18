@@ -362,3 +362,4 @@ add_filter( 'woocommerce_single_product_carousel_options', function( $options ) 
 	return $options;
 } );
 
+add_role( 'pea-picker', 'Pea Picker', get_role( 'subscriber' )->capabilities );
