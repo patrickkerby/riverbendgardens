@@ -343,24 +343,6 @@
         {{-- <td></td> --}}
       </tr>
       <tr>
-        <td><h5>Parsnips</h5></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        {{-- <td><i class="fas fa-check-circle"></i></td> --}}
-      </tr>
-      <tr>
         <td><h5>Onion</h5></td>
         <td></td>
         <td></td>
