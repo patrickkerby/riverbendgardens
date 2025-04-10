@@ -75,6 +75,7 @@ $slick-font-path:   "#{$slick-loader-path}/fonts/";
 
 $font-family-sans-serif: Venti, Arial, sans-serif;
 $font-family-serif: shackleton-narrow, serif;
+$font-family-body: "Forum", serif;
 
 @mixin slowfade($time: 0.4) {
   -webkit-transition: all #{$time}s;

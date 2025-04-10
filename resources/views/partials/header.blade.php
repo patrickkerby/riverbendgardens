@@ -77,8 +77,15 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
     </div>
     <a class="back-button" href="/preservation">Back to the Preservation Guide</a>
 
+  @elseif (is_singular('story'))
+    <h1 class="page-title"><span>Subscriber Stories</span><br /> <?php the_title(); ?></h1>
+    <div class="row subtitle justify-content-center no-gutters">
+      <div class="col-md-7">@php echo $sub_title; @endphp </div>
+    </div>
+    {{-- <a class="back-button" href="/stories">See all stories</a> --}}
+
   @elseif ( is_single() && !is_product() )
-    <h1 class="page-title"><?php the_title(); ?></h1>  	        				        			    
+    <h1 class="page-title"><?php the_title(); ?> test</h1>  	        				        			    
     {{-- @include('partials/entry-meta') --}}
     <div class="row subtitle justify-content-center">      
       <div class="col-md-7">@php echo $sub_title; @endphp </div>
@@ -149,7 +156,7 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
   
   @elseif (is_singular('recipe'))
     <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.4), rgba(45,51,55,0.4)), url('{{ $recipe_photos[0]->url }}');">
-          
+
   @else
     <h1 class="page-title"><?php the_title(); ?></h1>
     <div class="row subtitle justify-content-center no-gutters">
