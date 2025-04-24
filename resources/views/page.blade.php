@@ -10,7 +10,7 @@
         while ( have_rows( 'page_builder', $id ) ) : the_row();
           $layout = get_row_layout();
         @endphp      
-          @include( "partials.{$layout}")      
+          @include( "partials.page-builder.{$layout}")
         @php
         endwhile;      
       elseif ( get_the_content() ) :      
@@ -18,7 +18,7 @@
         @endphp
         <section class="row justify-content-center">
           <div class="col-sm-10">
-            @include('partials.content-page')
+            @include( "partials.page-builder.{$layout}")
           </div>
         </section>
         @php
