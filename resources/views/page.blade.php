@@ -18,7 +18,8 @@
         @endphp
         <section class="row justify-content-center">
           <div class="col-sm-10">
-            @include( "partials.page-builder.{$layout}")
+            {{-- @include( "partials.page-builder.{$layout}") --}}
+            @include('partials.content-page')
           </div>
         </section>
         @php
