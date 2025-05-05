@@ -91,7 +91,6 @@ global $wpdb, $woocommerce;
   }
 
   $year = "CSA 2024 - 14 week";
-  $school = "School CSA";
   $late_season = "Late Season CSA";
 
   $bigger_count = 0;
@@ -108,15 +107,17 @@ global $wpdb, $woocommerce;
       'orderby' => 'date',
       'order' => 'DESC',
       'limit' => 2000,
-      'status' => 'completed',
-      'date_created' => '2024-01-01...2024-07-31',
+      'return' => 'ids',
+      'type' => 'shop_order',
+      'status' => array('wc-completed', 'wc-processing', 'wc-on-hold'),
+      'date_created' => '2025-01-01...2025-07-31'
   );
 
   $product_id_15wk = '5958';
   $product_id_biwk = '87354';
-	$product_id_weekly = '59432';
-  $product_id_delivery = '102902';
-	
+  $product_id_lateseason = '5484';
+  $product_id_fullyear = '103898';
+  $product_id_halfsummer = '103905';
 
 //first get all the order ids
   $query = new WC_Order_Query( $args );
@@ -124,7 +125,6 @@ global $wpdb, $woocommerce;
 
   $filtered_order_ids_biwk = array();
   $filtered_order_ids_15wk = array();
-  $filtered_order_ids_delivery = array();
 
 @endphp
 
@@ -240,14 +240,19 @@ global $wpdb, $woocommerce;
                 Week 1: {{ $weekDate }}
             @endswitch
           </h2>
-          <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> weeklies and extras.</p>
+          <p>Clear = Bigger  /  White = Smaller.</p>
           <table class="table footable">
             <thead>
               <tr>
                 <th scope="col">Location</th>
-                <th data-type="number" scope="col">Bigger</th>
-								<th data-type="number" scope="col">Smaller</th>
-								<th data-type="number" scope="col">Extra Bigger</th>
+                <th data-type="number" scope="col" class="bigger_col">Bigger<br>Full</th>
+                <th data-type="number" scope="col" class="bigger_col">Bigger<br>BIWK</th>
+                <th data-type="number" scope="col" class="bigger_col">Bigger<br>08-10</th>
+								<th data-type="number" scope="col" class="bigger_col">Bigger<br>Extra</th>
+                <th data-type="number" scope="col" class="bigger_col">Smaller<br>Full</th>
+                <th data-type="number" scope="col" class="bigger_col">Smaller<br>08-10</th>
+								<th data-type="number" scope="col">Bigger<br> (total)</th>
+								<th data-type="number" scope="col">Smaller<br> (Total)</th>
                 <th data-type="number" scope="col">Total</th>
               </tr>	
             </thead>
@@ -258,14 +263,12 @@ global $wpdb, $woocommerce;
 							@foreach ($select_locations_index as $item)
                 @php
 
-                  $weekly_count = 0;
-                  $biweekly_total_count = 0;
-                  $fullseason_smaller_count = 0;
-                  $fullseason_bigger_count = 0;
-
-                  $delivery_smaller_count = 0;
-                  $delivery_bigger_count = 0;
-                  $delivery_biweekly_count = 0;
+                  $biweekly_count = 0;
+                  $full_summer_smaller_count = 0;
+                  $full_summer_bigger_count = 0;
+                  $fullyear_count = 0;
+                  $half_summer_bigger_count = 0;
+                  $half_summer_smaller_count = 0;
 
                   $location = $item['location']->slug;
 									$location_name = $item['location']->name;
@@ -284,93 +287,111 @@ global $wpdb, $woocommerce;
                     $order_items = $order->get_items();
 
                     foreach ($order_items as $order_item) {
-                      $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes                      
+                      $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly uses global attributes                      
                       $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
                       $filtered_quantity = $order_item->get_quantity();
-                      $filtered_frequency = $order_item->get_meta('frequency');
+                      $bundle_mode = $order_item->get_meta( '_bundle_group_mode', true);
 
-                      if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
-                        $biweekly_total_count += $filtered_quantity;
+                      if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location && $displayBiwk) {
+                        $biweekly_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Bigger') {
-                        $fullseason_bigger_count += $filtered_quantity;
+                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Bigger' && $bundle_mode !== 'parent') {
+                        $full_summer_bigger_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Smaller') {
-                        $fullseason_smaller_count += $filtered_quantity;
+                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent') {
+                        $full_summer_smaller_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_delivery && $filtered_size === 'Smaller') {
-                        $delivery_smaller_count += $filtered_quantity;
+                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Bigger' && $bundle_mode !== 'parent') {
+                        $half_summer_bigger_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_delivery && $filtered_size === 'Bigger') {
-                        $delivery_bigger_count += $filtered_quantity;
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_delivery && $filtered_size === 'Bigger' && $filtered_frequency === 'Bi-weekly (7 weeks)') {
-                        $delivery_biweekly_count += $filtered_quantity;
+                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent') {
+                        $half_summer_smaller_count += $filtered_quantity;
                       }
                       else {
                         //do nothing                        
                       }
+
+                      if ($bundle_mode == 'parent') {
+                        $bundled_order = $order_item->get_meta( '_stamp', true);
+                        
+                        foreach($bundled_order as $key => $value) {
+                          if ($value['attributes']['attribute_pa_pickup-location']) {
+                            $summer_item_location = $value['attributes']['attribute_pa_pickup-location'];
+                          }
+                          elseif ($value['attributes']['attribute_location']) {
+                            $winter_item_location = $value['attributes']['attribute_location'];
+                          }
+                          else {
+                            //do nothing
+                          }                                                    
+                        }
+
+                        if ($bundle_mode == 'parent' && $summer_item_location == $location) {
+                          $full_year_bigger_count += $filtered_quantity;
+                          $fullyear_count++;
+                        }
+                      }
+                      else {
+                        //do nothing
+                      }
                     }
                   }
-                  
-                  if ($displayBiwk === true) {
-                    $bigger_count = $fullseason_bigger_count + $biweekly_total_count;
-                  }
-                  else {
-                    $bigger_count = $fullseason_bigger_count;
-                  }
-
-                  $smaller_count = $fullseason_smaller_count;
-									$total_location_count = $bigger_count + $smaller_count + $extras;
+                  $total_bigger_count = $full_summer_bigger_count + $biweekly_count + $extras + $half_summer_bigger_count;
+                  $total_smaller_count = $full_summer_smaller_count + $half_summer_smaller_count;
+									$total_location_count = $total_bigger_count + $total_smaller_count;
                 @endphp
 
                 <tr>
-                  <td><strong>{!! $item['location']->name !!} </strong></td>
-                  <td>{{ $bigger_count }}</td>
-									<td>{{ $smaller_count }}</td>
-									<td>{{ $extras }}</td>
+                  <td><strong data-toggle="tooltip" data-placement="top" title="{{ $fullyear_count }} full-year purchases">{!! $item['location']->name !!}</strong></td>
+                  <td class="bigger_col">{{ $full_summer_bigger_count }}</td>
+                  <td class="bigger_col">{{ $biweekly_count }}</td>
+                  <td class="bigger_col">{{ $half_summer_bigger_count }}</td>
+									<td class="bigger_col">{{ $extras }}</td>
+                  <td class="bigger_col">{{ $full_summer_smaller_count }}</td>
+                  <td class="bigger_col">{{ $half_summer_smaller_count }}</td>
+									<td>{{ $total_bigger_count }}</td>
+                  <td>{{ $total_smaller_count }}</td>
                   <td>{{ $total_location_count }}</td>
                 </tr>
-                
-                @php
-									$bigger_count_total += $bigger_count;
-                  $smaller_count_total += $smaller_count;
-									$extras_count_total += $extras;
 
-									$total_bigger = $bigger_count_total + $extras_count_total;
-									$total_count = $bigger_count_total + $extras_count_total + $smaller_count_total;
-                @endphp
-							@endforeach	
-              
-              @if ($displayBiwk === true)
                 @php
-                    $delivery_bigger_count = $delivery_bigger_count + $delivery_biweekly_count;
+									$bigger_count_total += $full_summer_bigger_count;
+                  $smaller_count_total += $total_smaller_count;
+                  $half_summer_bigger_total += $half_summer_bigger_count;
+                  $half_summer_smaller_total += $half_summer_smaller_count;
+									$extras_count_total += $extras;
+                  $total_biweekly += $biweekly_count;
+                  $fullyear_total += $fullyear_count;
+
+									$total_bigger = $bigger_count_total + $extras_count_total + $total_biweekly + $half_summer_bigger_total;
+									$total_count = $total_bigger + $smaller_count_total;
                 @endphp
-              @endif
-                
+							@endforeach
               <tr>
                 <td><strong>Pickup on Farm </strong></td>
+                <td class="bigger_col">0</td>
+                <td class="bigger_col">0</td>
+                <td class="bigger_col">0</td>
+                <td class="bigger_col">0</td>
+                <td class="bigger_col">0</td>
+                <td class="bigger_col">0</td>
                 <td>0</td>
-                <td>1</td>
                 <td>0</td>
-                <td>1</td>
+                <td>0</td>
               </tr>
-              <tr>
-                <td><strong>Delivery </strong></td>
-                <td>{{ $delivery_bigger_count }}</td>
-                <td>{{ $delivery_smaller_count }}</td>
-                <td>0</td>
-                <td>{{ $delivery_bigger_count + $delivery_smaller_count }}</td>
-              </tr>              
-
             </tbody>
             <tfoot>
               <tr>
                 <td scope="row"><strong>Totals</strong></td>
-                <td><strong>{{ $bigger_count_total + $delivery_bigger_count }}</strong></td>
-								<td><strong>{{ $smaller_count_total + $delivery_smaller_count + 1 }}</strong></td>
-								<td><strong>{{ $extras_count_total }}</strong></td>
-                <td><strong>{{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</strong></td>
+                <td class="bigger_col"><strong>{{ $bigger_count_total}}</strong></td>
+                <td class="bigger_col"><strong>{{ $total_biweekly }}</strong></td>
+                <td class="bigger_col"><strong>{{ $half_summer_bigger_total}}</strong></td>
+								<td class="bigger_col"><strong>{{ $extras_count_total }}</strong></td>
+                <td class="bigger_col"><strong>{{ $smaller_count_total}}</strong></td>
+                <td class="bigger_col"><strong>{{ $half_summer_smaller_total}}</strong></td>
+                <td>{{ $total_bigger }}</td>
+								<td><strong>{{ $smaller_count_total }}</strong></td>
+                <td><strong>{{ $total_count }}</strong></td>
               </tr>
             </tfoot>						
           </table>		
@@ -378,9 +399,9 @@ global $wpdb, $woocommerce;
 				<div class="count_box week">
 					<h4>This week's totals:</h4>
 					<ul>
-						<li><strong>Bigger:</strong> {{ $total_bigger + $delivery_bigger_count}}</li>
-						<li><strong>Smaller:</strong> {{ $smaller_count_total + $delivery_smaller_count }}</li>
-						<li><strong>Total:</strong> {{ $total_count + $delivery_bigger_count + $delivery_smaller_count }}</li>
+						<li><strong>Bigger:</strong> {{ $total_bigger}}</li>
+						<li><strong>Smaller:</strong> {{ $smaller_count_total }}</li>
+						<li><strong>Total:</strong> {{ $total_count }}</li>
 					</ul>
 				</div>
       {{-- @endforeach --}}
