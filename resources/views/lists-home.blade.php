@@ -356,7 +356,7 @@ global $wpdb, $woocommerce;
 
                 @php
 									$bigger_count_total += $full_summer_bigger_count;
-                  $smaller_count_total += $total_smaller_count;
+                  $smaller_count_total += $full_summer_smaller_count;
                   $half_summer_bigger_total += $half_summer_bigger_count;
                   $half_summer_smaller_total += $half_summer_smaller_count;
 									$extras_count_total += $extras;
@@ -364,6 +364,7 @@ global $wpdb, $woocommerce;
                   $fullyear_total += $fullyear_count;
 
 									$total_bigger = $bigger_count_total + $extras_count_total + $total_biweekly + $half_summer_bigger_total;
+                  $total_smaller = $smaller_count_total + $half_summer_smaller_total;
 									$total_count = $total_bigger + $smaller_count_total;
                 @endphp
 							@endforeach
@@ -373,11 +374,11 @@ global $wpdb, $woocommerce;
                 <td class="bigger_col">0</td>
                 <td class="bigger_col">0</td>
                 <td class="bigger_col">0</td>
+                <td class="bigger_col">1</td>
                 <td class="bigger_col">0</td>
-                <td class="bigger_col">0</td>
                 <td>0</td>
-                <td>0</td>
-                <td>0</td>
+                <td>1</td>
+                <td>1</td>
               </tr>
             </tbody>
             <tfoot>
@@ -387,10 +388,10 @@ global $wpdb, $woocommerce;
                 <td class="bigger_col"><strong>{{ $total_biweekly }}</strong></td>
                 <td class="bigger_col"><strong>{{ $half_summer_bigger_total}}</strong></td>
 								<td class="bigger_col"><strong>{{ $extras_count_total }}</strong></td>
-                <td class="bigger_col"><strong>{{ $smaller_count_total}}</strong></td>
+                <td class="bigger_col"><strong>{{ $smaller_count_total + 1 }}</strong></td>
                 <td class="bigger_col"><strong>{{ $half_summer_smaller_total}}</strong></td>
                 <td>{{ $total_bigger }}</td>
-								<td><strong>{{ $smaller_count_total }}</strong></td>
+								<td><strong>{{ $total_smaller + 1 }}</strong></td>
                 <td><strong>{{ $total_count }}</strong></td>
               </tr>
             </tfoot>						
@@ -400,7 +401,7 @@ global $wpdb, $woocommerce;
 					<h4>This week's totals:</h4>
 					<ul>
 						<li><strong>Bigger:</strong> {{ $total_bigger}}</li>
-						<li><strong>Smaller:</strong> {{ $smaller_count_total }}</li>
+						<li><strong>Smaller:</strong> {{ $total_smaller + 1 }}</li>
 						<li><strong>Total:</strong> {{ $total_count }}</li>
 					</ul>
 				</div>

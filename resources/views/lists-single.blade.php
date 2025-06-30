@@ -43,6 +43,13 @@
     $displayBiwk = false;
   }
 
+  if ($currentCSAWeek > 7) {
+    $displayHalfsummer = true;
+  }
+  else {
+    $displayHalfsummer = false;
+  }
+
   // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
   // TODO: see if these dates can be provided on composite product item _rather_ than global options.
 
@@ -149,12 +156,14 @@ $args = array(
     'orderby' => 'name',
     'order' => 'ASC',
     'limit' => -1,
-    'status' => 'processing'
+    // 'status' => 'wc-processing'
+    'status' => array('wc-processing', 'wc-on-hold'),
 );
 $product_id_fullseason = '5958';
 $product_id_biwk = '87354';
 $product_id_delivery= '102902';
 $product_id_winter = '5484';
+$product_id_halfsummer = '103905';
 
 if ($product->ID == $product_id_delivery) {
   $delivery_list = true;
@@ -172,7 +181,7 @@ $filtered_order_ids_fullseason = array();
 $filtered_order_ids_winter = array();
 $filtered_order_ids_delivery_fullseason = array();
 $filtered_order_ids_delivery_biwk = array();
-
+$filtered_order_ids_halfsummer = array();
 
 foreach ($order_ids as $order_id) {
   $order = wc_get_order($order_id);
@@ -188,6 +197,10 @@ foreach ($order_ids as $order_id) {
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
       array_push($filtered_order_ids_biwk, $order_id);
+      // break;
+    }
+    if ($item->get_product_id() == $product_id_halfsummer && $filtered_location == $location_slug) {
+      array_push($filtered_order_ids_halfsummer, $order_id);
       // break;
     }
     if ($item->get_product_id() == $product_id_fullseason && $filtered_location == $location_slug) {
@@ -447,7 +460,74 @@ else {
           </table>
         </section>
       @endif
+      {{-- @if($displayHalfsummer) --}}
+        <section class="halfsummer">
+          <h3>Half Summer Orders</h3>
+          <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
+            <thead>
+              <tr>
+                <th data-sorted="true">Customer Name</th>
+                @if($delivery_list)
+                      <th class="address">Address</td>
+                    @endif
+                <th>Size</th>
+                <th data-breakpoints="xs sm">Qty</th>
+                <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+                {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($filtered_order_ids_halfsummer as $details)
+                @php
+                  $first_name = $details->get_billing_first_name();
+                  $last_name = $details->get_billing_last_name();                
+                  $customer_note = $details->get_customer_note();
+                  $address = $details->get_shipping_address_1();
+                  $city = $details->get_shipping_city();
+                  $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
+
+                  foreach ($details->get_items() as $item_id => $item) {
+                    $halfsummer_quantity = $item->get_quantity();     
+                    $size = $item->get_meta( 'size', true );                              
+                  }
+
+                  if ($size == 'Bigger') {
+                    $seasonal_count_bigger += $quantity;
+                    $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
+                  }
+                  
+                  if ($size == 'Smaller') {
+                    $seasonal_count_smaller += $quantity;              
+                    $size = "Smaller <span class=\"bagsize\">White Bag</span>";
+                  }
+
+                  $halfsummer_count += $halfsummer_quantity;
+                  $halfsummer_order_count += $halfsummer_quantity;
+
+                @endphp
+                <tr>                  
+                  <td class="name">
+                    {{ $first_name }} {{ $last_name }}
+                  </td>
+                  @if($delivery_list)
+                    <td class="address">{{ $address }}, {{ $city }}</td>
+                  @endif
+                  <td>{!! $size !!}</td>
+                  <td>{{ $halfsummer_quantity }}</td>
+                  @if($delivery_list)
+                    <td>{{ $customer_note }}</td>
+                  @else
+                    <td class="note">{{ $alternate_pickup_names }}</td>
+                  @endif
+                </tr>
+              @endforeach	
+            </tbody>
+          </table>
+        </section>
+      {{-- @endif --}}
       @endunless
+
+      
 
       @unless ($winter_location)        
           <section class="count_box">
