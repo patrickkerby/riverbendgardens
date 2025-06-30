@@ -82,6 +82,7 @@ global $wpdb, $woocommerce;
   }
 
   $even_weeks = array("week2","week4","week6","week8","week10","week12","week14");
+  $half_summer_weeks = array("week8","week9","week10","week11","week12","week13","week14");
 
   if (in_array($week_in_season, $even_weeks)) {
     $displayBiwk = false;
@@ -89,6 +90,15 @@ global $wpdb, $woocommerce;
   else {
     $displayBiwk = true;
   }
+
+if (in_array($week_in_season, $half_summer_weeks)) {
+    $displayHalfsummer = true;
+  }
+  else {
+    $displayHalfsummer = false;
+  }
+
+  var_dump($week_in_season);
 
   $year = "CSA 2024 - 14 week";
   $late_season = "Late Season CSA";
@@ -301,10 +311,10 @@ global $wpdb, $woocommerce;
                       elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent') {
                         $full_summer_smaller_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Bigger' && $bundle_mode !== 'parent') {
+                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Bigger' && $bundle_mode !== 'parent' && $displayHalfsummer) {
                         $half_summer_bigger_count += $filtered_quantity;
                       }
-                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent') {
+                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent' && $displayHalfsummer) {
                         $half_summer_smaller_count += $filtered_quantity;
                       }
                       else {
