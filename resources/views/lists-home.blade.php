@@ -98,9 +98,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
     $displayHalfsummer = true;
   }
 
-  var_dump($week_in_season);
-
-  $year = "CSA 2024 - 14 week";
+  $year = "CSA 2025 - 14 week";
   $late_season = "Late Season CSA";
 
   $bigger_count = 0;
@@ -375,7 +373,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
 
 									$total_bigger = $bigger_count_total + $extras_count_total + $total_biweekly + $half_summer_bigger_total;
                   $total_smaller = $smaller_count_total + $half_summer_smaller_total;
-									$total_count = $total_bigger + $smaller_count_total;
+									$total_count = $total_bigger + $total_smaller;
                 @endphp
 							@endforeach
               <tr>
