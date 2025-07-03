@@ -95,7 +95,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
     $displayHalfsummer = true;
   }
   else {
-    $displayHalfsummer = false;
+    $displayHalfsummer = true;
   }
 
   var_dump($week_in_season);
