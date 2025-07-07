@@ -295,31 +295,6 @@ foreach ($order_ids as $order_id) {
                 
                 $display_order = sprintf("%'.02d\n", $order_of_display);
                 @endphp
-                
-                @if ($delivery_list)                
-                  <tr>
-                    <td>00</td>
-                    <td class="name">Town Square Brewing <br>
-                      <span style="font-size: 15px;">(780) 244-0212</span>
-                    </td>
-                    <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr=2919 Ellwood Dr SW Edmonton">2919 Ellwood Dr SW, Edmonton</a></td>
-                    @if ($displayBiwk)
-                      <td>13 Bigger | 13 Smaller</td>
-                      @php
-                        $seasonal_count_bigger += 13; 
-                        $seasonal_count_smaller += 13;     
-                      @endphp
-                    @else
-                      <td>8 Bigger | 13 Smaller</td>
-                      @php
-                        $seasonal_count_bigger += 8;
-                        $seasonal_count_smaller += 13;
-                      @endphp
-                    @endif
-                    <td></td>
-                    <td></td>
-                  </tr>  
-                @endif
 
                 @unless ($order_of_display == '100')
                   <tr>
@@ -344,7 +319,31 @@ foreach ($order_ids as $order_id) {
                     @endif
                   </tr>   
                   @endunless             
-              @endforeach              
+              @endforeach 
+              @if ($delivery_list)                
+                  <tr>
+                    <td>00</td>
+                    <td class="name">Town Square Brewing <br>
+                      <span style="font-size: 15px;">(780) 244-0212</span>
+                    </td>
+                    <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr=2919 Ellwood Dr SW Edmonton">2919 Ellwood Dr SW, Edmonton</a></td>
+                    @if ($displayBiwk)
+                      <td>13 Bigger | 13 Smaller</td>
+                      @php
+                        $seasonal_count_bigger += 13; 
+                        $seasonal_count_smaller += 13;     
+                      @endphp
+                    @else
+                      <td>8 Bigger | 13 Smaller</td>
+                      @php
+                        $seasonal_count_bigger += 8;
+                        $seasonal_count_smaller += 13;
+                      @endphp
+                    @endif
+                    <td></td>
+                    <td></td>
+                  </tr>  
+                @endif             
             @endunless
 
             @if($winter_location)
