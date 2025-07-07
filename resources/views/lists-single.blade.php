@@ -194,7 +194,12 @@ foreach ($order_ids as $order_id) {
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
-      array_push($filtered_order_ids_biwk, $order_id);
+      if ($is_delivery) {
+        array_push($filtered_order_ids_fullseason, $order_id);
+      }
+      else {
+        array_push($filtered_order_ids_biwk, $order_id);
+      }
       // break;
     }
     if ($item->get_product_id() == $product_id_halfsummer && $filtered_location == $location_slug) {
@@ -279,6 +284,9 @@ foreach ($order_ids as $order_id) {
                   foreach ($details->get_items() as $item_id => $item) {
                     $quantity = $item->get_quantity();
                     $size = $item->get_meta( 'size', true );
+                    if (!$size) {
+                      $size = 'Bigger'; // Default to Bigger if no size is set
+                    }
                   }
 
                 $seasonal_count++;	
@@ -389,7 +397,7 @@ foreach ($order_ids as $order_id) {
           </tbody>
         </table>
          
-      @unless($winter_location)
+      @unless($winter_location || $is_delivery)
         @if ($displayBiwk)  
         <section class="bi-weekly">
           <h3>Bi-weekly Orders</h3>
@@ -424,7 +432,11 @@ foreach ($order_ids as $order_id) {
                   $order_of_display = $details->get_meta('order_of_display');
 
                   foreach ($details->get_items() as $item_id => $item) {
-                    $biwk_quantity = $item->get_quantity();                                   
+                    $biwk_quantity = $item->get_quantity();   
+                    $size = $item->get_meta( 'size', true );
+                    if (!$size) {
+                      $size = 'Bigger'; // Default to Bigger if no size is set
+                    }                                
                   }
 
                   $biwk_count += $biwk_quantity;
@@ -447,7 +459,7 @@ foreach ($order_ids as $order_id) {
                       <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
                     @endif
                     <td>{!! $size !!}</td>
-                    <td>{{ $quantity }}</td>
+                    <td>{{ $biwk_quantity }}</td>
                     @if($delivery_list)
                       <td>{{ $customer_note }}</td>
                     @else
