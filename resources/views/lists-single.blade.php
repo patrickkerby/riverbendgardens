@@ -370,10 +370,14 @@ foreach ($order_ids as $order_id) {
           <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
             <thead>
               <tr>
+                @if ($delivery_list)
+                  <th data-sorted="true">#</th>
+                @endif
                 <th data-sorted="true">Customer Name</th>
                 @if($delivery_list)
-                      <th class="address">Address</td>
-                    @endif
+                  <th class="address">Address</td>
+                @endif
+
                 <th>Size</th>
                 <th data-breakpoints="xs sm">Qty</th>
                 <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
@@ -391,6 +395,7 @@ foreach ($order_ids as $order_id) {
                   $address = $details->get_shipping_address_1();
                   $city = $details->get_shipping_city();
                   $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
+                  $order_of_display = $details->get_meta('order_of_display');
 
                   foreach ($details->get_items() as $item_id => $item) {
                     $biwk_quantity = $item->get_quantity();                                   
@@ -399,22 +404,30 @@ foreach ($order_ids as $order_id) {
                   $biwk_count += $biwk_quantity;
                   $biwk_order_count += $biwk_quantity;
 
+                  $display_order = sprintf("%'.02d\n", $order_of_display);
                 @endphp
-                <tr>                  
-                  <td class="name">
-                    {{ $first_name }} {{ $last_name }}
-                  </td>
-                  @if($delivery_list)
-                    <td class="address">{{ $address }}, {{ $city }}</td>
-                  @endif
-                  <td>Bigger <span class="bagsize">Clear Bag</span></td>
-                  <td>{{ $biwk_quantity }}</td>
-                  @if($delivery_list)
-                    <td>{{ $customer_note }}</td>
-                  @else
-                    <td class="note">{{ $alternate_pickup_names }}</td>
-                  @endif
-                </tr>
+
+                  <tr>
+                    @if ($delivery_list)                      
+                      <td>{{ $display_order }}</td>
+                    @endif
+                    <td class="name">                     
+                      {{ $first_name }} {{ $last_name }}
+                      @if ($delivery_list)
+                        <br><span style="font-size: 15px;">{{ $phone }}</span>
+                      @endif
+                    </td>
+                    @if($delivery_list)
+                      <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
+                    @endif
+                    <td>{!! $size !!}</td>
+                    <td>{{ $quantity }}</td>
+                    @if($delivery_list)
+                      <td>{{ $customer_note }}</td>
+                    @else
+                      <td class="note">{{ $alternate_pickup_names }}</td>
+                    @endif
+                  </tr>
               @endforeach	
             </tbody>
           </table>
