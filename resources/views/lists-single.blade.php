@@ -283,19 +283,20 @@ foreach ($order_ids as $order_id) {
 
                 $seasonal_count++;	
                 
-                if ($size == 'Bigger') {
+                if ($size == 'Bigger' && $order_of_display != '100') {
                   $seasonal_count_bigger += $quantity;
                   $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
                 }
                 
-                if ($size == 'Smaller') {
+                if ($size == 'Smaller' && $order_of_display != '100') {
                   $seasonal_count_smaller += $quantity;              
                   $size = "Smaller <span class=\"bagsize\">White Bag</span>";
                 }
                 
                 $display_order = sprintf("%'.02d\n", $order_of_display);
                 @endphp
-
+                
+                @unless ($order_of_display == '100')
                   <tr>
                     @if ($delivery_list)                      
                       <td>{{ $display_order }}</td>
@@ -316,7 +317,8 @@ foreach ($order_ids as $order_id) {
                     @else
                       <td class="note">{{ $alternate_pickup_names }}</td>
                     @endif
-                  </tr>                
+                  </tr>   
+                  @endunless             
               @endforeach              
             @endunless
 
