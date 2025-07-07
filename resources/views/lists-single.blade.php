@@ -40,7 +40,7 @@
     $displayBiwk = true;
   }
   else{
-    $displayBiwk = false;
+    $displayBiwk = false; 
   }
 
   if ($currentCSAWeek > 7) {
