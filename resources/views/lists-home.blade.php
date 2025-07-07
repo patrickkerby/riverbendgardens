@@ -117,7 +117,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
       'limit' => 2000,
       'return' => 'ids',
       'type' => 'shop_order',
-      'status' => array('wc-completed', 'wc-processing', 'wc-on-hold'),
+      'status' => array('wc-processing', 'wc-on-hold'),
       'date_created' => '2025-01-01...2025-07-31'
   );
 
