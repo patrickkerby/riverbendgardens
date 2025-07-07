@@ -504,12 +504,12 @@ foreach ($order_ids as $order_id) {
                   }
 
                   if ($size == 'Bigger') {
-                    $seasonal_count_bigger += $quantity;
+                    $seasonal_count_bigger += $halfsummer_quantity;
                     $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
                   }
                   
                   if ($size == 'Smaller') {
-                    $seasonal_count_smaller += $quantity;              
+                    $seasonal_count_smaller += $halfsummer_quantity;              
                     $size = "Smaller <span class=\"bagsize\">White Bag</span>";
                   }
 
