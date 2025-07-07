@@ -194,7 +194,7 @@ foreach ($order_ids as $order_id) {
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
-      if ($is_delivery) {
+      if ($is_delivery && $displayBiwk) {
         array_push($filtered_order_ids_fullseason, $order_id);
       }
       else {
