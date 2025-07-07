@@ -114,6 +114,7 @@
   $location_term = get_field('location');
   $school_location = get_field('school_location');	
   $winter_location = get_field('select_location_winter');
+  $is_delivery = get_field('is_delivery');
 
   if( $location_term ): 				
     $location_name = $location_term->name;
@@ -161,11 +162,11 @@ $args = array(
 );
 $product_id_fullseason = '5958';
 $product_id_biwk = '87354';
-$product_id_delivery= '102902';
 $product_id_winter = '5484';
 $product_id_halfsummer = '103905';
 
-if ($product->ID == $product_id_delivery) {
+// if ($product->ID == $product_id_delivery) {
+if ($is_delivery) {
   $delivery_list = true;
 }
 else {
@@ -179,8 +180,6 @@ $order_ids = $query->get_orders();
 $filtered_order_ids_biwk = array();
 $filtered_order_ids_fullseason = array();
 $filtered_order_ids_winter = array();
-$filtered_order_ids_delivery_fullseason = array();
-$filtered_order_ids_delivery_biwk = array();
 $filtered_order_ids_halfsummer = array();
 
 foreach ($order_ids as $order_id) {
@@ -192,7 +191,6 @@ foreach ($order_ids as $order_id) {
   foreach ($order_items as $item) {
     $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
     $filtered_location_winter = $item->get_meta('location');;
-    $delivery_frequency = $item->get_meta('frequency');
 
     //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
     if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
@@ -211,25 +209,11 @@ foreach ($order_ids as $order_id) {
       array_push($filtered_order_ids_winter, $order_id);
       // break;
     }
-    if ($displayBiwk) {
-      if ($item->get_product_id() == $product_id_delivery) {
-        array_push($filtered_order_ids_delivery_fullseason, $order_id);
-      }      
-    }
+    
     else {
-      if ($item->get_product_id() == $product_id_delivery && $delivery_frequency == "Every Week (14 weeks)") {
-        array_push($filtered_order_ids_delivery_fullseason, $order_id);
-      }
+      
     }
   }
-}
-
-if($delivery_list) {
-  $filtered_order_ids = $filtered_order_ids_delivery_fullseason;
-  $filtered_order_ids_biwk = $filtered_order_ids_delivery_biwk;
-}
-else {
-  $filtered_order_ids = $filtered_order_ids_fullseason;
 }
 
 @endphp
@@ -278,7 +262,7 @@ else {
 
             @unless($winter_location)
 
-              @foreach ($filtered_order_ids as $details)
+              @foreach ($filtered_order_ids_fullseason as $details)
                 @php 
                   $first_name = $details->get_billing_first_name();
                   $last_name = $details->get_billing_last_name();                
@@ -333,31 +317,7 @@ else {
                       <td class="note">{{ $alternate_pickup_names }}</td>
                     @endif
                   </tr>                
-              @endforeach
-              @if ($delivery_list)                
-                <tr>
-                  <td>00</td>
-                  <td class="name">Town Square Brewing <br>
-                    <span style="font-size: 15px;">(780) 244-0212</span>
-                  </td>
-                  <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr=2919 Ellwood Dr SW Edmonton">2919 Ellwood Dr SW, Edmonton</a></td>
-                  @if ($displayBiwk)
-                    <td>17 Bigger | 13 Smaller</td>
-                    @php
-                      $seasonal_count_bigger += 17; 
-                      $seasonal_count_smaller += 13;     
-                    @endphp
-                  @else
-                    <td>11 Bigger | 13 Smaller</td>
-                    @php
-                      $seasonal_count_bigger += 11;
-                      $seasonal_count_smaller += 13;
-                    @endphp
-                  @endif
-                  <td></td>
-                  <td></td>
-                </tr>  
-              @endif
+              @endforeach              
             @endunless
 
             @if($winter_location)
@@ -403,7 +363,7 @@ else {
           </tbody>
         </table>
          
-      @unless($winter_location || $delivery_list)
+      @unless($winter_location)
         @if ($displayBiwk)  
         <section class="bi-weekly">
           <h3>Bi-weekly Orders</h3>
