@@ -283,6 +283,9 @@ foreach ($order_ids as $order_id) {
 
                   
                   foreach ($details->get_items() as $item_id => $item) {
+                    if ($item->get_product_id() == $product_id_winter) {
+                      continue;
+                    }
                     $quantity = $item->get_quantity();
                     $size = $item->get_meta( 'size', true );
                     if (!$size) {
