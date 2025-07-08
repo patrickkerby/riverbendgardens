@@ -95,7 +95,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
     $displayHalfsummer = true;
   }
   else {
-    $displayHalfsummer = true;
+    $displayHalfsummer = false;
   }
 
   $year = "CSA 2025 - 14 week";
