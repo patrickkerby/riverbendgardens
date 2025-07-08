@@ -129,7 +129,8 @@ if($currentCSAWeek > 14) {
     'orderby' => 'name',
     'order' => 'ASC',
     'limit' => -1,
-    'status' => 'processing'
+    'status' => array('wc-processing', 'wc-on-hold'),
+    'date_created' => '2025-01-01...2025-07-31',
   );
   $query = new WC_Order_Query( $args );
   $orders = $query->get_orders();
@@ -214,18 +215,19 @@ foreach ($orders as $order) {
 
       @php
         $active_locations = [
-          'Highlands Area Pick Up',
-          'Catch of the Week',
-          'Confetti Sweets',
-          'Acme Meat Market',
-          "D'Arcy's Meats (Whitemud Crossing)",
-          'Town Square Brewing',
-          'Remedy (Terwillegar)',
-          'Bon Ton Bakery',
-          'Remedy (109th St)',
-          'Remedy (Jasper Ave)',
-          "D'Arcy's Meats (St Albert)",
-          'Ribeye Butcher Shop (Manning Location)',
+          // 'Highlands Community League',
+          // 'Catch of the Week!',
+          // 'Confetti Sweets (Sherwood Park)',
+          // 'Acme Meat Market',
+          // "D'Arcy's Meats (Whitemud Crossing)",
+          // 'Town Square Brewing',
+          // 'Remedy (Terwillegar)',
+          // 'Bon Ton Bakery',
+          // 'Remedy (109th St)',
+          // 'Remedy (Jasper Ave)',
+          // "D'Arcy's Meats (St Albert)",
+          // 'Ribeye Butcher Shop (Manning Location)',
+          'highlands-community-league',
         ];
         ksort($active_locations);
       @endphp
@@ -244,7 +246,8 @@ foreach ($orders as $order) {
           $winter_count_smaller = 0;
           $has_biwk = false;
 
-          $location_object = get_term_by( 'name', $location, 'pa_pickup-location' );
+          // $location_object = get_term_by( 'name', $location, 'pa_pickup-location' );
+          $location_object = get_term_by( 'slug', $location, 'pickup-location' );
           $extras_setting = get_field('extras', $location_object);
                  
           if($extras_setting == true) {
@@ -284,11 +287,11 @@ foreach ($orders as $order) {
               <tbody>
                   @foreach ($orders_formatted as $details)
                     @php 
-                      if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_biwk) {
+                      if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_biwk) {
                         $has_biwk = true;
                       }
                     @endphp
-                    @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_15wk)
+                    @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_15wk)
                       @php
                         if ($details['items']['size'] == 'Bigger') {
                           $seasonal_count_bigger += $details['items']['quantity'];
@@ -311,7 +314,7 @@ foreach ($orders as $order) {
                       </tr>
                     @endif
                     {{-- Winter CSA below --}}
-                    @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_winter)
+                    @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_winter)
                       @php
                         if ($details['items']['size'] == 'Bigger') {
                           $seasonal_count_bigger += $details['items']['quantity'];
@@ -351,7 +354,7 @@ foreach ($orders as $order) {
                 <tbody>
 
                     @foreach ($orders_formatted as $details)                    
-                      @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_biwk)
+                      @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_biwk)
                         @php
                           $biwk_count += $details['items']['quantity'];
                         @endphp

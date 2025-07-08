@@ -309,6 +309,43 @@ global $wpdb, $woocommerce;
                   $smaller_crates_total += $smaller_crates;
                 @endphp
               @endforeach
+              @foreach ($custom_location as $custom)
+                @php
+                  if (!$custom['bigger_count']) {
+                    $bigger_size = 0;
+                    $bigger_crates = 0;
+                  }
+                  else {
+                    $bigger_crates = $custom['bigger_count']/2;
+                    $bigger_size = $custom['bigger_count'];
+                  }
+                  
+                  if (!$custom['smaller_count']) {
+                    $smaller_crates = 0;
+                    $smaller_size = 0;
+                  }
+                  else {
+                    $smaller_crates = $custom['smaller_count']/2;
+                    $smaller_size = $custom['smaller_count'];
+                  }
+                  
+                @endphp
+                <tr>
+                  <td>{{ $custom['delivery_time'] }}</td>
+                  <td><strong>{{ $custom['location'] }} </strong></td>
+                  <td>{{ $bigger_size }}</td>
+                  <td>{{ $bigger_crates }}</td>
+                  <td>{{ $smaller_size }}</td>
+                  <td>{{ $smaller_crates }}</td>
+                </tr>
+                @php
+                  $bigger_count_total += $bigger_size;
+                  $smaller_count_total += $smaller_size;
+                  $bigger_crates_total += $bigger_crates;  
+                  $smaller_crates_total += $smaller_crates;
+                @endphp
+              @endforeach
+
 
             </tbody>
             <tfoot>
