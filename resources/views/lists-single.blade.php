@@ -436,7 +436,7 @@ foreach ($order_ids as $order_id) {
                     $biwk_quantity = $item->get_quantity();   
                     // $size = $item->get_meta( 'size', true );
                     // if (!$size) {
-                      $size = 'Bigger'; // Default to Bigger if no size is set
+                      $size = 'Bigger'; // Default to Bigger if no size is set 
                     // }                                
                   }
 
