@@ -159,6 +159,7 @@ foreach ($orders as $order) {
     $product_name = $item->get_name();
     $quantity = $item->get_quantity();
     $size = $item->get_meta( 'size', true );
+    $location = "";
     $location_slug = $item->get_meta('pa_pickup-location');
     $location_name_winter = $item->get_meta('location');
     $location_object = get_term_by( 'slug', $location_slug, 'pa_pickup-location' );
@@ -186,13 +187,24 @@ foreach ($orders as $order) {
     sort($active_locations);
 
 
+    // Skip adding this item if product_id is 103898
+    if ($product_id == 103898 || $product_id == 5484) {
+      continue;
+    }
+
+    // Initialize 'items' as an array if not already set
+    if (!isset($orders_formatted[$order_id]['items'])) {
+      $orders_formatted[$order_id]['items'] = [];
+    }
+
     $orders_formatted[$order_id]['items'] = array(
       'product_id' => $product_id,  
       'name' => $product_name,
       'quantity' => $quantity,
       'size' => $size,
       'location' => $location,
-      'location_slug' => $location_slug
+      'location_slug' => $location_slug,
+      'term_id' => $location_object->term_id ?? null,
     );
   }
 }
@@ -215,7 +227,6 @@ foreach ($orders as $order) {
 
       @php
         $active_locations = [
-          // 'Highlands Community League',
           // 'Catch of the Week!',
           // 'Confetti Sweets (Sherwood Park)',
           // 'Acme Meat Market',
@@ -228,12 +239,26 @@ foreach ($orders as $order) {
           // "D'Arcy's Meats (St Albert)",
           // 'Ribeye Butcher Shop (Manning Location)',
           'highlands-community-league',
+          'jasper-ave-location',
+          'catchoftheweek',
+          'remedy-109st-location',
+          'acme-meat-market',
+          'confetti-sweets-sherwood-park',
+          'ribeye-sherwood-park',
+          'darcys-meats-st-albert',
+          'ribeye-st-albert',
+          'ribeye-terra-losa',
+          'bon-ton-bakery',
+          'ribeye-windermere',
+          'remedy-terwillegar-location',
+          'darcys-meats-whitemud-crossing',
+          'ribeye-manning',          
+          'town-square',
         ];
         ksort($active_locations);
       @endphp
 
       @foreach($active_locations as $location)
-
         @php        
           // Counters
           $seasonal_count = 0;
@@ -247,7 +272,7 @@ foreach ($orders as $order) {
           $has_biwk = false;
 
           // $location_object = get_term_by( 'name', $location, 'pa_pickup-location' );
-          $location_object = get_term_by( 'slug', $location, 'pickup-location' );
+          $location_object = get_term_by( 'slug', $location, 'pa_pickup-location' );
           $extras_setting = get_field('extras', $location_object);
                  
           if($extras_setting == true) {
@@ -263,7 +288,7 @@ foreach ($orders as $order) {
         @unless($location == 'Delivery')
           <section class="{{ $currentCSAWeek }}">  
             <div class="titleblock" style="break-after: avoid;">
-              <h2>{!! $location !!}</h2>
+              <h2>{!! $location_object->name !!}</h2>
               @unless($late_season)
                 <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
               @endunless              
@@ -286,13 +311,19 @@ foreach ($orders as $order) {
               </thead>
               <tbody>
                   @foreach ($orders_formatted as $details)
+
                     @php 
-                      if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_biwk) {
+// print("<pre>".print_r($details,true)."</pre>");
+
+                      if($details['items']['term_id'] == $location_object->term_id && $details['items']['product_id'] == $product_id_biwk) {
                         $has_biwk = true;
                       }
                     @endphp
-                    @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_15wk)
+                    {{-- @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_15wk) --}}
+                    @if($details['items']['term_id'] == $location_object->term_id && $details['items']['product_id'] == $product_id_15wk)
                       @php
+
+
                         if ($details['items']['size'] == 'Bigger') {
                           $seasonal_count_bigger += $details['items']['quantity'];
                           $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
@@ -354,7 +385,7 @@ foreach ($orders as $order) {
                 <tbody>
 
                     @foreach ($orders_formatted as $details)                    
-                      @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_biwk)
+                      @if($details['items']['term_id'] == $location_object->term_id && $details['items']['product_id'] == $product_id_biwk)
                         @php
                           $biwk_count += $details['items']['quantity'];
                         @endphp
