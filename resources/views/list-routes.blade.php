@@ -105,7 +105,8 @@ global $wpdb, $woocommerce;
       'orderby' => 'date',
       'order' => 'DESC',
       'limit' => -1,
-      'status' => 'processing',
+      'status' => array('wc-processing', 'wc-on-hold'),
+      'date_created' => '2025-01-01...2025-07-31',
   );
 
   $product_id_15wk = '5958';
