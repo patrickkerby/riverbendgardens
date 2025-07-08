@@ -475,7 +475,7 @@ foreach ($order_ids as $order_id) {
           </table>
         </section>
       @endif
-      {{-- @if($displayHalfsummer) --}}
+      @if($displayHalfsummer)
         <section class="halfsummer">
           <h3>Half Summer Orders</h3>
           <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
@@ -539,7 +539,7 @@ foreach ($order_ids as $order_id) {
             </tbody>
           </table>
         </section>
-      {{-- @endif --}}
+      @endif
       @endunless
 
       
