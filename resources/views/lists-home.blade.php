@@ -382,11 +382,11 @@ if (in_array($week_in_season, $half_summer_weeks)) {
                 <td class="bigger_col">0</td>
                 <td class="bigger_col">0</td>
                 <td class="bigger_col">0</td>
-                <td class="bigger_col">2</td>
+                <td class="bigger_col">4</td>
                 <td class="bigger_col">0</td>
                 <td>0</td>
-                <td>2</td>
-                <td>2</td>
+                <td>4</td>
+                <td>4</td>
               </tr>
             </tbody>
             <tfoot>
@@ -396,11 +396,11 @@ if (in_array($week_in_season, $half_summer_weeks)) {
                 <td class="bigger_col"><strong>{{ $total_biweekly }}</strong></td>
                 <td class="bigger_col"><strong>{{ $half_summer_bigger_total}}</strong></td>
 								<td class="bigger_col"><strong>{{ $extras_count_total }}</strong></td>
-                <td class="bigger_col"><strong>{{ $smaller_count_total + 2 }}</strong></td>
+                <td class="bigger_col"><strong>{{ $smaller_count_total + 4 }}</strong></td>
                 <td class="bigger_col"><strong>{{ $half_summer_smaller_total}}</strong></td>
                 <td>{{ $total_bigger }}</td>
-								<td><strong>{{ $total_smaller + 2 }}</strong></td>
-                <td><strong>{{ $total_count + 2 }}</strong></td>
+								<td><strong>{{ $total_smaller + 4 }}</strong></td>
+                <td><strong>{{ $total_count + 4 }}</strong></td>
               </tr>
             </tfoot>						
           </table>		
@@ -409,8 +409,8 @@ if (in_array($week_in_season, $half_summer_weeks)) {
 					<h4>This week's totals:</h4>
 					<ul>
 						<li><strong>Bigger:</strong> {{ $total_bigger}}</li>
-						<li><strong>Smaller:</strong> {{ $total_smaller + 2 }}</li>
-						<li><strong>Total:</strong> {{ $total_count + 2 }}</li>
+						<li><strong>Smaller:</strong> {{ $total_smaller + 4 }}</li>
+						<li><strong>Total:</strong> {{ $total_count + 4 }}</li>
 					</ul>
 				</div>
       {{-- @endforeach --}}
