@@ -43,6 +43,13 @@
     $displayBiwk = false;
   }
 
+  if ($currentCSAWeek > 7) {
+    $displayHalfsummer = true;
+  }
+  else {
+    $displayHalfsummer = false;
+  }
+
   // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
   // TODO: see if these dates can be provided on composite product item _rather_ than global options.
 
@@ -120,6 +127,7 @@ if($currentCSAWeek > 14) {
   $product_id_biwk = '87354';
   $product_id_delivery= '102902';
   $product_id_winter = '5484';
+  $product_id_halfsummer = '103905';
 
   $has_biwk = false;
 
@@ -130,7 +138,7 @@ if($currentCSAWeek > 14) {
     'order' => 'ASC',
     'limit' => -1,
     'status' => array('wc-processing', 'wc-on-hold'),
-    'date_created' => '2025-01-01...2025-07-31',
+    'date_created' => '2025-01-01...2025-08-31',
   );
   $query = new WC_Order_Query( $args );
   $orders = $query->get_orders();
@@ -319,11 +327,15 @@ foreach ($orders as $order) {
                         $has_biwk = true;
                       }
                     @endphp
-                    {{-- @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_15wk) --}}
-                    @if($details['items']['term_id'] == $location_object->term_id && $details['items']['product_id'] == $product_id_15wk)
+                      @if(
+                        $details['items']['term_id'] == $location_object->term_id &&
+                        (
+                          $details['items']['product_id'] == $product_id_15wk ||
+                          $details['items']['product_id'] == $product_id_halfsummer
+                        )
+                      )
+                    
                       @php
-
-
                         if ($details['items']['size'] == 'Bigger') {
                           $seasonal_count_bigger += $details['items']['quantity'];
                           $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
