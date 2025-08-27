@@ -88,7 +88,7 @@ global $wpdb, $woocommerce;
     $displayBiwk = false;
   }
   else {
-    $displayBiwk = true;
+    $displayBiwk = true; 
   }
 
 if (in_array($week_in_season, $half_summer_weeks)) {
