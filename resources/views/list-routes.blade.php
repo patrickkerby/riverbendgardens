@@ -89,6 +89,13 @@ global $wpdb, $woocommerce;
     $displayBiwk = true;
   }
 
+  if ($currentCSAWeek > 7) {
+    $displayHalfsummer = true;
+  }
+  else {
+    $displayHalfsummer = false;
+  }
+
   $bigger_count = 0;
   $smaller_count = 0;  
 
@@ -106,11 +113,12 @@ global $wpdb, $woocommerce;
       'order' => 'DESC',
       'limit' => -1,
       'status' => array('wc-processing', 'wc-on-hold'),
-      'date_created' => '2025-01-01...2025-07-31',
+      'date_created' => '2025-01-01...2025-08-31',
   );
 
   $product_id_15wk = '5958';
   $product_id_biwk = '87354';
+  $product_id_halfsummer = '103905';
 
   //first get all the order ids
   $query = new WC_Order_Query( $args );
@@ -272,6 +280,12 @@ global $wpdb, $woocommerce;
 
                       if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
                         $biweekly_total_count += $filtered_quantity;
+                      }
+                      elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {
+                        $fullseason_bigger_count += $filtered_quantity;                        
+                      }
+                      elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Smaller') {
+                        $fullseason_smaller_count += $filtered_quantity;
                       }
                       elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Bigger') {
                         $fullseason_bigger_count += $filtered_quantity;                        
