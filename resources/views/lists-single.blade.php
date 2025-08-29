@@ -6,7 +6,6 @@
 
 @php
   //List of global variables
-  
 
   function weekCheck($prevWeek, $nextWeek) {
       // Check current date, set select value to selected if current date is between week x and y.
@@ -400,148 +399,146 @@ foreach ($order_ids as $order_id) {
           </tbody>
         </table>
          
-      @unless($winter_location || $is_delivery)
+      @unless($winter_location)
         @if ($displayBiwk)  
-        <section class="bi-weekly">
-          <h3>Bi-weekly Orders</h3>
-          <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
-            <thead>
-              <tr>
-                @if ($delivery_list)
-                  <th data-sorted="true">#</th>
-                @endif
-                <th data-sorted="true">Customer Name</th>
-                @if($delivery_list)
-                  <th class="address">Address</td>
-                @endif
+          <section class="bi-weekly">
+            <h3>Bi-weekly Orders</h3>
+            <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
+              <thead>
+                <tr>
+                  @if ($delivery_list)
+                    <th data-sorted="true">#</th>
+                  @endif
+                  <th data-sorted="true">Customer Name</th>
+                  @if($delivery_list)
+                    <th class="address">Address</td>
+                  @endif
 
-                <th>Size</th>
-                <th data-breakpoints="xs sm">Qty</th>
-                <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
-                {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($filtered_order_ids_biwk as $details)
-                @php
-                // $biwk_order_count++;
+                  <th>Size</th>
+                  <th data-breakpoints="xs sm">Qty</th>
+                  <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+                  {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($filtered_order_ids_biwk as $details)
+                  @php
+                  // $biwk_order_count++;
 
-                  $first_name = $details->get_billing_first_name();
-                  $last_name = $details->get_billing_last_name();                
-                  $customer_note = $details->get_customer_note();
-                  $address = $details->get_shipping_address_1();
-                  $city = $details->get_shipping_city();
-                  $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
-                  $order_of_display = $details->get_meta('order_of_display');
+                    $first_name = $details->get_billing_first_name();
+                    $last_name = $details->get_billing_last_name();                
+                    $customer_note = $details->get_customer_note();
+                    $address = $details->get_shipping_address_1();
+                    $city = $details->get_shipping_city();
+                    $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
+                    $order_of_display = $details->get_meta('order_of_display');
 
-                  foreach ($details->get_items() as $item_id => $item) {
-                    $biwk_quantity = $item->get_quantity();   
-                    // $size = $item->get_meta( 'size', true );
-                    // if (!$size) {
-                      $size = 'Bigger'; // Default to Bigger if no size is set 
-                    // }                                
-                  }
+                    foreach ($details->get_items() as $item_id => $item) {
+                      $biwk_quantity = $item->get_quantity();   
+                      // $size = $item->get_meta( 'size', true );
+                      // if (!$size) {
+                        $size = 'Bigger'; // Default to Bigger if no size is set 
+                      // }                                
+                    }
 
-                  $biwk_count += $biwk_quantity;
-                  $biwk_order_count += $biwk_quantity;
+                    $biwk_count += $biwk_quantity;
+                    $biwk_order_count += $biwk_quantity;
 
-                  $display_order = sprintf("%'.02d\n", $order_of_display);
-                @endphp
+                    $display_order = sprintf("%'.02d\n", $order_of_display);
+                  @endphp
 
-                  <tr>
-                    @if ($delivery_list)                      
-                      <td>{{ $display_order }}</td>
-                    @endif
-                    <td class="name">                     
-                      {{ $first_name }} {{ $last_name }}
-                      @if ($delivery_list)
-                        <br><span style="font-size: 15px;">{{ $phone }}</span>
+                    <tr>
+                      @if ($delivery_list)                      
+                        <td>{{ $display_order }}</td>
                       @endif
+                      <td class="name">                     
+                        {{ $first_name }} {{ $last_name }}
+                        @if ($delivery_list)
+                          <br><span style="font-size: 15px;">{{ $phone }}</span>
+                        @endif
+                      </td>
+                      @if($delivery_list)
+                        <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
+                      @endif
+                      <td>{!! $size !!}</td>
+                      <td>{{ $biwk_quantity }}</td>
+                      @if($delivery_list)
+                        <td>{{ $customer_note }}</td>
+                      @else
+                        <td class="note">{{ $alternate_pickup_names }}</td>
+                      @endif
+                    </tr>
+                @endforeach	
+              </tbody>
+            </table>
+          </section>
+        @endif
+        @if($displayHalfsummer)
+          <section class="halfsummer">
+            <h3>Half Summer Orders</h3>
+            <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
+              <thead>
+                <tr>
+                  <th data-sorted="true">Customer Name</th>
+                  @if($delivery_list)
+                    <th class="address">Address</td>
+                  @endif
+                  <th>Size</th>
+                  <th data-breakpoints="xs sm">Qty</th>
+                  <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
+                  {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($filtered_order_ids_halfsummer as $details)
+                  @php
+                    $first_name = $details->get_billing_first_name();
+                    $last_name = $details->get_billing_last_name();                
+                    $customer_note = $details->get_customer_note();
+                    $address = $details->get_shipping_address_1();
+                    $city = $details->get_shipping_city();
+                    $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
+
+                    foreach ($details->get_items() as $item_id => $item) {
+                      $halfsummer_quantity = $item->get_quantity();     
+                      $size = $item->get_meta( 'size', true );                              
+                    }
+
+                    if ($size == 'Bigger') {
+                      $seasonal_count_bigger += $halfsummer_quantity;
+                      $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
+                    }
+                    
+                    if ($size == 'Smaller') {
+                      $seasonal_count_smaller += $halfsummer_quantity;              
+                      $size = "Smaller <span class=\"bagsize\">White Bag</span>";
+                    }
+
+                    $halfsummer_count += $halfsummer_quantity;
+                    $halfsummer_order_count += $halfsummer_quantity;
+
+                  @endphp
+                  <tr>                  
+                    <td class="name">
+                      {{ $first_name }} {{ $last_name }}
                     </td>
                     @if($delivery_list)
-                      <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ $address }} {{ $city }}">{{ $address }}, {{ $city }}</a></td>
+                      <td class="address">{{ $address }}, {{ $city }}</td>
                     @endif
                     <td>{!! $size !!}</td>
-                    <td>{{ $biwk_quantity }}</td>
+                    <td>{{ $halfsummer_quantity }}</td>
                     @if($delivery_list)
                       <td>{{ $customer_note }}</td>
                     @else
                       <td class="note">{{ $alternate_pickup_names }}</td>
                     @endif
                   </tr>
-              @endforeach	
-            </tbody>
-          </table>
-        </section>
-      @endif
-      @if($displayHalfsummer)
-        <section class="halfsummer">
-          <h3>Half Summer Orders</h3>
-          <table class="table footable" data-sorting="true" data-sorted="true" data-direction="ASC">
-            <thead>
-              <tr>
-                <th data-sorted="true">Customer Name</th>
-                @if($delivery_list)
-                      <th class="address">Address</td>
-                    @endif
-                <th>Size</th>
-                <th data-breakpoints="xs sm">Qty</th>
-                <th data-breakpoints="xs sm" width="30%">Additional Pickup Names</th>
-                {{-- <th data-breakpoints="xs sm" width="30%">Purchase Note</th> --}}
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($filtered_order_ids_halfsummer as $details)
-                @php
-                  $first_name = $details->get_billing_first_name();
-                  $last_name = $details->get_billing_last_name();                
-                  $customer_note = $details->get_customer_note();
-                  $address = $details->get_shipping_address_1();
-                  $city = $details->get_shipping_city();
-                  $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
-
-                  foreach ($details->get_items() as $item_id => $item) {
-                    $halfsummer_quantity = $item->get_quantity();     
-                    $size = $item->get_meta( 'size', true );                              
-                  }
-
-                  if ($size == 'Bigger') {
-                    $seasonal_count_bigger += $halfsummer_quantity;
-                    $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
-                  }
-                  
-                  if ($size == 'Smaller') {
-                    $seasonal_count_smaller += $halfsummer_quantity;              
-                    $size = "Smaller <span class=\"bagsize\">White Bag</span>";
-                  }
-
-                  $halfsummer_count += $halfsummer_quantity;
-                  $halfsummer_order_count += $halfsummer_quantity;
-
-                @endphp
-                <tr>                  
-                  <td class="name">
-                    {{ $first_name }} {{ $last_name }}
-                  </td>
-                  @if($delivery_list)
-                    <td class="address">{{ $address }}, {{ $city }}</td>
-                  @endif
-                  <td>{!! $size !!}</td>
-                  <td>{{ $halfsummer_quantity }}</td>
-                  @if($delivery_list)
-                    <td>{{ $customer_note }}</td>
-                  @else
-                    <td class="note">{{ $alternate_pickup_names }}</td>
-                  @endif
-                </tr>
-              @endforeach	
-            </tbody>
-          </table>
-        </section>
-      @endif
+                @endforeach	
+              </tbody>
+            </table>
+          </section>
+        @endif
       @endunless
-
-      
 
       @unless ($winter_location)        
           <section class="count_box">
