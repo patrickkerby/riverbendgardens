@@ -118,7 +118,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
       'return' => 'ids',
       'type' => 'shop_order',
       'status' => array('wc-processing', 'wc-on-hold'),
-      'date_created' => '2025-01-01...2025-08-25'
+      'date_created' => '2025-01-01...2025-09-25'
   );
 
   $product_id_15wk = '5958';

@@ -158,7 +158,7 @@ $args = array(
     'limit' => -1,
     // 'status' => 'wc-processing'
     'status' => array('wc-processing', 'wc-on-hold'),
-    'date_created' => '2025-01-01...2025-08-31',
+    'date_created' => '2025-01-01...2025-09-31',
 );
 $product_id_fullseason = '5958';
 $product_id_biwk = '87354';

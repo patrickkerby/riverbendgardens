@@ -138,7 +138,7 @@ if($currentCSAWeek > 14) {
     'order' => 'ASC',
     'limit' => -1,
     'status' => array('wc-processing', 'wc-on-hold'),
-    'date_created' => '2025-01-01...2025-08-31',
+    'date_created' => '2025-01-01...2025-09-31',
   );
   $query = new WC_Order_Query( $args );
   $orders = $query->get_orders();
