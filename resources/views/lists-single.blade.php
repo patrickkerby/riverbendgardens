@@ -203,7 +203,12 @@ foreach ($order_ids as $order_id) {
       // break;
     }
     if ($item->get_product_id() == $product_id_halfsummer && $filtered_location == $location_slug) {
-      array_push($filtered_order_ids_halfsummer, $order_id);
+      if ($is_delivery && $displayHalfsummer) {
+        array_push($filtered_order_ids_fullseason, $order_id);
+      }
+      else {
+        array_push($filtered_order_ids_halfsummer, $order_id);
+      }
       // break;
     }
     if ($item->get_product_id() == $product_id_fullseason && $filtered_location == $location_slug) {
@@ -399,7 +404,7 @@ foreach ($order_ids as $order_id) {
           </tbody>
         </table>
          
-      @unless($winter_location)
+      @unless($winter_location || $delivery_list)
         @if ($displayBiwk)  
           <section class="bi-weekly">
             <h3>Bi-weekly Orders</h3>
