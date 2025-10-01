@@ -5,186 +5,127 @@
 @extends('layouts.app')
 
 {{-- @include('partials.list-functions') --}}
-
 @php
-
 //List of global variables
+global $wpdb, $woocommerce;
 
-function weekCheck($prevWeek, $nextWeek) {
-    // Check current date, set select value to selected if current date is between week x and y.
-    // Function arguments are supplied by ACF in Ymd format
 
-    $currentDate = date('Ymd');
-    $currentDate=date('Ymd', strtotime($currentDate));;
+// ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
+// TODO: see if these dates can be provided on composite product item _rather_ than global options.
 
-    $weeklyDateBegin = date('Ymd', strtotime("$prevWeek"));
-    $weeklyDateEnd = date('Ymd', strtotime("$nextWeek"));
+  $year = "CSA 2025 - 14 week";
+  $late_season = "Late Season CSA";
 
-    if (($currentDate > $weeklyDateBegin) && ($currentDate <= $weeklyDateEnd))
-    {
-    echo "selected";
-    }
-    else
-    {
-    //nothin
+  $bigger_count = 0;
+  $smaller_count = 0;  
+
+  $bigger_count_total = 0;
+  $smaller_count_total = 0;
+  $smaller_crates_total = 0;
+  $bigger_crates_total = 0;
+  $extras_count_total = 0;
+  $product_id_lateseason = '5484';
+  $product_id_fullyear = '103898';
+  $filtered_order_ids_lateseason = array();
+
+////********** Query the orders! 
+  $args = array(
+      'orderby' => 'date',
+      'order' => 'DESC',
+      'limit' => 800,
+      'return' => 'ids',
+      'type' => 'shop_order',
+      'status' => array('wc-processing', 'wc-on-hold'),
+      'date_created' => '2025-01-01...2025-12-31'
+    );
+  
+
+//first get all the order ids
+  $query = new WC_Order_Query( $args );
+  $order_ids = $query->get_orders();
+
+//then loop through each order id, get the order, loop through the items in the order, and if the item is the product we want, get its meta data
+$location_counts = [];
+$bigger_count_total = 0;
+$smaller_count_total = 0;
+
+foreach ($order_ids as $order_id) {
+    $order = wc_get_order($order_id);
+    foreach ($order->get_items() as $item) {
+        if ($item->get_product_id() != $product_id_lateseason) continue;
+
+        $location = $item->get_meta('location');
+        $size = $item->get_meta('size');
+        $quantity = $item->get_quantity();
+
+        if (!isset($location_counts[$location])) {
+            $location_counts[$location] = ['Bigger' => 0, 'Smaller' => 0];
+        }
+        if ($size === 'Bigger') {
+            $location_counts[$location]['Bigger'] += $quantity;
+            $bigger_count_total += $quantity;
+        } elseif ($size === 'Smaller') {
+            $location_counts[$location]['Smaller'] += $quantity;
+            $smaller_count_total += $quantity;
+        }
     }
 }
+$total_count = $bigger_count_total + $smaller_count_total;
+
 @endphp
+
+
+
+
 
 @section('content')
 
+  <div class="post-content">
 
-@php
-	$year = "Late Season CSA";
+    <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>      
+        <section class="week {{ $week_in_season }}">  
+          <h2>Late Season CSA Signups</h2>
+          <p>Clear = Bigger  /  White = Smaller.</p>
 
-	if ( isset( $_POST['year'] ) ) { 
-		$year = $_POST['year'];							
-	} 
-	else {
-		$year = "Late Season CSA";
-	}
-
-@endphp
-
-<script type="text/javascript">
-	( function($) {
-		$(document).ready(function(){
-			$("select").change(function(){
-					$(this).find("option:selected").each(function(){
-							var optionValue = $(this).attr("value");
-							if(optionValue){
-									$(".week").not("." + optionValue).hide();
-									$("." + optionValue).show();
-							} else{
-									$(".week").hide();
-							}
-					});
-			}).change();
-
-			$('.table').footable();
-
-		});
-	} ) ( jQuery );
-</script>
-
-<div class="post-content">
-	<article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-		<section>
-			<h2>Packing Lists - {{ $year }}</h2>			
-		
-			<table class="table footable" data-sorting="true">
+			<table class="table footable">
 				<thead>
 					<tr>
-						<th scope="col">Location</th>
-						<th data-type="number" scope="col">Bigger</th>
-						<th data-type="number" scope="col">Smaller</th>
-						<th data-type="number" scope="col">Total (15wk)</th>
-					</tr>	 
+						<th>Location</th>
+						<th>Bigger</th>
+						<th>Smaller</th>
+						<th>Total</th>
+					</tr>
 				</thead>
 				<tbody>
-					@php
-					
-						global $wpdb, $woocommerce;
-					
-						$order_items = 'wp_woocommerce_order_items';
-						$order_meta = 'wp_woocommerce_order_itemmeta';
-						$order_data = $wpdb->prefix . 'posts';
-						$customer_data = $wpdb->prefix . 'postmeta';
-						$order_data = $wpdb->prefix . 'posts';
-
-            $late_season = wc_get_product( 5484 );
-
-						$winter_locations = get_post_meta($late_season->get_id(), '_product_attributes', true);						
-						$winter_locations = explode(' | ', $winter_locations['location']['value']);
-
-
-
-						$bigger_count = 0;
-            $smaller_count = 0; 
-
-						$sql_str = '';
-
-						foreach ($winter_locations as $location) {
-
-              $location_esc = addslashes($location);
-
-							$sql_str = ( "
-								SELECT COUNT(Q2.bigger_count) AS bigger_count, COUNT(Q3.smaller_count) AS smaller_count, COUNT(Q1.order_id) AS total_count
-								FROM		
-									(	SELECT order_id, $order_items.order_item_id AS order_item_id, $order_meta.meta_key, $order_meta.meta_value AS location_value
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND $order_meta.meta_value = '$location_esc'
-										AND $order_items.order_item_name LIKE '$year%'
-									) Q1
-								LEFT JOIN
-									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS bigger_count
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND meta_key IN ('size')
-										AND $order_meta.meta_value = 'bigger'
-									)	Q2
-								ON Q1.order_id = Q2.order_id
-								LEFT JOIN
-									(	SELECT order_id, $order_items.order_item_id, $order_meta.meta_key, $order_meta.meta_value AS smaller_count
-										FROM $order_items, $order_meta
-										WHERE $order_items.order_item_id = $order_meta.order_item_id
-										AND meta_key IN ('size')
-										AND $order_meta.meta_value = 'smaller'
-									)	Q3
-								ON Q1.order_id = Q3.order_id
-								INNER JOIN
-									(	SELECT DISTINCT $order_data.ID AS ID, $order_data.post_status AS post_status
-										FROM $order_data
-										WHERE $order_data.post_status = 'wc-processing'
-									)	Q4
-								ON Q1.order_id = Q4.ID
-								
-								ORDER BY location_value			 
-							");
-							
-							$count_results = $wpdb->get_results($sql_str);
-													
-							$row = $count_results[0];
-							
-							$bigger_count += $row->bigger_count;
-							$smaller_count += $row->smaller_count;
-
-                //intentions: count how many orders have a qty of 2. if qty is 2 AND size is bigger, increase bigger count by 1. likewise for smaller. qty of 3 likely doesn't ever happen, but could code for it just in case.
-                //why i think it won't work: this query is looping through each location, and doing a count of records. I might need to add additional selectors to actually show size data to compare with. 
-                
-							@endphp
-							<tr>
-								<td><strong>@php echo "$location"; @endphp</strong></td>
-								<td data-sort-value="@php echo($row->bigger_count); @endphp">@php echo($row->bigger_count); @endphp</td>
-								<td data-sort-value="@php echo($row->smaller_count); @endphp">@php echo($row->smaller_count); @endphp</td>
-								<td data-sort-value="@php echo($row->total_count); @endphp">@php echo($row->total_count); @endphp</td>
-							</tr>					
-						@php } @endphp		
-						
-						
-						<tfoot>
-							<tr>
-								<th scope="row"><strong>Totals</strong></th>
-								<td>Bigger: @php echo( $bigger_count ); @endphp</td>
-								<td>Smaller: @php echo( $smaller_count ); @endphp</td>
-								<td>Total: @php echo( $bigger_count + $smaller_count ); @endphp</td>
-							</tr>
-						</tfoot>						
-				</table>
-
-			</section>
-			<div class="count_box week1">
-				<h4>This week's totals:</h4>
-				<ul>
-					<li><strong>Bigger:</strong> @php echo( $bigger_count ); @endphp</li>
-					<li><strong>Smaller:</strong> @php echo( $smaller_count ); @endphp </li>
-					<li><strong>Extras:</strong> 12 </li>
-					<li><strong>Total:</strong> @php echo( $bigger_count + $smaller_count + 12 ); @endphp</li>
-				</ul>
-			</div>
-			
+					@foreach ($location_counts as $location_name => $counts)
+						<tr>
+							<td><strong>{{ $location_name }}</strong></td>
+							<td>{{ $counts['Bigger'] }}</td>
+							<td>{{ $counts['Smaller'] }}</td>
+							<td>{{ $counts['Bigger'] + $counts['Smaller'] }}</td>
+						</tr>
+					@endforeach
+				</tbody>
+				<tfoot>
+					<tr>
+						<td><strong>Totals</strong></td>
+						<td><strong>{{ $bigger_count_total }}</strong></td>
+						<td><strong>{{ $smaller_count_total }}</strong></td>
+						<td><strong>{{ $total_count }}</strong></td>
+					</tr>
+				</tfoot>
+			</table>
+          	
 		</section>
-	</article>
-</div>
+		<div class="count_box week">
+			<h4>This week's totals:</h4>
+			<ul>
+				<li><strong>Bigger:</strong> {{ $bigger_count_total}}</li>
+				<li><strong>Smaller:</strong> {{ $smaller_count_total }}</li>
+				<li><strong>Total:</strong> {{ $total_count }}</li>
+			</ul>
+		</div>
+      {{-- @endforeach --}}
+    </article>
+  </div>
 @endsection
