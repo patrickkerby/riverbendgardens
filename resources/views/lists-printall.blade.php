@@ -7,6 +7,27 @@
 @php
   //List of global variables
   
+  // Check if this is a Winter CSA list (set via ACF on the page)
+  $winter_csa_mode = get_field('winter_csa_mode');
+
+  // Location name normalization for Winter CSA (consolidates variants)
+  function normalizeLocationName($location) {
+    $location_map = [
+      'Catch of the Week!' => 'Catch of the Week',
+      'Confetti Sweets (Sherwood Park)' => 'Confetti Sweets',
+      "D'arcy's Meat Market (St Albert Location)" => "D'Arcy's Meats (St Albert)",
+      "D'arcy's Meat Market (Whitemud Crossing Location)" => "D'Arcy's Meats (Whitemud Crossing)",
+      'Remedy (109th St)' => 'Remedy (109St Location)',
+      'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
+      'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
+      'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
+      'Jasper Ave Location (TBD)' => 'Obj3cts (Jasper Ave)',
+      'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
+      'Highlands Area Pick Up' => 'Candid Coffee Roasters',
+    ];
+    
+    return $location_map[$location] ?? $location;
+  }
 
   function weekCheck($prevWeek, $nextWeek) {
       // Check current date, set select value to selected if current date is between week x and y.
@@ -133,12 +154,16 @@ if($currentCSAWeek > 14) {
 
   $active_locations = array();
 
+  // Adjust date range based on list type
+  // $date_range = $winter_csa_mode ? '2024-10-01...2025-04-30' : '2025-01-01...2025-09-31';
+  $date_range = '2025-01-01...2025-10-14';
+  
   $args = array(
     'orderby' => 'name',
     'order' => 'ASC',
     'limit' => -1,
     'status' => array('wc-processing', 'wc-on-hold'),
-    'date_created' => '2025-01-01...2025-09-31',
+    'date_created' => $date_range,
   );
   $query = new WC_Order_Query( $args );
   $orders = $query->get_orders();
@@ -177,8 +202,8 @@ foreach ($orders as $order) {
       $extras_setting = get_field('extras', $location_object);
     }
     elseif($location_name_winter) {
-      $location = $location_name_winter;
-      $location_slug = $location_name_winter;
+      $location = normalizeLocationName($location_name_winter);
+      $location_slug = $location;
       $extras_setting = 1;
     }
 
@@ -196,8 +221,21 @@ foreach ($orders as $order) {
 
 
     // Skip adding this item if product_id is 103898
-    if ($product_id == 103898 || $product_id == 5484) {
+    if ($product_id == 103898) {
       continue;
+    }
+    
+    // Filter based on winter mode
+    if ($winter_csa_mode) {
+      // In winter mode, only include winter CSA products
+      if ($product_id != $product_id_winter) {
+        continue;
+      }
+    } else {
+      // In regular mode, exclude winter CSA products
+      if ($product_id == $product_id_winter) {
+        continue;
+      }
     }
 
     // Initialize 'items' as an array if not already set
@@ -234,36 +272,41 @@ foreach ($orders as $order) {
     
 
       @php
-        $active_locations = [
-          // 'Catch of the Week!',
-          // 'Confetti Sweets (Sherwood Park)',
-          // 'Acme Meat Market',
-          // "D'Arcy's Meats (Whitemud Crossing)",
-          // 'Town Square Brewing',
-          // 'Remedy (Terwillegar)',
-          // 'Bon Ton Bakery',
-          // 'Remedy (109th St)',
-          // 'Remedy (Jasper Ave)',
-          // "D'Arcy's Meats (St Albert)",
-          // 'Ribeye Butcher Shop (Manning Location)',
-          'highlands-community-league',
-          'jasper-ave-location',
-          'catchoftheweek',
-          'remedy-109st-location',
-          'acme-meat-market',
-          'confetti-sweets-sherwood-park',
-          'ribeye-sherwood-park',
-          'darcys-meats-st-albert',
-          'ribeye-st-albert',
-          'ribeye-terra-losa',
-          'bon-ton-bakery',
-          'ribeye-windermere',
-          'remedy-terwillegar-location',
-          'darcys-meats-whitemud-crossing',
-          'ribeye-manning',          
-          'town-square',
-        ];
-        ksort($active_locations);
+        // Use dynamically built active_locations from the orders loop above
+        // This handles both taxonomy slugs (regular CSA) and location names (winter CSA)
+        
+        // If in winter mode, we need to get unique location names from orders
+        if ($winter_csa_mode) {
+          $winter_locations = [];
+          foreach ($orders_formatted as $order_data) {
+            if (isset($order_data['items']['location']) && !empty($order_data['items']['location'])) {
+              $winter_locations[] = $order_data['items']['location'];
+            }
+          }
+          $active_locations = array_unique($winter_locations);
+          sort($active_locations);
+        } else {
+          // Regular mode - use slugs
+          $active_locations = [
+            'highlands-community-league',
+            'jasper-ave-location',
+            'catchoftheweek',
+            'remedy-109st-location',
+            'acme-meat-market',
+            'confetti-sweets-sherwood-park',
+            'ribeye-sherwood-park',
+            'darcys-meats-st-albert',
+            'ribeye-st-albert',
+            'ribeye-terra-losa',
+            'bon-ton-bakery',
+            'ribeye-windermere',
+            'remedy-terwillegar-location',
+            'darcys-meats-whitemud-crossing',
+            'ribeye-manning',          
+            'town-square',
+          ];
+          ksort($active_locations);
+        }
       @endphp
 
       @foreach($active_locations as $location)
@@ -279,9 +322,18 @@ foreach ($orders as $order) {
           $winter_count_smaller = 0;
           $has_biwk = false;
 
-          // $location_object = get_term_by( 'name', $location, 'pa_pickup-location' );
-          $location_object = get_term_by( 'slug', $location, 'pa_pickup-location' );
-          $extras_setting = get_field('extras', $location_object);
+          // In winter mode, $location is a name; in regular mode, it's a slug
+          if ($winter_csa_mode) {
+            $location_object = get_term_by( 'name', $location, 'pa_pickup-location' );
+            // If no term found by name, create a fake object for display
+            if (!$location_object) {
+              $location_object = (object) ['name' => $location, 'term_id' => null];
+            }
+          } else {
+            $location_object = get_term_by( 'slug', $location, 'pa_pickup-location' );
+          }
+          
+          $extras_setting = is_object($location_object) ? get_field('extras', $location_object) : 1;
                  
           if($extras_setting == true) {
             $extras = 1;
@@ -297,13 +349,15 @@ foreach ($orders as $order) {
           <section class="{{ $currentCSAWeek }}">  
             <div class="titleblock" style="break-after: avoid;">
               <h2>{!! $location_object->name !!}</h2>
-              @unless($late_season)
-                <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
-              @endunless              
-              {{-- @if($winter_location)
-                <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
-                <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
-              @endif --}}
+              @if($winter_csa_mode)
+                <h3>Winter CSA</h3>
+                <p><strong>Winter CSA subscribers get 2 bags each</strong><br />
+                Smaller = 2 White Bags | Bigger = 2 Clear Bags</p>
+              @else
+                @unless($late_season)
+                  <h3>Week {{ $currentCSAWeek }}: {{ $weekXTitle }}</h3>
+                @endunless
+              @endif              
               {{-- <p>BIGGER bounties are in CLEAR BAGS<br /> SMALLER bounties are in WHITE BAGS</p> --}}
             </div>
 
@@ -327,6 +381,33 @@ foreach ($orders as $order) {
                         $has_biwk = true;
                       }
                     @endphp
+                    
+                    @if($winter_csa_mode)
+                      {{-- Winter CSA Mode - compare by location name --}}
+                      @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_winter)
+                        @php
+                          if ($details['items']['size'] == 'Bigger') {
+                            $seasonal_count_bigger += $details['items']['quantity'];
+                            $size = "Bigger <span class=\"bagsize\">2 Clear Bags</span>";
+                          }
+                          
+                          if ($details['items']['size'] == 'Smaller') {
+                            $seasonal_count_smaller += $details['items']['quantity'];              
+                            $size = "Smaller <span class=\"bagsize\">2 White Bags</span>";
+                          }
+                        @endphp
+                        <tr>
+                          <td class="name">
+                            {{ $details['first_name'] }} {{ $details['last_name'] }}
+                          </td>
+                          <td>{!! $size !!}</td>
+                          <td>{{ $details['items']['quantity'] }}</td>
+                          <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                          {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
+                        </tr>
+                      @endif
+                    @else
+                      {{-- Regular CSA Mode --}}
                       @if(
                         $details['items']['term_id'] == $location_object->term_id &&
                         (
@@ -334,55 +415,33 @@ foreach ($orders as $order) {
                           $details['items']['product_id'] == $product_id_halfsummer
                         )
                       )
-                    
-                      @php
-                        if ($details['items']['size'] == 'Bigger') {
-                          $seasonal_count_bigger += $details['items']['quantity'];
-                          $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
-                        }
-                        
-                        if ($details['items']['size'] == 'Smaller') {
-                          $seasonal_count_smaller += $details['items']['quantity'];              
-                          $size = "Smaller <span class=\"bagsize\">White Bag</span>";
-                        }
-                      @endphp
-                      <tr>
-                        <td class="name">
-                          {{ $details['first_name'] }} {{ $details['last_name'] }}
-                        </td>
-                        <td>{!! $size !!}</td>
-                        <td>{{ $details['items']['quantity'] }}</td>
-                        <td class="note">{{ $details['alternate_pickup_names'] }}</td>
-                        {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
-                      </tr>
-                    @endif
-                    {{-- Winter CSA below --}}
-                    @if($details['items']['location_slug'] == $location && $details['items']['product_id'] == $product_id_winter)
-                      @php
-                        if ($details['items']['size'] == 'Bigger') {
-                          $seasonal_count_bigger += $details['items']['quantity'];
-                          $size = "Bigger <span class=\"bagsize\">2 Clear Bags</span>";
-                        }
-                        
-                        if ($details['items']['size'] == 'Smaller') {
-                          $seasonal_count_smaller += $details['items']['quantity'];              
-                          $size = "Smaller <span class=\"bagsize\">2 White Bags</span>";
-                        }
-                      @endphp
-                      <tr>
-                        <td class="name">
-                          {{ $details['first_name'] }} {{ $details['last_name'] }}
-                        </td>
-                        <td>{!! $size !!}</td>
-                        <td>{{ $details['items']['quantity'] }}</td>
-                        <td class="note">{{ $details['alternate_pickup_names'] }}</td>
-                        {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
-                      </tr>
+                      
+                        @php
+                          if ($details['items']['size'] == 'Bigger') {
+                            $seasonal_count_bigger += $details['items']['quantity'];
+                            $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
+                          }
+                          
+                          if ($details['items']['size'] == 'Smaller') {
+                            $seasonal_count_smaller += $details['items']['quantity'];              
+                            $size = "Smaller <span class=\"bagsize\">White Bag</span>";
+                          }
+                        @endphp
+                        <tr>
+                          <td class="name">
+                            {{ $details['first_name'] }} {{ $details['last_name'] }}
+                          </td>
+                          <td>{!! $size !!}</td>
+                          <td>{{ $details['items']['quantity'] }}</td>
+                          <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                          {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
+                        </tr>
+                      @endif
                     @endif
                   @endforeach
               </tbody>
             </table>
-            @if($displayBiwk && $has_biwk)
+            @if(!$winter_csa_mode && $displayBiwk && $has_biwk)
               <h3>Bi-weekly orders</h3>
               <table class="table footable" data-sorting="true" data-filtering="false" data-sorted="true" data-direction="ASC">
                 <thead>
