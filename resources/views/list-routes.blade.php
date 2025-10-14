@@ -9,8 +9,9 @@
 //List of global variables
 global $wpdb, $woocommerce;
 
-// Get selected product from ACF
-$selected_product = get_field('product');
+// Get selected product from ACF (returns WP_Post object)
+$selected_product_obj = get_field('product');
+$selected_product = $selected_product_obj ? $selected_product_obj->ID : null;
 $product_id_winter = '5484';
 
 // Check if this is Winter CSA mode
@@ -281,10 +282,13 @@ function normalizeLocationName($location) {
               <tr>
                 <th>Delivery Time</th>
                 <th scope="col">Location</th>
-                <th data-type="number" scope="col">Clear Bags</th>
-                <th data-type="number" scope="col">Clear Crates</th>
-                <th data-type="number" scope="col">White Bags</th>
-                <th data-type="number" scope="col">White Crates</th>
+                @if($is_winter_csa)
+                  <th data-type="number" scope="col">Clear Crates<br><small>(2 bags per crate)</small></th>
+                  <th data-type="number" scope="col">White Crates<br><small>(2 bags per crate)</small></th>
+                @else
+                  <th data-type="number" scope="col">Clear Crates<br><small>(2 bags per crate)</small></th>
+                  <th data-type="number" scope="col">White Crates<br><small>(2 bags per crate)</small></th>
+                @endif
               </tr>	
             </thead>
             <tbody>
@@ -296,20 +300,35 @@ function normalizeLocationName($location) {
                   
                   // Handle location differently for winter CSA
                   if ($is_winter_csa) {
-                    // For winter CSA, item might have custom_location_name or location term
-                    if (isset($item['custom_location_name']) && !empty($item['custom_location_name'])) {
-                      $location_name = normalizeLocationName($item['custom_location_name']);
-                      $location = $location_name;
-                    } elseif (isset($item['location']) && is_object($item['location'])) {
+                    $has_location = isset($item['location']) && is_object($item['location']);
+                    $has_custom = isset($item['custom_location_name']) && !empty($item['custom_location_name']);
+                    
+                    // Warn if both fields are set (ambiguous configuration)
+                    if ($has_location && $has_custom) {
+                      echo "<tr style='background: orange; color: black;'><td colspan='4'><strong>WARNING:</strong> ACF row has BOTH location term ('{$item['location']->name}') AND custom_location_name ('{$item['custom_location_name']}'). Using location term. Please clear one field in WordPress.</td></tr>";
+                    }
+                    
+                    // Priority: location term first, then custom_location_name
+                    if ($has_location) {
                       $location_name = normalizeLocationName($item['location']->name);
                       $location = $location_name;
+                    } elseif ($has_custom) {
+                      $location_name = normalizeLocationName($item['custom_location_name']);
+                      $location = $location_name;
                     } else {
-                      continue; // Skip if no valid location
+                      // Error: No valid location configured
+                      echo "<tr style='background: red; color: white;'><td colspan='4'><strong>ERROR:</strong> ACF row has no location or custom_location_name set. Check your repeater configuration.</td></tr>";
+                      continue;
                     }
                   } else {
                     // Regular CSA uses taxonomy slug
-                    $location = $item['location']->slug;
-                    $location_name = $item['location']->name;
+                    if (isset($item['location']) && is_object($item['location'])) {
+                      $location = $item['location']->slug;
+                      $location_name = $item['location']->name;
+                    } else {
+                      echo "<tr style='background: red; color: white;'><td colspan='4'><strong>ERROR:</strong> ACF row has no location term set. Check your repeater configuration.</td></tr>";
+                      continue;
+                    }
                   }
 
                   $extras = $item['extras'];
@@ -374,16 +393,22 @@ function normalizeLocationName($location) {
                   }
 
                   $smaller_count = $fullseason_smaller_count;
-                  $bigger_crates = $bigger_count/2;
-                  $smaller_crates = $smaller_count/2; 
+                  
+                  // For winter CSA: 1 order = 2 bags = 1 crate
+                  // For summer CSA: 1 order = 1 bag, 2 orders = 1 crate
+                  if ($is_winter_csa) {
+                    $bigger_crates = $bigger_count; // Each order is 1 crate
+                    $smaller_crates = $smaller_count; // Each order is 1 crate
+                  } else {
+                    $bigger_crates = $bigger_count/2; // 2 orders = 1 crate
+                    $smaller_crates = $smaller_count/2; // 2 orders = 1 crate
+                  }
                 @endphp
 
                 <tr>
                   <td>{{ $item['delivery_time'] }}</td>
                   <td><strong>{{ $location_name }} </strong></td>
-                  <td>{{ $bigger_count }}</td>
                   <td>{{ $bigger_crates }}</td>
-                  <td>{{ $smaller_count }}</td>
                   <td>{{ $smaller_crates }}</td>
                 </tr>
                 
@@ -396,36 +421,29 @@ function normalizeLocationName($location) {
               @endforeach
               @foreach ($custom_location as $custom)
                 @php
+                  // For winter CSA: 1 order = 1 crate, for summer CSA: 2 orders = 1 crate
                   if (!$custom['bigger_count']) {
-                    $bigger_size = 0;
                     $bigger_crates = 0;
                   }
                   else {
-                    $bigger_crates = $custom['bigger_count']/2;
-                    $bigger_size = $custom['bigger_count'];
+                    $bigger_crates = $is_winter_csa ? $custom['bigger_count'] : $custom['bigger_count']/2;
                   }
                   
                   if (!$custom['smaller_count']) {
                     $smaller_crates = 0;
-                    $smaller_size = 0;
                   }
                   else {
-                    $smaller_crates = $custom['smaller_count']/2;
-                    $smaller_size = $custom['smaller_count'];
+                    $smaller_crates = $is_winter_csa ? $custom['smaller_count'] : $custom['smaller_count']/2;
                   }
                   
                 @endphp
                 <tr>
                   <td>{{ $custom['delivery_time'] }}</td>
                   <td><strong>{{ $custom['location'] }} </strong></td>
-                  <td>{{ $bigger_size }}</td>
                   <td>{{ $bigger_crates }}</td>
-                  <td>{{ $smaller_size }}</td>
                   <td>{{ $smaller_crates }}</td>
                 </tr>
                 @php
-                  $bigger_count_total += $bigger_size;
-                  $smaller_count_total += $smaller_size;
                   $bigger_crates_total += $bigger_crates;  
                   $smaller_crates_total += $smaller_crates;
                 @endphp
@@ -436,9 +454,7 @@ function normalizeLocationName($location) {
             <tfoot>
               <tr>
                 <td colspan="2" scope="row"><strong>Totals</strong></td>
-                <td><strong>{{ $bigger_count_total }}</strong></td>
                 <td><strong>{{ $bigger_crates_total }}</strong></td>
-                <td><strong>{{ $smaller_count_total }}</strong></td>
                 <td><strong>{{ $smaller_crates_total }}</strong></td>
               </tr>
             </tfoot>						
