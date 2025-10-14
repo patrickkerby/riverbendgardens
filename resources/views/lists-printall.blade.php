@@ -156,7 +156,7 @@ if($currentCSAWeek > 14) {
 
   // Adjust date range based on list type
   // $date_range = $winter_csa_mode ? '2024-10-01...2025-04-30' : '2025-01-01...2025-09-31';
-  $date_range = '2025-01-01...2025-10-14';
+  $date_range = '2025-01-01...2025-10-31';
   
   $args = array(
     'orderby' => 'name',
