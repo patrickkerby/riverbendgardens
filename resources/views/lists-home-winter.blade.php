@@ -93,6 +93,7 @@ $total_count = $bigger_count_total + $smaller_count_total;
 						<th>Location</th>
 						<th>Bigger</th>
 						<th>Smaller</th>
+            <th>Extras</th>
 						<th>Total</th>
 					</tr>
 				</thead>
@@ -102,7 +103,8 @@ $total_count = $bigger_count_total + $smaller_count_total;
 							<td><strong>{{ $location_name }}</strong></td>
 							<td>{{ $counts['Bigger'] }}</td>
 							<td>{{ $counts['Smaller'] }}</td>
-							<td>{{ $counts['Bigger'] + $counts['Smaller'] }}</td>
+              <td>1</td>
+							<td>{{ $counts['Bigger'] + $counts['Smaller'] + 1 }}</td>
 						</tr>
 					@endforeach
 				</tbody>
@@ -111,7 +113,8 @@ $total_count = $bigger_count_total + $smaller_count_total;
 						<td><strong>Totals</strong></td>
 						<td><strong>{{ $bigger_count_total }}</strong></td>
 						<td><strong>{{ $smaller_count_total }}</strong></td>
-						<td><strong>{{ $total_count }}</strong></td>
+						<td><strong>12</strong></td>
+            <td><strong>{{ $total_count + 12 }}</strong></td>
 					</tr>
 				</tfoot>
 			</table>
@@ -122,7 +125,8 @@ $total_count = $bigger_count_total + $smaller_count_total;
 			<ul>
 				<li><strong>Bigger:</strong> {{ $bigger_count_total}}</li>
 				<li><strong>Smaller:</strong> {{ $smaller_count_total }}</li>
-				<li><strong>Total:</strong> {{ $total_count }}</li>
+        <li><strong>Extras:</strong> 12</li>
+				<li><strong>Total:</strong> {{ $total_count + 12 }}</li>
 			</ul>
 		</div>
       {{-- @endforeach --}}
