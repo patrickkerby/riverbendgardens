@@ -9,6 +9,32 @@
 //List of global variables
 global $wpdb, $woocommerce;
 
+// Get selected product from ACF
+$selected_product = get_field('product');
+$product_id_winter = '5484';
+
+// Check if this is Winter CSA mode
+$is_winter_csa = ($selected_product == $product_id_winter);
+
+// Location name normalization for Winter CSA (consolidates variants)
+function normalizeLocationName($location) {
+  $location_map = [
+    'Catch of the Week!' => 'Catch of the Week',
+    'Confetti Sweets (Sherwood Park)' => 'Confetti Sweets',
+    "D'arcy's Meat Market (St Albert Location)" => "D'Arcy's Meats (St Albert)",
+    "D'arcy's Meat Market (Whitemud Crossing Location)" => "D'Arcy's Meats (Whitemud Crossing)",
+    'Remedy (109th St)' => 'Remedy (109St Location)',
+    'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
+    'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
+    'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
+    'Jasper Ave Location (TBD)' => 'Obj3cts (Jasper Ave)',
+    'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
+    'Highlands Area Pick Up' => 'Candid Coffee Roasters',
+  ];
+  
+  return $location_map[$location] ?? $location;
+}
+
 // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
 
   $rows = get_field('pickup_dates','options' );
@@ -108,12 +134,15 @@ global $wpdb, $woocommerce;
   $bigger_crates_total = 0;
 
 //** Query the orders! 
+  // Adjust date range based on product type
+  $date_range = $is_winter_csa ? '2025-01-01...2025-10-31' : '2025-01-01...2025-09-31';
+  
   $args = array(
       'orderby' => 'date',
       'order' => 'DESC',
       'limit' => -1,
       'status' => array('wc-processing', 'wc-on-hold'),
-      'date_created' => '2025-01-01...2025-09-31',
+      'date_created' => $date_range,
   );
 
   $product_id_15wk = '5958';
@@ -131,33 +160,40 @@ global $wpdb, $woocommerce;
   <div class="post-content">
 
     <article id="page-@php the_ID(); @endphp" @php post_class(); @endphp>
-      <section id="week-select" class="row">
-        <form method="post" class="acf-form col-sm-4 offset-sm-8">
-          <select name="week_selection" id="week_selection">
-            <option>Change Week</option>
-            <option value="week1">Week One</option>
-            <option value="week2">Week Two</option>
-            <option value="week3">Week Three</option>
-            <option value="week4">Week Four</option>
-            <option value="week5">Week Five</option>
-            <option value="week6">Week Six</option>
-            <option value="week7">Week Seven</option>
-            <option value="week8">Week Eight</option>
-            <option value="week9">Week Nine</option>
-            <option value="week10">Week Ten</option>
-            <option value="week11">Week Eleven</option>
-            <option value="week12">Week Twelve</option>
-            <option value="week13">Week Thirteen</option>
-            <option value="week14">Week Fourteen</option>
-            <option value="week15">Week Fifteen</option>
-          </select>
-          <input type="submit" class="acf-button button button-primary button-large" value="Update">
-        </form>
-      </section>
+      @unless($is_winter_csa)
+        <section id="week-select" class="row">
+          <form method="post" class="acf-form col-sm-4 offset-sm-8">
+            <select name="week_selection" id="week_selection">
+              <option>Change Week</option>
+              <option value="week1">Week One</option>
+              <option value="week2">Week Two</option>
+              <option value="week3">Week Three</option>
+              <option value="week4">Week Four</option>
+              <option value="week5">Week Five</option>
+              <option value="week6">Week Six</option>
+              <option value="week7">Week Seven</option>
+              <option value="week8">Week Eight</option>
+              <option value="week9">Week Nine</option>
+              <option value="week10">Week Ten</option>
+              <option value="week11">Week Eleven</option>
+              <option value="week12">Week Twelve</option>
+              <option value="week13">Week Thirteen</option>
+              <option value="week14">Week Fourteen</option>
+              <option value="week15">Week Fifteen</option>
+            </select>
+            <input type="submit" class="acf-button button button-primary button-large" value="Update">
+          </form>
+        </section>
+      @endunless
             
         <section class="week {{ $week_in_season }}">
-          <h2> 
-            @switch($week_in_season)
+          @if($is_winter_csa)
+            <h2>Winter CSA Delivery List</h2>
+            <p><strong>Winter CSA subscribers get 2 bags each</strong><br />
+            Smaller = 2 White Bags | Bigger = 2 Clear Bags</p>
+          @else
+            <h2> 
+              @switch($week_in_season)
               @case("week1")                  
                 @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                 Week 1: {{ $weekDate }}
@@ -236,9 +272,10 @@ global $wpdb, $woocommerce;
               @default
                 @php $weekDate = date('F d, Y', strtotime($week1_row['week'])); @endphp
                 Week 1: {{ $weekDate }}
-            @endswitch
-          </h2>
-          <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> extras.</p>
+              @endswitch
+            </h2>
+            <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> extras.</p>
+          @endif
           <table class="table footable">
             <thead>
               <tr>
@@ -257,8 +294,23 @@ global $wpdb, $woocommerce;
                   $fullseason_smaller_count = 0;
                   $fullseason_bigger_count = 0;                  
                   
-                  $location = $item['location']->slug;
-                  $location_name = $item['location']->name;
+                  // Handle location differently for winter CSA
+                  if ($is_winter_csa) {
+                    // For winter CSA, item might have custom_location_name or location term
+                    if (isset($item['custom_location_name']) && !empty($item['custom_location_name'])) {
+                      $location_name = normalizeLocationName($item['custom_location_name']);
+                      $location = $location_name;
+                    } elseif (isset($item['location']) && is_object($item['location'])) {
+                      $location_name = normalizeLocationName($item['location']->name);
+                      $location = $location_name;
+                    } else {
+                      continue; // Skip if no valid location
+                    }
+                  } else {
+                    // Regular CSA uses taxonomy slug
+                    $location = $item['location']->slug;
+                    $location_name = $item['location']->name;
+                  }
 
                   $extras = $item['extras'];
 
@@ -274,24 +326,42 @@ global $wpdb, $woocommerce;
                     $order_items = $order->get_items();
 
                     foreach ($order_items as $order_item) {
-                      $filtered_location = $order_item->get_meta('pa_pickup-location');
                       $filtered_size = $order_item->get_meta('size');
                       $filtered_quantity = $order_item->get_quantity();
+                      
+                      // Get location based on product type
+                      if ($is_winter_csa) {
+                        $filtered_location = normalizeLocationName($order_item->get_meta('location'));
+                      } else {
+                        $filtered_location = $order_item->get_meta('pa_pickup-location');
+                      }
 
-                      if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
-                        $biweekly_total_count += $filtered_quantity;
-                      }
-                      elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {
-                        $fullseason_bigger_count += $filtered_quantity;                        
-                      }
-                      elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Smaller') {
-                        $fullseason_smaller_count += $filtered_quantity;
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Bigger') {
-                        $fullseason_bigger_count += $filtered_quantity;                        
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Smaller') {
-                        $fullseason_smaller_count += $filtered_quantity;
+                      if ($is_winter_csa) {
+                        // Winter CSA logic
+                        if ($order_item->get_product_id() == $product_id_winter && $filtered_location == $location) {
+                          if ($filtered_size == 'Bigger') {
+                            $fullseason_bigger_count += $filtered_quantity;
+                          } elseif ($filtered_size == 'Smaller') {
+                            $fullseason_smaller_count += $filtered_quantity;
+                          }
+                        }
+                      } else {
+                        // Regular CSA logic
+                        if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
+                          $biweekly_total_count += $filtered_quantity;
+                        }
+                        elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {
+                          $fullseason_bigger_count += $filtered_quantity;                        
+                        }
+                        elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Smaller') {
+                          $fullseason_smaller_count += $filtered_quantity;
+                        }
+                        elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Bigger') {
+                          $fullseason_bigger_count += $filtered_quantity;                        
+                        }
+                        elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Smaller') {
+                          $fullseason_smaller_count += $filtered_quantity;
+                        }
                       }
                     }
                   }
@@ -310,7 +380,7 @@ global $wpdb, $woocommerce;
 
                 <tr>
                   <td>{{ $item['delivery_time'] }}</td>
-                  <td><strong>{{ $item['location']->name }} </strong></td>
+                  <td><strong>{{ $location_name }} </strong></td>
                   <td>{{ $bigger_count }}</td>
                   <td>{{ $bigger_crates }}</td>
                   <td>{{ $smaller_count }}</td>

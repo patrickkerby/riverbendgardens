@@ -33,7 +33,6 @@ $late_season = "Late Season CSA"
     <section class="week week1">
       <h2>Late-Season Delivery List</h2>
       <p>Clear = Bigger  /  White = Smaller.<br /> These numbers <em>include</em> extras.</p><br>
-    <p> *** Highlands Area Pick Up is Bri and Patrick's House (12018 60th Street)</p>
 			<table class="table footable">
 				<thead>
           <tr>
