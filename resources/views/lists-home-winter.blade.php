@@ -9,6 +9,24 @@
 //List of global variables
 global $wpdb, $woocommerce;
 
+// Location name normalization for Winter CSA (consolidates variants)
+function normalizeLocationName($location) {
+  $location_map = [
+    'Catch of the Week!' => 'Catch of the Week',
+    'Confetti Sweets (Sherwood Park)' => 'Confetti Sweets',
+    "D'arcy's Meat Market (St Albert Location)" => "D'Arcy's Meats (St Albert)",
+    "D'arcy's Meat Market (Whitemud Crossing Location)" => "D'Arcy's Meats (Whitemud Crossing)",
+    'Remedy (109th St)' => 'Remedy (109St Location)',
+    'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
+    'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
+    'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
+    'Jasper Ave Location (TBD)' => 'Obj3cts (Jasper Ave)',
+    'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
+    'Highlands Area Pick Up' => 'Candid Coffee Roasters',
+  ];
+  
+  return $location_map[$location] ?? $location;
+}
 
 // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
 // TODO: see if these dates can be provided on composite product item _rather_ than global options.
@@ -54,7 +72,8 @@ foreach ($order_ids as $order_id) {
     foreach ($order->get_items() as $item) {
         if ($item->get_product_id() != $product_id_lateseason) continue;
 
-        $location = $item->get_meta('location');
+        $location_raw = $item->get_meta('location');
+        $location = normalizeLocationName($location_raw); // Normalize location name
         $size = $item->get_meta('size');
         $quantity = $item->get_quantity();
 
