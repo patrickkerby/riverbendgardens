@@ -350,8 +350,8 @@ foreach ($orders as $order) {
             <div class="titleblock" style="break-after: avoid;">
               <h2>{!! $location_object->name !!}</h2>
               @if($winter_csa_mode)
-                <h3>Winter CSA</h3>
-                <p><strong>Winter CSA subscribers get 2 bags each</strong><br />
+                <h3>Late Season CSA</h3>
+                <p><strong>Late Season CSA subscribers get 2 bags each</strong><br />
                 Smaller = 2 White Bags | Bigger = 2 Clear Bags</p>
               @else
                 @unless($late_season)
