@@ -388,12 +388,12 @@ foreach ($orders as $order) {
                         @php
                           if ($details['items']['size'] == 'Bigger') {
                             $seasonal_count_bigger += $details['items']['quantity'];
-                            $size = "Bigger <span class=\"bagsize\">2 Clear Bags</span>";
+                            $size = "2 CLEAR bags";
                           }
                           
                           if ($details['items']['size'] == 'Smaller') {
                             $seasonal_count_smaller += $details['items']['quantity'];              
-                            $size = "Smaller <span class=\"bagsize\">2 White Bags</span>";
+                            $size = "2 WHITE bags";
                           }
                         @endphp
                         <tr>
