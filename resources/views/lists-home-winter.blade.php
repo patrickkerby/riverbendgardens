@@ -18,11 +18,11 @@ function normalizeLocationName($location) {
     "D'arcy's Meat Market (Whitemud Crossing Location)" => "D'Arcy's Meats (Whitemud Crossing)",
     'Remedy (109th St)' => 'Remedy (109St Location)',
     'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
-    'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning) - delivered by Janelle',
+    'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
     'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
-    'Jasper Ave Location (TBD)' => 'OBJ3CTS',
+    'Jasper Ave Location (TBD)' => 'Obj3cts (Jasper Ave)',
     'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
-    'Highlands Area Pick Up' => 'Candid Coffee Highlands',
+    'Highlands Area Pick Up' => 'Candid Coffee Roasters',
   ];
   
   return $location_map[$location] ?? $location;
