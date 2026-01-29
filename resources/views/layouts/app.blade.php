@@ -7,7 +7,16 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     @php do_action('get_header') @endphp
+    
     @include('partials.header')
+
+    @if (is_page('recipes'))
+    <div class="wrap container-fluid">
+      <div class="content">
+        @yield('content')
+      </div>
+    </div>
+    @else
     <div class="wrap container" role="document">
       <div class="content">
         @if ( is_front_page() )
@@ -27,6 +36,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         @endif
       </div>
     </div>
+    @endif
     @php do_action('get_footer') @endphp
     @include('partials.footer')
     @php wp_footer() @endphp

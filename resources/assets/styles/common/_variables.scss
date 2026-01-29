@@ -91,5 +91,59 @@ $font-family-body: "Forum", serif;
   left: calc(-1 * (100vw - 100%) / 2);
 }
 
+// Custom dotted border - allows control over dot size and spacing
+// Usage: @include dotted-border(bottom, 4px, 10px, #000);
+// Positions: top, bottom, left, right, all
+@mixin dotted-border($position: bottom, $dot-size: 4px, $dot-gap: 10px, $dot-color: currentColor) {
+  $pattern-size: $dot-size + $dot-gap;
+  $dot-radius: $dot-size / 2;
+
+  @if $position == all {
+    background-image:
+      radial-gradient(circle #{$dot-radius} at center, #{$dot-color} 100%, transparent 0),
+      radial-gradient(circle #{$dot-radius} at center, #{$dot-color} 100%, transparent 0),
+      radial-gradient(circle #{$dot-radius} at center, #{$dot-color} 100%, transparent 0),
+      radial-gradient(circle #{$dot-radius} at center, #{$dot-color} 100%, transparent 0);
+    background-size:
+      $pattern-size $dot-size,
+      $pattern-size $dot-size,
+      $dot-size $pattern-size,
+      $dot-size $pattern-size;
+    background-position: top, bottom, left, right;
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    padding: $dot-size;
+  }
+
+  @else if $position == top or $position == bottom {
+    background-image: radial-gradient(circle #{$dot-radius} at center, #{$dot-color} 100%, transparent 0);
+    background-size: $pattern-size $dot-size;
+    background-position: $position;
+    background-repeat: repeat-x;
+
+    @if $position == top {
+      padding-top: $dot-size;
+    }
+
+    @else {
+      padding-bottom: $dot-size;
+    }
+  }
+
+  @else if $position == left or $position == right {
+    background-image: radial-gradient(circle #{$dot-radius} at center, #{$dot-color} 100%, transparent 0);
+    background-size: $dot-size $pattern-size;
+    background-position: $position;
+    background-repeat: repeat-y;
+
+    @if $position == left {
+      padding-left: $dot-size;
+    }
+
+    @else {
+      padding-right: $dot-size;
+    }
+  }
+}
+
 /** Hamburger icon */
 $hamburger-layer-color: #fff;

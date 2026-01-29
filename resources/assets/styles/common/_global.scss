@@ -576,4 +576,37 @@ ul.flex-direction-nav {
     transform: skew(0deg, -45deg);
   }
 }
+
+.pills-list {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li,
+  a {
+    background: $bright-green;
+    color: #fff;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: flex;
+    margin: 0;
+    height: 1.625rem;
+    line-height: 1.625rem;
+    padding: 0 0.75rem 0 0.75rem;
+    text-align: center;
+    align-items: center;
+    letter-spacing: 0.05rem;
+  }
+
+  a {
+    padding-top: 3px;
+    height: 1rem;
+  }
+}
 /* stylelint-enable no-descending-specificity */

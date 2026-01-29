@@ -1,0 +1,699 @@
+/* stylelint-disable no-descending-specificity */
+.single-recipe,
+.recipes {
+  .wrap {
+    padding-top: 3rem;
+    padding-bottom: 6rem;
+  }
+
+  section {
+    margin: 2rem 0 0 0;
+  }
+
+  h4,
+  .facetwp-flyout-content h3 {
+    font-family: $font-family-serif;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #383838;
+  }
+
+  button {
+    background: none;
+    border: solid 2px $bright-green;
+    border-radius: 2rem;
+    color: $bright-green;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    margin: 3rem auto 2rem auto;
+    padding: 0.5rem 1rem 0.45rem 1rem;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.recipes .wrap {
+  padding-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+section.recipes-container {
+  padding: 0 4rem;
+  margin: 0 auto;
+  max-width: 1400px;
+
+  @media (max-width: 1080px) {
+    padding: 0 2rem;
+  }
+}
+
+.recipes {
+  .banner {
+    height: 445px;
+    min-height: 300px;
+
+    h1,
+    .subtitle {
+      text-align: left;
+      margin-left: 4rem;
+      margin-right: 4rem;
+      align-self: unset;
+      max-width: 60%;
+    }
+
+    .subtitle {
+      margin-bottom: 4rem;
+
+      p,
+      div {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    @media (max-width: 650px) {
+      h1,
+      .subtitle {
+        max-width: 100%;
+        margin-left: 3rem;
+        margin-right: 3rem;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        line-height: 0.9;
+      }
+    }
+  }
+
+  section.filter {
+    margin-bottom: auto;
+
+    .facets {
+      box-shadow: 0 0 27px 0 rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+      padding: 1.5rem;
+
+      @media (max-width: 870px) {
+        padding: 1rem;
+      }
+    }
+
+    .categories {
+      @include dotted-border(bottom, 2px, 8px, $bright-green);
+
+      margin-bottom: 1.75rem;
+    }
+
+    @media (max-width: 992px) {
+      padding: 1rem;
+    }
+
+    @media (max-width: 767px) {
+      .veggie-filter .facetwp-facet,
+      .categories .facetwp-facet {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 1rem;
+      }
+
+      padding-bottom: 0;
+    }
+  }
+
+  .facetwp-checkbox {
+    background-image: none;
+    padding-left: 24px;
+    position: relative;
+
+    &::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border: solid 2px $bright-green;
+      display: flex;
+      position: absolute;
+      left: 0;
+      top: 6px;
+    }
+
+    &.checked {
+      background: none;
+
+      &::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: $bright-green;
+        display: flex;
+        position: absolute;
+        left: 3px;
+        top: 9px;
+      }
+    }
+  }
+
+  .facetwp-facet {
+    margin-bottom: 1.5rem;
+  }
+
+  .facetwp-radio,
+  .facetwp-checkbox {
+    font-size: 1.1875rem;
+    color: #383838;
+    font-weight: 500;
+
+    @media (max-width: 900px) {
+      font-size: 1.1rem;
+    }
+  }
+
+  .facetwp-counter {
+    font-size: 0.9rem;
+    color: $bright-green;
+    font-weight: 600;
+  }
+
+  .facetwp-radio {
+    background: none;
+    position: relative;
+    padding-left: 18px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-style: solid;
+      border-width: 2px 2px 0 0;
+      border-color: #383838;
+      rotate: 45deg;
+    }
+
+    &.checked {
+      background: none;
+      color: $bright-green;
+
+      span {
+        color: $bright-green;
+      }
+
+      &::before {
+        border-color: $bright-green;
+      }
+    }
+  }
+
+  .facetwp-reset {
+    border-radius: 16px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    padding: 0.25rem 0.75rem 0.125rem 0.75rem;
+    color: $bright-green;
+    background: none;
+    border: solid 2px $bright-green;
+    transition: all 0.6s ease-in-out;
+    margin: 0;
+
+    &:hover {
+      background: $bright-green;
+      color: #fff;
+    }
+  }
+
+  .facetwp-flyout-close {
+    position: relative;
+    color: transparent;
+
+    &::before {
+      content: "\f00d";
+      font-family: "Font Awesome 5 Free", sans-serif;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 100%;
+      height: 100%;
+      color: $bright-green;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+
+  .cta {
+    a {
+      @include dotted-border(bottom, 2px, 6px, $bright-green);
+
+      color: #383838;
+      font-size: 1.125rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 2.5rem 0;
+      margin: 0.5rem 1.5rem 0 1.5rem;
+      line-height: 1;
+      transition: all 0.6s ease-in-out;
+
+      strong {
+        color: #a2b333;
+        font-family: $font-family-serif;
+        font-size: 1.5rem;
+        transition: all 0.6s ease-in-out;
+      }
+
+      &:hover {
+        text-decoration: none;
+        font-size: 1.25rem;
+
+        strong {
+          font-size: 1.625rem;
+        }
+      }
+    }
+  }
+
+  .facetwp-flyout-content {
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+
+    .flyout-row.name-reset h3 {
+      display: none;
+    }
+  }
+
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 1.5rem;
+    row-gap: 1.5rem;
+    padding-left: 2rem;
+    margin-bottom: auto;
+
+    @media (max-width: 1199px) {
+      column-gap: 1rem;
+      row-gap: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    @media (max-width: 1080px) {
+      grid-template-columns: 1fr 1fr;
+      padding-left: 0.5rem;
+    }
+
+    @media (max-width: 767px) {
+      padding: 0;
+    }
+
+    @media (max-width: 400px) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recipe-card {
+      background-image: linear-gradient(178deg, #b4d27e 0%, #74af43 70%);
+      transition: background-image 0.3s ease-in-out;
+      border-radius: 4px;
+      display: flex;
+      min-height: 20rem;
+      position: relative;
+      z-index: 1;
+      align-items: end;
+
+      a {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        padding: 1.5rem 1.25rem;
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        @media (max-width: 400px) {
+          padding: 1.5rem 2rem;
+        }
+      }
+
+      h3 {
+        @include dotted-border(bottom, 2px, 6px, #91D05D);
+
+        color: #fff;
+        font-size: 2.625rem;
+        font-family: $font-family-serif;
+        line-height: 1;
+        margin: auto 0 1.25rem 0;
+        padding: 0 0 1.25rem 0;
+        display: flex;
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        @media (max-width: 1199px) {
+          font-size: 2.25rem;
+        }
+      }
+
+      &::before {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 4px;
+        background-image: linear-gradient(175deg, #a4c26e 0%, #6ca53c 68%);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.5s linear;
+      }
+
+      &:hover::before {
+        opacity: 1;
+      }
+
+      .pills-list {
+        column-gap: 0.5rem;
+        row-gap: 0.5rem;
+        flex-wrap: wrap;
+
+        li {
+          background: #91d05d;
+          font-size: 0.7rem;
+          padding: 3px 0.5rem 0 0.5rem;
+          height: 1.3rem;
+          line-height: 1.3rem;
+        }
+      }
+    }
+
+    .cta-stories {
+      grid-column: span 3;
+      column-gap: 1.5rem;
+      border-radius: 4px;
+      background: #f6f5ef;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      overflow: hidden;
+
+      @media (max-width: 1080px) {
+        grid-column: span 2;
+      }
+
+      @media (max-width: 400px) {
+        display: flex;
+        flex-direction: column;
+      }
+
+      div.content {
+        padding: 3rem 3rem 3rem 1.5rem;
+
+        h2 {
+          color: #a2b333;
+          font-size: 2.5rem;
+          line-height: 1;
+          margin-bottom: 1.5rem;
+          padding-bottom: 1.5rem;
+          border-bottom: 2px solid #a2b333;
+          position: relative;
+
+          &::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: -4px;
+            width: 6px;
+            height: 6px;
+            border-style: solid;
+            border-width: 2px 2px 0 0;
+            border-color: #a2b333;
+            rotate: 45deg;
+          }
+        }
+
+        p {
+          font-size: 1.1rem;
+          line-height: 1.35;
+          margin-bottom: 0;
+        }
+      }
+
+      .carousel.image {
+        border-radius: 4px;
+        overflow: hidden;
+        min-height: 220px;
+        padding: 0;
+        width: 100%;
+        left: revert;
+
+        .carousel-inner {
+          height: 100%;
+
+          @media (max-width: 400px) {
+            height: 300px;
+          }
+        }
+
+        .carousel-item {
+          height: 100%;
+          position: relative;
+          background: $dark-green;
+
+          h3,
+          h4 {
+            position: relative;
+            z-index: 3;
+            line-height: 1;
+            color: #fff;
+          }
+
+          h3 {
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            margin: 0 0 0.25rem 0;
+            font-weight: 800;
+          }
+
+          h4 {
+            font-size: 2.75rem;
+            font-family: $font-family-serif;
+            margin-bottom: 0;
+          }
+
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            margin: 0;
+            border-radius: 0;
+          }
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(53, 50, 41, 0.2);
+            z-index: 2;
+          }
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+
+        .carousel-item.active,
+        .carousel-item-next,
+        .carousel-item-prev {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .carousel-indicators {
+          margin-bottom: 1rem;
+          z-index: 4;
+
+          li {
+            border-color: #fff;
+
+            &.active {
+              background: #fff;
+
+              &::after {
+                display: none;
+              }
+            }
+          }
+
+          @media (max-width: 400px) {
+            bottom: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Single Recipe */
+.single-recipe {
+  .left-column {
+    padding-right: 2rem;
+  }
+
+  h1.page-title {
+    @include dotted-border(bottom, 2px, 8px, $bright-green);
+
+    font-size: 4.5rem;
+    line-height: 4rem;
+    color: $bright-green;
+    margin-bottom: 1.5rem;
+    padding-bottom: 2.25rem;
+
+    @media (max-width: 576px) {
+      font-size: 3.75rem;
+      line-height: 0.9;
+    }
+  }
+
+  .back-button {
+    color: #fff;
+    padding: 0.5rem 1.5rem 0.45rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    margin: 3rem auto 2rem auto;
+    background: url("../images/arrow-left.svg") #7db84b 1rem center no-repeat;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+
+    span {
+      font-weight: 800;
+      color: $dark-green;
+      font-size: 0.95rem;
+    }
+
+    ul.pills-list {
+      margin-right: 1rem;
+    }
+  }
+
+  .content img {
+    aspect-ratio: 0.6 / 1; /* stylelint-disable-line property-no-unknown */
+    object-fit: cover;
+    margin: 0;
+  }
+
+  .description,
+  .directions,
+  .notes {
+    margin-bottom: 3rem;
+
+    ul,
+    ol {
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    ol {
+      padding-left: 1rem;
+    }
+
+    li {
+      margin-bottom: 1.5rem;
+      padding-left: 0.5rem;
+
+      &::marker {
+        color: $dark-green;
+        font-family: $font-family-serif;
+        font-size: 1.2rem;
+        font-weight: 800;
+      }
+    }
+  }
+
+  .ingredients {
+    strong {
+      color: $bright-green;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    ul {
+      padding-left: 0;
+    }
+
+    li {
+      font-size: 1.15rem;
+      color: #383838;
+      padding: 0.25rem 0 0.25rem 1rem;
+      position: relative;
+      list-style: none;
+      line-height: 1.4rem;
+      margin: 0 0 0.25rem 0.5rem;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.75rem;
+        width: 6px;
+        height: 6px;
+        border-style: solid;
+        border-width: 2px 2px 0 0;
+        border-color: $bright-green;
+        rotate: 45deg;
+      }
+    }
+  }
+
+  .description {
+    margin-bottom: 2.5rem;
+
+    p {
+      font-size: 1.5rem;
+      color: $bright-green;
+      line-height: 1.4;
+    }
+  }
+
+  .notes {
+    @include dotted-border(top, 2px, 8px, $bright-green);
+
+    padding-top: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    article.row {
+      flex-direction: column-reverse;
+    }
+
+    .content img {
+      aspect-ratio: 1 / 1; /* stylelint-disable-line property-no-unknown */
+    }
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

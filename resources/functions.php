@@ -77,10 +77,22 @@ array_map(function ($file) use ($sage_error) {
  * ├── STYLESHEETPATH         -> /srv/www/example.com/current/web/app/themes/sage/resources/views
  * └── TEMPLATEPATH           -> /srv/www/example.com/current/web/app/themes/sage/resources
  */
+/**
+ * Custom dirname filter that excludes theme.json to prevent JSON decode errors
+ */
+$sage_dirname_filter = function ($path) {
+    // Don't apply dirname to theme.json - let WordPress find it in theme root
+    if (substr($path, -10) === 'theme.json') {
+        return $path;
+    }
+    return dirname($path);
+};
+
 array_map(
-    'add_filter',
-    ['theme_file_path', 'theme_file_uri', 'parent_theme_file_path', 'parent_theme_file_uri'],
-    array_fill(0, 4, 'dirname')
+    function ($filter) use ($sage_dirname_filter) {
+        add_filter($filter, $sage_dirname_filter);
+    },
+    ['theme_file_path', 'theme_file_uri', 'parent_theme_file_path', 'parent_theme_file_uri']
 );
 Container::getInstance()
     ->bindIf('config', function () {

@@ -29,6 +29,8 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
     <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.{{ $overlay_shop }}), rgba(45,51,55,0.{{ $overlay_shop }})), url('{{ $hero_shop }}');">
   @elseif ( is_product() )
     <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.{{ $overlay_shop }}), rgba(45,51,55,0.{{ $overlay_shop }})), url('{{ $hero_shop }}');">
+  @elseif (is_singular('recipe'))
+  <header class="banner simple-header">
   @else
     <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.{{ $overlay }}), rgba(45,51,55,0.{{ $overlay }})), url('{{ $hero }}');">
   @endif
@@ -84,8 +86,10 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
     </div>
     {{-- <a class="back-button" href="/stories">See all stories</a> --}}
 
+  @elseif (is_singular('recipe'))
+
   @elseif ( is_single() && !is_product() )
-    <h1 class="page-title"><?php the_title(); ?> test</h1>  	        				        			    
+    <h1 class="page-title"><?php the_title(); ?></h1>  	        				        			    
     {{-- @include('partials/entry-meta') --}}
     <div class="row subtitle justify-content-center">      
       <div class="col-md-7">@php echo $sub_title; @endphp </div>
@@ -153,9 +157,12 @@ $subtitle_news = get_field('sub_title', get_option('page_for_posts'));
         </form>
       </nav>
     </div> 
-  
-  @elseif (is_singular('recipe'))
-    <header class="banner" style="background-image: linear-gradient(rgba(45,51,55,0.4), rgba(45,51,55,0.4)), url('{{ $recipe_photos[0]->url }}');">
+
+    @elseif (is_page('recipes'))
+    <h1 class="page-title"><?php the_title(); ?></h1>
+    <div class="row subtitle justify-content-center">      
+      <div class="col-md-12">@php echo $sub_title; @endphp </div>
+    </div>
 
   @else
     <h1 class="page-title"><?php the_title(); ?></h1>

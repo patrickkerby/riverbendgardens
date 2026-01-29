@@ -368,6 +368,13 @@
       }
     }
   }
+
+  &.simple-header {
+    height: auto !important;
+    min-height: 0;
+    margin-bottom: 2rem;
+    background: none;
+  }
 }
 
 .woocommerce-page .banner {
