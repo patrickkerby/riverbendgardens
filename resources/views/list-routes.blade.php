@@ -136,7 +136,7 @@ function normalizeLocationName($location) {
 
 //** Query the orders! 
   // Adjust date range based on product type
-  $date_range = $is_winter_csa ? '2025-01-01...2025-10-31' : '2025-01-01...2025-09-31';
+  $date_range = $is_winter_csa ? '2026-01-01...2026-10-31' : '2026-01-01...2026-09-31';
   
   $args = array(
       'orderby' => 'date',
