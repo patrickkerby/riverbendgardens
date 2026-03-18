@@ -289,7 +289,7 @@ foreach ($orders as $order) {
           // Regular mode - use slugs
           $active_locations = [
             'highlands-community-league',
-            'remedy-124st-location',
+            'remedy-124-st-location',
             'catchoftheweek',
             'remedy-109st-location',
             'acme-meat-market',
