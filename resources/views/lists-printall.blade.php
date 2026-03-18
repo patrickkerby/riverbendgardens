@@ -21,7 +21,7 @@
       'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
       'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
       'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
-      'Remedy (124 St)' => 'Remedy (124 St Location)',
+      'Remedy (124 St Location)' => 'Remedy (124 St Location)',
       'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
       'Highlands Area Pick Up' => 'Candid Coffee Roasters',
     ];
