@@ -193,7 +193,10 @@ function custom_checkout_field_referral( $checkout ) {
 add_filter( 'woocommerce_checkout_fields' , 'App\bbloomer_simplify_checkout_virtual' );
  
 function bbloomer_simplify_checkout_virtual( $fields ) {
-    
+    if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+        return $fields;
+    }
+
    $only_virtual = true;
     
    foreach( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
