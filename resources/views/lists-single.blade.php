@@ -343,16 +343,16 @@ foreach ($order_ids as $order_id) {
                     </td>
                     <td class="address"><a style="font-size:18px;" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr=2919 Ellwood Dr SW Edmonton">2919 Ellwood Dr SW, Edmonton</a></td>
                     @if ($displayBiwk)
-                      <td>15 Bigger | 12 Smaller</td>
+                      <td>11 Bigger | 10 Smaller</td>
                       @php
-                        $seasonal_count_bigger += 15; 
-                        $seasonal_count_smaller += 12;     
+                        $seasonal_count_bigger += 11; 
+                        $seasonal_count_smaller += 10;     
                       @endphp
                     @else
-                      <td>10 Bigger | 12 Smaller</td>
+                      <td>10 Bigger | 10 Smaller</td>
                       @php
                         $seasonal_count_bigger += 10;
-                        $seasonal_count_smaller += 12;
+                        $seasonal_count_smaller += 10;
                       @endphp
                     @endif
                     <td></td>
