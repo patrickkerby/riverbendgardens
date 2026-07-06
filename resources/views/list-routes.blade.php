@@ -36,6 +36,11 @@ function normalizeLocationName($location) {
   return $location_map[$location] ?? $location;
 }
 
+function parseDeliveryTime($time) {
+  $parsed = strtotime('today ' . trim($time));
+  return $parsed !== false ? $parsed : 0;
+}
+
 // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
 
   $rows = get_field('pickup_dates','options' );
@@ -123,16 +128,6 @@ function normalizeLocationName($location) {
     $displayHalfsummer = false;
   }
 
-  $bigger_count = 0;
-  $smaller_count = 0;  
-
-  $weekly_count_bigger = 0;
-  $weekly_count_smaller = 0;
-
-  $bigger_count_total = 0;
-  $smaller_count_total = 0;
-  $smaller_crates_total = 0;
-  $bigger_crates_total = 0;
 
 //** Query the orders! 
   // Adjust date range based on product type
@@ -153,6 +148,163 @@ function normalizeLocationName($location) {
   //first get all the order ids
   $query = new WC_Order_Query( $args );
   $orders = $query->get_orders();
+
+  $route_rows = [];
+  $select_locations = $select_locations ?? [];
+  $custom_location = $custom_location ?? [];
+
+  foreach ($select_locations as $item) {
+    $biweekly_total_count = 0;
+    $fullseason_smaller_count = 0;
+    $fullseason_bigger_count = 0;
+    $warning_html = null;
+
+    if ($is_winter_csa) {
+      $has_location = isset($item['location']) && is_object($item['location']);
+      $has_custom = isset($item['custom_location_name']) && !empty($item['custom_location_name']);
+
+      if ($has_location && $has_custom) {
+        $warning_html = "<tr style='background: orange; color: black;'><td colspan='4'><strong>WARNING:</strong> ACF row has BOTH location term ('{$item['location']->name}') AND custom_location_name ('{$item['custom_location_name']}'). Using location term. Please clear one field in WordPress.</td></tr>";
+      }
+
+      if ($has_location) {
+        $location_name = normalizeLocationName($item['location']->name);
+        $location = $location_name;
+      } elseif ($has_custom) {
+        $location_name = normalizeLocationName($item['custom_location_name']);
+        $location = $location_name;
+      } else {
+        $route_rows[] = [
+          'is_error' => true,
+          'error_html' => "<tr style='background: red; color: white;'><td colspan='4'><strong>ERROR:</strong> ACF row has no location or custom_location_name set. Check your repeater configuration.</td></tr>",
+        ];
+        continue;
+      }
+    } else {
+      if (isset($item['location']) && is_object($item['location'])) {
+        $location = $item['location']->slug;
+        $location_name = $item['location']->name;
+      } else {
+        $route_rows[] = [
+          'is_error' => true,
+          'error_html' => "<tr style='background: red; color: white;'><td colspan='4'><strong>ERROR:</strong> ACF row has no location term set. Check your repeater configuration.</td></tr>",
+        ];
+        continue;
+      }
+    }
+
+    $extras = $item['extras'] ? 1 : 0;
+
+    foreach ($orders as $order) {
+      foreach ($order->get_items() as $order_item) {
+        $filtered_size = $order_item->get_meta('size');
+        $filtered_quantity = $order_item->get_quantity();
+
+        if ($is_winter_csa) {
+          $filtered_location = normalizeLocationName($order_item->get_meta('location'));
+        } else {
+          $filtered_location = $order_item->get_meta('pa_pickup-location');
+        }
+
+        if ($is_winter_csa) {
+          if ($order_item->get_product_id() == $product_id_winter && $filtered_location == $location) {
+            if ($filtered_size == 'Bigger') {
+              $fullseason_bigger_count += $filtered_quantity;
+            } elseif ($filtered_size == 'Smaller') {
+              $fullseason_smaller_count += $filtered_quantity;
+            }
+          }
+        } else {
+          if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
+            $biweekly_total_count += $filtered_quantity;
+          } elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {
+            $fullseason_bigger_count += $filtered_quantity;
+          } elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Smaller') {
+            $fullseason_smaller_count += $filtered_quantity;
+          } elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Bigger') {
+            $fullseason_bigger_count += $filtered_quantity;
+          } elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Smaller') {
+            $fullseason_smaller_count += $filtered_quantity;
+          }
+        }
+      }
+    }
+
+    if ($displayBiwk == true) {
+      $bigger_count = $fullseason_bigger_count + $biweekly_total_count + $extras;
+    } else {
+      $bigger_count = $fullseason_bigger_count + $extras;
+    }
+
+    $smaller_count = $fullseason_smaller_count;
+
+    if ($is_winter_csa) {
+      $bigger_crates = $bigger_count;
+      $smaller_crates = $smaller_count;
+    } else {
+      $bigger_crates = $bigger_count / 2;
+      $smaller_crates = $smaller_count / 2;
+    }
+
+    $route_rows[] = [
+      'is_error' => false,
+      'warning_html' => $warning_html,
+      'delivery_time' => $item['delivery_time'],
+      'delivery_time_sort' => parseDeliveryTime($item['delivery_time']),
+      'location_name' => $location_name,
+      'bigger_crates' => $bigger_crates,
+      'smaller_crates' => $smaller_crates,
+      'bigger_count' => $bigger_count,
+      'smaller_count' => $smaller_count,
+    ];
+  }
+
+  foreach ($custom_location as $custom) {
+    if (!$custom['bigger_count']) {
+      $bigger_crates = 0;
+    } else {
+      $bigger_crates = $is_winter_csa ? $custom['bigger_count'] : $custom['bigger_count'] / 2;
+    }
+
+    if (!$custom['smaller_count']) {
+      $smaller_crates = 0;
+    } else {
+      $smaller_crates = $is_winter_csa ? $custom['smaller_count'] : $custom['smaller_count'] / 2;
+    }
+
+    $route_rows[] = [
+      'is_error' => false,
+      'delivery_time' => $custom['delivery_time'],
+      'delivery_time_sort' => parseDeliveryTime($custom['delivery_time']),
+      'location_name' => $custom['location'],
+      'bigger_crates' => $bigger_crates,
+      'smaller_crates' => $smaller_crates,
+      'bigger_count' => 0,
+      'smaller_count' => 0,
+    ];
+  }
+
+  usort($route_rows, function ($a, $b) {
+    if (($a['is_error'] ?? false) !== ($b['is_error'] ?? false)) {
+      return ($a['is_error'] ?? false) ? -1 : 1;
+    }
+    return ($a['delivery_time_sort'] ?? 0) <=> ($b['delivery_time_sort'] ?? 0);
+  });
+
+  $bigger_count_total = 0;
+  $smaller_count_total = 0;
+  $bigger_crates_total = 0;
+  $smaller_crates_total = 0;
+
+  foreach ($route_rows as $row) {
+    if ($row['is_error'] ?? false) {
+      continue;
+    }
+    $bigger_count_total += $row['bigger_count'];
+    $smaller_count_total += $row['smaller_count'];
+    $bigger_crates_total += $row['bigger_crates'];
+    $smaller_crates_total += $row['smaller_crates'];
+  }
 
 @endphp
 
@@ -292,164 +444,21 @@ function normalizeLocationName($location) {
               </tr>	
             </thead>
             <tbody>
-              @foreach ($select_locations as $item)
-                @php                
-                  $biweekly_total_count = 0;
-                  $fullseason_smaller_count = 0;
-                  $fullseason_bigger_count = 0;                  
-                  
-                  // Handle location differently for winter CSA
-                  if ($is_winter_csa) {
-                    $has_location = isset($item['location']) && is_object($item['location']);
-                    $has_custom = isset($item['custom_location_name']) && !empty($item['custom_location_name']);
-                    
-                    // Warn if both fields are set (ambiguous configuration)
-                    if ($has_location && $has_custom) {
-                      echo "<tr style='background: orange; color: black;'><td colspan='4'><strong>WARNING:</strong> ACF row has BOTH location term ('{$item['location']->name}') AND custom_location_name ('{$item['custom_location_name']}'). Using location term. Please clear one field in WordPress.</td></tr>";
-                    }
-                    
-                    // Priority: location term first, then custom_location_name
-                    if ($has_location) {
-                      $location_name = normalizeLocationName($item['location']->name);
-                      $location = $location_name;
-                    } elseif ($has_custom) {
-                      $location_name = normalizeLocationName($item['custom_location_name']);
-                      $location = $location_name;
-                    } else {
-                      // Error: No valid location configured
-                      echo "<tr style='background: red; color: white;'><td colspan='4'><strong>ERROR:</strong> ACF row has no location or custom_location_name set. Check your repeater configuration.</td></tr>";
-                      continue;
-                    }
-                  } else {
-                    // Regular CSA uses taxonomy slug
-                    if (isset($item['location']) && is_object($item['location'])) {
-                      $location = $item['location']->slug;
-                      $location_name = $item['location']->name;
-                    } else {
-                      echo "<tr style='background: red; color: white;'><td colspan='4'><strong>ERROR:</strong> ACF row has no location term set. Check your repeater configuration.</td></tr>";
-                      continue;
-                    }
-                  }
-
-                  $extras = $item['extras'];
-
-                  if ($extras == true) {
-										$extras = 1;
-									}
-                  else {
-                    $extras = 0;
-                  }        
-                        
-                  foreach ($orders as $order) {
-                    
-                    $order_items = $order->get_items();
-
-                    foreach ($order_items as $order_item) {
-                      $filtered_size = $order_item->get_meta('size');
-                      $filtered_quantity = $order_item->get_quantity();
-                      
-                      // Get location based on product type
-                      if ($is_winter_csa) {
-                        $filtered_location = normalizeLocationName($order_item->get_meta('location'));
-                      } else {
-                        $filtered_location = $order_item->get_meta('pa_pickup-location');
-                      }
-
-                      if ($is_winter_csa) {
-                        // Winter CSA logic
-                        if ($order_item->get_product_id() == $product_id_winter && $filtered_location == $location) {
-                          if ($filtered_size == 'Bigger') {
-                            $fullseason_bigger_count += $filtered_quantity;
-                          } elseif ($filtered_size == 'Smaller') {
-                            $fullseason_smaller_count += $filtered_quantity;
-                          }
-                        }
-                      } else {
-                        // Regular CSA logic
-                        if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
-                          $biweekly_total_count += $filtered_quantity;
-                        }
-                        elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {
-                          $fullseason_bigger_count += $filtered_quantity;                        
-                        }
-                        elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Smaller') {
-                          $fullseason_smaller_count += $filtered_quantity;
-                        }
-                        elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Bigger') {
-                          $fullseason_bigger_count += $filtered_quantity;                        
-                        }
-                        elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Smaller') {
-                          $fullseason_smaller_count += $filtered_quantity;
-                        }
-                      }
-                    }
-                  }
-                  
-                  if ($displayBiwk == true) {
-                    $bigger_count = $fullseason_bigger_count + $biweekly_total_count + $extras;
-                  }
-                  else {
-                    $bigger_count = $fullseason_bigger_count + $extras;
-                  }
-
-                  $smaller_count = $fullseason_smaller_count;
-                  
-                  // For winter CSA: 1 order = 2 bags = 1 crate
-                  // For summer CSA: 1 order = 1 bag, 2 orders = 1 crate
-                  if ($is_winter_csa) {
-                    $bigger_crates = $bigger_count; // Each order is 1 crate
-                    $smaller_crates = $smaller_count; // Each order is 1 crate
-                  } else {
-                    $bigger_crates = $bigger_count/2; // 2 orders = 1 crate
-                    $smaller_crates = $smaller_count/2; // 2 orders = 1 crate
-                  }
-                @endphp
-
-                <tr>
-                  <td>{{ $item['delivery_time'] }}</td>
-                  <td><strong>{{ $location_name }} </strong></td>
-                  <td>{{ $bigger_crates }}</td>
-                  <td>{{ $smaller_crates }}</td>
-                </tr>
-                
-                @php
-                  $bigger_count_total += $bigger_count;
-                  $smaller_count_total += $smaller_count;
-                  $bigger_crates_total += $bigger_crates;  
-                  $smaller_crates_total += $smaller_crates;
-                @endphp
+              @foreach ($route_rows as $row)
+                @if($row['is_error'] ?? false)
+                  {!! $row['error_html'] !!}
+                @else
+                  @if($row['warning_html'] ?? false)
+                    {!! $row['warning_html'] !!}
+                  @endif
+                  <tr>
+                    <td>{{ $row['delivery_time'] }}</td>
+                    <td><strong>{{ $row['location_name'] }} </strong></td>
+                    <td>{{ $row['bigger_crates'] }}</td>
+                    <td>{{ $row['smaller_crates'] }}</td>
+                  </tr>
+                @endif
               @endforeach
-              @foreach ($custom_location as $custom)
-                @php
-                  // For winter CSA: 1 order = 1 crate, for summer CSA: 2 orders = 1 crate
-                  if (!$custom['bigger_count']) {
-                    $bigger_crates = 0;
-                  }
-                  else {
-                    $bigger_crates = $is_winter_csa ? $custom['bigger_count'] : $custom['bigger_count']/2;
-                  }
-                  
-                  if (!$custom['smaller_count']) {
-                    $smaller_crates = 0;
-                  }
-                  else {
-                    $smaller_crates = $is_winter_csa ? $custom['smaller_count'] : $custom['smaller_count']/2;
-                  }
-                  
-                @endphp
-                <tr>
-                  <td>{{ $custom['delivery_time'] }}</td>
-                  <td><strong>{{ $custom['location'] }} </strong></td>
-                  <td>{{ $bigger_crates }}</td>
-                  <td>{{ $smaller_crates }}</td>
-                </tr>
-                @php
-                  $bigger_crates_total += $bigger_crates;  
-                  $smaller_crates_total += $smaller_crates;
-                @endphp
-              @endforeach
-
-
             </tbody>
             <tfoot>
               <tr>
