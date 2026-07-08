@@ -582,8 +582,8 @@ foreach ($order_ids as $order_id) {
       <p>Notes:</p>
       <ul>
         {{-- <li>Please put the cart on the truck!</li> --}}
-        <li>Open this link on your phone, click on the addresses for google maps directions from your current location.</li>
         <li>For questions, call Janelle: (780) 203-7720 or Bri: (780) 554-2991</li>
+        <li>On your phone, click on the addresses for google maps directions from your current location Open this page (riverbendcsa.ca/lists/home-delivery/). You must be logged in first: riverbendcsa.ca/login (username:lists pw: 00Riverbend!00)</li>
       </ul>
       <br><br>
       @endif
