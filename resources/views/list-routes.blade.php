@@ -501,9 +501,7 @@ function getPickupLocationAddress($location_term) {
             </tfoot>						
           </table>		
           @php the_content() @endphp
-          <ul>
-            <li>For questions, call Janelle: (780) 203-7720 or Bri: (780) 554-2991</li>
-          </ul>
+
           <br><br>
         </section>
       {{-- @endforeach --}}
