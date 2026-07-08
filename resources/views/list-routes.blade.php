@@ -41,6 +41,14 @@ function parseDeliveryTime($time) {
   return $parsed !== false ? $parsed : 0;
 }
 
+function getPickupLocationAddress($location_term) {
+  if (!$location_term || !is_object($location_term)) {
+    return '';
+  }
+
+  return trim(get_field('address', $location_term) ?: '');
+}
+
 // ------------------------- Get pickup dates for current year, set in Global Options -------------------------    
 
   $rows = get_field('pickup_dates','options' );
@@ -158,6 +166,8 @@ function parseDeliveryTime($time) {
     $fullseason_smaller_count = 0;
     $fullseason_bigger_count = 0;
     $warning_html = null;
+    $location_term = null;
+    $location_address = '';
 
     if ($is_winter_csa) {
       $has_location = isset($item['location']) && is_object($item['location']);
@@ -168,8 +178,10 @@ function parseDeliveryTime($time) {
       }
 
       if ($has_location) {
+        $location_term = $item['location'];
         $location_name = normalizeLocationName($item['location']->name);
         $location = $location_name;
+        $location_address = getPickupLocationAddress($location_term);
       } elseif ($has_custom) {
         $location_name = normalizeLocationName($item['custom_location_name']);
         $location = $location_name;
@@ -182,8 +194,10 @@ function parseDeliveryTime($time) {
       }
     } else {
       if (isset($item['location']) && is_object($item['location'])) {
+        $location_term = $item['location'];
         $location = $item['location']->slug;
         $location_name = $item['location']->name;
+        $location_address = getPickupLocationAddress($location_term);
       } else {
         $route_rows[] = [
           'is_error' => true,
@@ -252,6 +266,7 @@ function parseDeliveryTime($time) {
       'delivery_time' => $item['delivery_time'],
       'delivery_time_sort' => parseDeliveryTime($item['delivery_time']),
       'location_name' => $location_name,
+      'location_address' => $location_address,
       'bigger_crates' => $bigger_crates,
       'smaller_crates' => $smaller_crates,
       'bigger_count' => $bigger_count,
@@ -277,6 +292,7 @@ function parseDeliveryTime($time) {
       'delivery_time' => $custom['delivery_time'],
       'delivery_time_sort' => parseDeliveryTime($custom['delivery_time']),
       'location_name' => $custom['location'],
+      'location_address' => trim($custom['location'] ?? ''),
       'bigger_crates' => $bigger_crates,
       'smaller_crates' => $smaller_crates,
       'bigger_count' => 0,
@@ -453,7 +469,23 @@ function parseDeliveryTime($time) {
                   @endif
                   <tr>
                     <td>{{ $row['delivery_time'] }}</td>
-                    <td><strong>{{ $row['location_name'] }} </strong></td>
+                    <td>
+                      @php
+                        $maps_address = $row['location_address'] ?? '';
+                        $show_address_line = $maps_address && $maps_address !== $row['location_name'];
+                        $maps_url = $maps_address
+                          ? 'https://maps.google.com?saddr=Current+Location&daddr=' . rawurlencode($maps_address)
+                          : '';
+                      @endphp
+                      @if($show_address_line)
+                        <strong>{{ $row['location_name'] }}</strong><br>
+                        <a style="font-size:18px;" target="_blank" rel="noopener noreferrer" href="{{ $maps_url }}">{{ $maps_address }}</a>
+                      @elseif($maps_url)
+                        <strong><a style="font-size:18px;" target="_blank" rel="noopener noreferrer" href="{{ $maps_url }}">{{ $row['location_name'] }}</a></strong>
+                      @else
+                        <strong>{{ $row['location_name'] }}</strong>
+                      @endif
+                    </td>
                     <td>{{ $row['bigger_crates'] }}</td>
                     <td>{{ $row['smaller_crates'] }}</td>
                   </tr>
@@ -468,11 +500,8 @@ function parseDeliveryTime($time) {
               </tr>
             </tfoot>						
           </table>		
-          <p><strong>Notes:</strong></p>
-          <h2>Please put the cart on the truck!</h2>
-          <h2>Please put one white bag in cooler for Jackie</h2>
+          @php the_content() @endphp
           <ul>
-            {{-- <li>Open this link on your phone, click on the addresses for google maps directions from your current location.</li> --}}
             <li>For questions, call Janelle: (780) 203-7720 or Bri: (780) 554-2991</li>
           </ul>
           <br><br>
