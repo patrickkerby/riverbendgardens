@@ -468,9 +468,10 @@ function parseDeliveryTime($time) {
               </tr>
             </tfoot>						
           </table>		
-          <p>Notes:</p>
+          <p><strong>Notes:</strong></p>
+          <h2>Please put the cart on the truck!</h2>
+          <h2>Please put one white bag in cooler for Jackie</h2>
           <ul>
-            <li>Please put the cart on the truck!</li>
             {{-- <li>Open this link on your phone, click on the addresses for google maps directions from your current location.</li> --}}
             <li>For questions, call Janelle: (780) 203-7720 or Bri: (780) 554-2991</li>
           </ul>
