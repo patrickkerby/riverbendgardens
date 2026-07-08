@@ -501,7 +501,6 @@ function getPickupLocationAddress($location_term) {
             </tfoot>						
           </table>	
           <div class="route-notes">	
-            <h3>Route Notes</h3>
             @php the_content() @endphp
           </div>
           <br><br>
