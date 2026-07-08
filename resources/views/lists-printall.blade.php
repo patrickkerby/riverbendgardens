@@ -303,7 +303,7 @@ foreach ($orders as $order) {
             'darcys-meats-whitemud-crossing',
             'ribeye-manning',          
             'town-square',
-            'remedy-124-st-location',
+            'vine-arts-124-st',
           ];
           ksort($active_locations);
         }
