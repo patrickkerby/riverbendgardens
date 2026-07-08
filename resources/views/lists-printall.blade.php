@@ -289,7 +289,6 @@ foreach ($orders as $order) {
           // Regular mode - use slugs
           $active_locations = [
             'highlands-community-league',
-            'remedy-124-st-location',
             'catchoftheweek',
             'remedy-109st-location',
             'acme-meat-market',
@@ -304,6 +303,7 @@ foreach ($orders as $order) {
             'darcys-meats-whitemud-crossing',
             'ribeye-manning',          
             'town-square',
+            'remedy-124-st-location',
           ];
           ksort($active_locations);
         }
