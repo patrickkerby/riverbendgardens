@@ -499,9 +499,11 @@ function getPickupLocationAddress($location_term) {
                 <td><strong>{{ $smaller_crates_total }}</strong></td>
               </tr>
             </tfoot>						
-          </table>		
-          @php the_content() @endphp
-
+          </table>	
+          <div class="route-notes">	
+            <h3>Route Notes</h3>
+            @php the_content() @endphp
+          </div>
           <br><br>
         </section>
       {{-- @endforeach --}}
