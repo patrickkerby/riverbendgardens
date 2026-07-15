@@ -56,7 +56,6 @@
     "imagemin-mozjpeg": "~7.0.0",
     "imagemin-webpack-plugin": "^2.4.0",
     "import-glob": "~1.5",
-    "node-sass": "^9.0.0",
     "postcss-loader": "~2.1.0",
     "postcss-safe-parser": "~3.0",
     "resolve-url-loader": "~2.3.1",
@@ -83,7 +82,6 @@
     "jquery": "^3.3.1",
     "mapbox-gl": "^0.53.0",
     "popper.js": "^1.14.6",
-    "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
     "slick-lightbox": "^0.2.10",
     "true-case-path": "^2.2.1"

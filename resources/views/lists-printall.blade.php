@@ -290,20 +290,20 @@ foreach ($orders as $order) {
           $active_locations = [
             'highlands-community-league',
             'catchoftheweek',
-            'remedy-109st-location',
             'acme-meat-market',
+            'remedy-109st-location',
             'confetti-sweets-sherwood-park',
             'ribeye-sherwood-park',
+            'ribeye-manning',          
+            'remedy-terwillegar-location',
+            'ribeye-windermere',
+            'darcys-meats-whitemud-crossing',
+            'bon-ton-bakery',
+            'ribeye-terra-losa',
+            'vine-arts-124-st',
             'darcys-meats-st-albert',
             'ribeye-st-albert',
-            'ribeye-terra-losa',
-            'bon-ton-bakery',
-            'ribeye-windermere',
-            'remedy-terwillegar-location',
-            'darcys-meats-whitemud-crossing',
-            'ribeye-manning',          
             'town-square',
-            'vine-arts-124-st',
           ];
           ksort($active_locations);
         }
