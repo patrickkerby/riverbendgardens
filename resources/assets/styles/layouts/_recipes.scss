@@ -296,6 +296,10 @@ section.recipes-container {
     padding-left: 2rem;
     margin-bottom: auto;
 
+    .facetwp-template {
+      display: contents;
+    }
+
     @media (max-width: 1199px) {
       column-gap: 1rem;
       row-gap: 1rem;
