@@ -91,6 +91,30 @@ add_filter('comments_template', function ($comments_template) {
 }, 100);
 
 /**
+ * FacetWP + WP Rocket: the recipes page uses FacetWP's "wp" template mode, which
+ * POSTs back to the page URL and relies on output buffering to return filtered HTML.
+ * WP Rocket's page cache and output buffer break that refresh on production.
+ */
+add_filter('rocket_cache_reject_uri', function (array $uris) {
+    $uris[] = '/recipes/?(.*)';
+    return $uris;
+});
+
+add_action('init', function () {
+    if (! isset($_POST['action']) || 'facetwp_refresh' !== $_POST['action']) {
+        return;
+    }
+
+    if (! defined('DONOTCACHEPAGE')) {
+        define('DONOTCACHEPAGE', true);
+    }
+
+    if (! defined('DONOTROCKETOPTIMIZE')) {
+        define('DONOTROCKETOPTIMIZE', true);
+    }
+}, 0);
+
+/**
  * Remove related products output
  */
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );

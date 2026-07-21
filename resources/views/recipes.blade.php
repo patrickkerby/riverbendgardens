@@ -41,7 +41,7 @@
                 </div>
             </section>        
             <section class="recipes-grid col-md-9">
-
+                <div class="facetwp-template">
                 @php if ( $recipes_loop->have_posts() ) :
                     while ( $recipes_loop->have_posts() ) :
                         $recipes_loop->the_post(); 
@@ -54,6 +54,7 @@
                 @php endif;
 
                 wp_reset_postdata(); @endphp
+                </div>
 
                 @php
                     $stories = get_posts([
