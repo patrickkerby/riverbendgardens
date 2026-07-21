@@ -1,16 +1,6 @@
 {{--
   Template Name: Recipes Page
 --}}
-@php
-    $args = [
-        "post_type"      => 'recipe',
-        "posts_per_page" => 12,
-        "facetwp"        => true,
-    ];
-    // Run the query - FacetWP will handle pagination and sorting (via filter)
-    $recipes_loop = new WP_Query( $args );
-
-@endphp
 
 @extends('layouts.app')
 @section('content')
@@ -41,20 +31,7 @@
                 </div>
             </section>        
             <section class="recipes-grid col-md-9">
-                <div class="facetwp-template">
-                @php if ( $recipes_loop->have_posts() ) :
-                    while ( $recipes_loop->have_posts() ) :
-                        $recipes_loop->the_post(); 
-                        @endphp
-                        {{-- @dump($recipes_loop->post); --}}
-                        @include('partials.recipe-card')
-                    @php endwhile;
-                    else : @endphp
-                        <p><?php  _e( 'Sorry, no posts matched your criteria.' ); ?></p>
-                @php endif;
-
-                wp_reset_postdata(); @endphp
-                </div>
+                {!! facetwp_display( 'template', 'recipes' ) !!}
 
                 @php
                     $stories = get_posts([

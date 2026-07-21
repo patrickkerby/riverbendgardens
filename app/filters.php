@@ -91,9 +91,7 @@ add_filter('comments_template', function ($comments_template) {
 }, 100);
 
 /**
- * FacetWP + WP Rocket: the recipes page uses FacetWP's "wp" template mode, which
- * POSTs back to the page URL and relies on output buffering to return filtered HTML.
- * WP Rocket's page cache and output buffer break that refresh on production.
+ * FacetWP + WP Rocket: exclude the recipes page from page cache.
  */
 add_filter('rocket_cache_reject_uri', function (array $uris) {
     $uris[] = '/recipes/?(.*)';
@@ -113,6 +111,57 @@ add_action('init', function () {
         define('DONOTROCKETOPTIMIZE', true);
     }
 }, 0);
+
+/**
+ * Register a dedicated FacetWP listing for recipes so refresh uses the REST
+ * API instead of POSTing to the page URL (which WP Rocket breaks on production).
+ */
+add_filter('facetwp_templates', function (array $templates) {
+    foreach ($templates as $key => $template) {
+        if (($template['name'] ?? '') === 'recipes' && ! isset($template['_code'])) {
+            unset($templates[$key]);
+        }
+    }
+
+    $templates[] = [
+        'name'     => 'recipes',
+        'label'    => 'Recipes',
+        'query'    => '<?php return array(
+            "post_type"      => "recipe",
+            "posts_per_page" => 12,
+            "facetwp"        => true,
+        ); ?>',
+        'template' => '',
+        'modes'    => [
+            'display' => 'advanced',
+            'query'   => 'advanced',
+        ],
+        '_code'    => true,
+    ];
+
+    return array_values($templates);
+});
+
+add_filter('facetwp_template_html', function ($output, $renderer) {
+    if ('recipes' !== ($renderer->template['name'] ?? '')) {
+        return $output;
+    }
+
+    $query = $renderer->query;
+    ob_start();
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            echo template('partials.recipe-card', ['recipes_loop' => $query]);
+        }
+        wp_reset_postdata();
+    } else {
+        echo '<p>' . esc_html__('Sorry, no posts matched your criteria.', 'sage') . '</p>';
+    }
+
+    return ob_get_clean();
+}, 10, 2);
 
 /**
  * Remove related products output
