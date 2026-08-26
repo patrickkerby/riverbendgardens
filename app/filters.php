@@ -128,7 +128,7 @@ add_filter('facetwp_templates', function (array $templates) {
         'label'    => 'Recipes',
         'query'    => '<?php return array(
             "post_type"      => "recipe",
-            "posts_per_page" => 12,
+            "posts_per_page" => -1,
             "facetwp"        => true,
         ); ?>',
         'template' => '',
