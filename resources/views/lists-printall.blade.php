@@ -183,7 +183,8 @@ foreach ($orders as $order) {
     'first_name' => $first_name,
     'last_name' => $last_name,
     'customer_note' => $customer_note,
-    'alternate_pickup_names' => $alternate_pickup_names
+    'alternate_pickup_names' => $alternate_pickup_names,
+    'items' => [],
   );
 
   //iterate through an order's items
@@ -238,12 +239,7 @@ foreach ($orders as $order) {
       }
     }
 
-    // Initialize 'items' as an array if not already set
-    if (!isset($orders_formatted[$order_id]['items'])) {
-      $orders_formatted[$order_id]['items'] = [];
-    }
-
-    $orders_formatted[$order_id]['items'] = array(
+    $orders_formatted[$order_id]['items'][] = array(
       'product_id' => $product_id,  
       'name' => $product_name,
       'quantity' => $quantity,
@@ -279,8 +275,14 @@ foreach ($orders as $order) {
         if ($winter_csa_mode) {
           $winter_locations = [];
           foreach ($orders_formatted as $order_data) {
-            if (isset($order_data['items']['location']) && !empty($order_data['items']['location'])) {
-              $winter_locations[] = $order_data['items']['location'];
+            if (empty($order_data['items'])) {
+              continue;
+            }
+
+            foreach ($order_data['items'] as $item) {
+              if (!empty($item['location'])) {
+                $winter_locations[] = $item['location'];
+              }
             }
           }
           $active_locations = array_unique($winter_locations);
@@ -373,71 +375,74 @@ foreach ($orders as $order) {
               </thead>
               <tbody>
                   @foreach ($orders_formatted as $details)
+                    @continue(empty($details['items']))
 
-                    @php 
-// print("<pre>".print_r($details,true)."</pre>");
+                    @foreach ($details['items'] as $item)
+                      @php 
+  // print("<pre>".print_r($details,true)."</pre>");
 
-                      if($details['items']['term_id'] == $location_object->term_id && $details['items']['product_id'] == $product_id_biwk) {
-                        $has_biwk = true;
-                      }
-                    @endphp
-                    
-                    @if($winter_csa_mode)
-                      {{-- Winter CSA Mode - compare by location name --}}
-                      @if($details['items']['location'] == $location && $details['items']['product_id'] == $product_id_winter)
-                        @php
-                          if ($details['items']['size'] == 'Bigger') {
-                            $seasonal_count_bigger += $details['items']['quantity'];
-                            $size = "2 CLEAR bags";
-                          }
-                          
-                          if ($details['items']['size'] == 'Smaller') {
-                            $seasonal_count_smaller += $details['items']['quantity'];              
-                            $size = "2 WHITE bags";
-                          }
-                        @endphp
-                        <tr>
-                          <td class="name">
-                            {{ $details['first_name'] }} {{ $details['last_name'] }}
-                          </td>
-                          <td>{!! $size !!}</td>
-                          <td>{{ $details['items']['quantity'] }}</td>
-                          <td class="note">{{ $details['alternate_pickup_names'] }}</td>
-                          {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
-                        </tr>
-                      @endif
-                    @else
-                      {{-- Regular CSA Mode --}}
-                      @if(
-                        $details['items']['term_id'] == $location_object->term_id &&
-                        (
-                          $details['items']['product_id'] == $product_id_15wk ||
-                          $details['items']['product_id'] == $product_id_halfsummer
-                        )
-                      )
+                        if($item['term_id'] == $location_object->term_id && $item['product_id'] == $product_id_biwk) {
+                          $has_biwk = true;
+                        }
+                      @endphp
                       
-                        @php
-                          if ($details['items']['size'] == 'Bigger') {
-                            $seasonal_count_bigger += $details['items']['quantity'];
-                            $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
-                          }
-                          
-                          if ($details['items']['size'] == 'Smaller') {
-                            $seasonal_count_smaller += $details['items']['quantity'];              
-                            $size = "Smaller <span class=\"bagsize\">White Bag</span>";
-                          }
-                        @endphp
-                        <tr>
-                          <td class="name">
-                            {{ $details['first_name'] }} {{ $details['last_name'] }}
-                          </td>
-                          <td>{!! $size !!}</td>
-                          <td>{{ $details['items']['quantity'] }}</td>
-                          <td class="note">{{ $details['alternate_pickup_names'] }}</td>
-                          {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
-                        </tr>
+                      @if($winter_csa_mode)
+                        {{-- Winter CSA Mode - compare by location name --}}
+                        @if($item['location'] == $location && $item['product_id'] == $product_id_winter)
+                          @php
+                            if ($item['size'] == 'Bigger') {
+                              $seasonal_count_bigger += $item['quantity'];
+                              $size = "2 CLEAR bags";
+                            }
+                            
+                            if ($item['size'] == 'Smaller') {
+                              $seasonal_count_smaller += $item['quantity'];              
+                              $size = "2 WHITE bags";
+                            }
+                          @endphp
+                          <tr>
+                            <td class="name">
+                              {{ $details['first_name'] }} {{ $details['last_name'] }}
+                            </td>
+                            <td>{!! $size !!}</td>
+                            <td>{{ $item['quantity'] }}</td>
+                            <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                            {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
+                          </tr>
+                        @endif
+                      @else
+                        {{-- Regular CSA Mode --}}
+                        @if(
+                          $item['term_id'] == $location_object->term_id &&
+                          (
+                            $item['product_id'] == $product_id_15wk ||
+                            $item['product_id'] == $product_id_halfsummer
+                          )
+                        )
+                        
+                          @php
+                            if ($item['size'] == 'Bigger') {
+                              $seasonal_count_bigger += $item['quantity'];
+                              $size = "Bigger <span class=\"bagsize\">Clear Bag</span>";
+                            }
+                            
+                            if ($item['size'] == 'Smaller') {
+                              $seasonal_count_smaller += $item['quantity'];              
+                              $size = "Smaller <span class=\"bagsize\">White Bag</span>";
+                            }
+                          @endphp
+                          <tr>
+                            <td class="name">
+                              {{ $details['first_name'] }} {{ $details['last_name'] }}
+                            </td>
+                            <td>{!! $size !!}</td>
+                            <td>{{ $item['quantity'] }}</td>
+                            <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                            {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
+                          </tr>
+                        @endif
                       @endif
-                    @endif
+                    @endforeach
                   @endforeach
               </tbody>
             </table>
@@ -455,21 +460,24 @@ foreach ($orders as $order) {
                 </thead>
                 <tbody>
 
-                    @foreach ($orders_formatted as $details)                    
-                      @if($details['items']['term_id'] == $location_object->term_id && $details['items']['product_id'] == $product_id_biwk)
-                        @php
-                          $biwk_count += $details['items']['quantity'];
-                        @endphp
-                        <tr>
-                          <td class="name">
-                            {{ $details['first_name'] }} {{ $details['last_name'] }}
-                          </td>
-                          <td>Bigger <span class="bagsize">Clear Bag</span></td>
-                          <td>{{ $details['items']['quantity'] }}</td>
-                          <td class="note">{{ $details['alternate_pickup_names'] }}</td>
-                          {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
-                        </tr>
-                      @endif
+                    @foreach ($orders_formatted as $details)
+                      @continue(empty($details['items']))
+                      @foreach ($details['items'] as $item)
+                        @if($item['term_id'] == $location_object->term_id && $item['product_id'] == $product_id_biwk)
+                          @php
+                            $biwk_count += $item['quantity'];
+                          @endphp
+                          <tr>
+                            <td class="name">
+                              {{ $details['first_name'] }} {{ $details['last_name'] }}
+                            </td>
+                            <td>Bigger <span class="bagsize">Clear Bag</span></td>
+                            <td>{{ $item['quantity'] }}</td>
+                            <td class="note">{{ $details['alternate_pickup_names'] }}</td>
+                            {{-- <td class="note">{{ $details['customer_note'] }}</td> --}}
+                          </tr>
+                        @endif
+                      @endforeach
                     @endforeach
                 </tbody>
               </table>
