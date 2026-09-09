@@ -20,7 +20,7 @@ function normalizeLocationName($location) {
     'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
     'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
     'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
-    'Jasper Ave Location (TBD)' => 'Obj3cts (Jasper Ave)',
+    'Remedy (124 St Location)' => 'Remedy (124 St Location)',
     'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
     'Highlands Area Pick Up' => 'Candid Coffee Roasters',
   ];
@@ -54,7 +54,7 @@ function normalizeLocationName($location) {
       'return' => 'ids',
       'type' => 'shop_order',
       'status' => array('wc-processing', 'wc-on-hold'),
-      'date_created' => '2025-01-01...2025-12-31'
+      'date_created' => '2026-01-01...2026-12-31'
     );
   
 
