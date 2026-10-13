@@ -73,6 +73,42 @@ if (!function_exists('csa_normalize_location')) {
     }
 }
 
+if (!function_exists('csa_meta_string')) {
+    function csa_meta_string($value)
+    {
+        if (is_array($value)) {
+            $value = reset($value);
+        }
+
+        return is_string($value) || is_numeric($value) ? trim((string) $value) : '';
+    }
+}
+
+if (!function_exists('csa_order_item_location')) {
+    function csa_order_item_location($item)
+    {
+        $location = csa_normalize_location(csa_meta_string($item->get_meta('location')));
+        if ($location !== '') {
+            return $location;
+        }
+
+        $slug = csa_meta_string($item->get_meta('pa_pickup-location'));
+        if ($slug === '') {
+            $slug = csa_meta_string($item->get_meta('attribute_pa_pickup-location'));
+        }
+        if ($slug === '') {
+            return csa_normalize_location(csa_meta_string($item->get_meta('attribute_location')));
+        }
+
+        $term = get_term_by('slug', $slug, 'pa_pickup-location');
+        if ($term && !is_wp_error($term) && !empty($term->name)) {
+            return csa_normalize_location($term->name);
+        }
+
+        return csa_normalize_location($slug);
+    }
+}
+
 if (!function_exists('csa_acf_location_name')) {
     function csa_acf_location_name($item)
     {
@@ -118,7 +154,10 @@ if (!function_exists('csa_get_orders_for_products')) {
         $date_range = $date_range ?: csa_order_date_range('winter');
         $order_ids = csa_order_ids_for_products($product_ids, $date_range);
 
-        if ($order_ids === null) {
+        // Empty lookup results are not proof that there are no orders
+        // (HPOS/bundles can omit rows). Fall back to the same date/status
+        // query Print All used successfully.
+        if ($order_ids === null || $order_ids === []) {
             $orders = wc_get_orders([
                 'status' => ['processing', 'on-hold'],
                 'limit' => -1,
@@ -156,8 +195,8 @@ if (!function_exists('csa_order_ids_for_products')) {
 
         $placeholders = implode(',', array_fill(0, count($product_ids), '%d'));
         $lookup_table = $wpdb->prefix . 'wc_order_product_lookup';
-        $params = $product_ids;
-        $sql = "SELECT DISTINCT order_id FROM {$lookup_table} WHERE product_id IN ({$placeholders})";
+        $params = array_merge($product_ids, $product_ids);
+        $sql = "SELECT DISTINCT order_id FROM {$lookup_table} WHERE product_id IN ({$placeholders}) OR variation_id IN ({$placeholders})";
 
         if ($date_range && strpos($date_range, '...') !== false) {
             list($start, $end) = explode('...', $date_range, 2);
@@ -189,11 +228,13 @@ if (!function_exists('csa_winter_line_items')) {
             }
 
             foreach ($order->get_items() as $item) {
-                if ((int) $item->get_product_id() !== $winter_id) {
+                $item_product_id = (int) $item->get_product_id();
+                $item_variation_id = (int) $item->get_variation_id();
+                if ($item_product_id !== $winter_id && $item_variation_id !== $winter_id) {
                     continue;
                 }
 
-                $location = csa_normalize_location($item->get_meta('location'));
+                $location = csa_order_item_location($item);
                 if ($location === '') {
                     continue;
                 }
