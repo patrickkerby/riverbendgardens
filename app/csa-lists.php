@@ -100,9 +100,14 @@ if (!function_exists('csa_order_item_location')) {
             return csa_normalize_location(csa_meta_string($item->get_meta('attribute_location')));
         }
 
-        $term = get_term_by('slug', $slug, 'pa_pickup-location');
-        if ($term && !is_wp_error($term) && !empty($term->name)) {
-            return csa_normalize_location($term->name);
+        static $terms = [];
+        if (!array_key_exists($slug, $terms)) {
+            $term = get_term_by('slug', $slug, 'pa_pickup-location');
+            $terms[$slug] = ($term && !is_wp_error($term) && !empty($term->name)) ? $term->name : '';
+        }
+
+        if ($terms[$slug] !== '') {
+            return csa_normalize_location($terms[$slug]);
         }
 
         return csa_normalize_location($slug);
@@ -143,6 +148,41 @@ if (!function_exists('csa_winter_extras_for_location')) {
     }
 }
 
+if (!function_exists('csa_hpos_enabled')) {
+    function csa_hpos_enabled()
+    {
+        return class_exists('\Automattic\WooCommerce\Utilities\OrderUtil')
+            && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
+    }
+}
+
+if (!function_exists('csa_list_cache_version')) {
+    function csa_list_cache_version()
+    {
+        return (int) get_option('csa_list_cache_ver', 1);
+    }
+}
+
+if (!function_exists('csa_flush_list_cache')) {
+    function csa_flush_list_cache()
+    {
+        update_option('csa_list_cache_ver', csa_list_cache_version() + 1, false);
+    }
+}
+
+if (!function_exists('csa_parse_date_range')) {
+    function csa_parse_date_range($date_range)
+    {
+        if (!$date_range || strpos($date_range, '...') === false) {
+            return [null, null];
+        }
+
+        list($start, $end) = explode('...', $date_range, 2);
+
+        return [$start . ' 00:00:00', $end . ' 23:59:59'];
+    }
+}
+
 if (!function_exists('csa_get_orders_for_products')) {
     function csa_get_orders_for_products(array $product_ids, $date_range = null)
     {
@@ -152,29 +192,26 @@ if (!function_exists('csa_get_orders_for_products')) {
         }
 
         $date_range = $date_range ?: csa_order_date_range('winter');
-        $order_ids = csa_order_ids_for_products($product_ids, $date_range);
+        $cache_key = 'csa_oids_' . csa_list_cache_version() . '_' . md5(implode(',', $product_ids) . '|' . $date_range);
 
-        // Empty lookup results are not proof that there are no orders
-        // (HPOS/bundles can omit rows). Fall back to the same date/status
-        // query Print All used successfully.
-        if ($order_ids === null || $order_ids === []) {
-            $orders = wc_get_orders([
-                'status' => ['processing', 'on-hold'],
-                'limit' => -1,
-                'type' => 'shop_order',
-                'return' => 'objects',
-                'orderby' => 'date',
-                'order' => 'DESC',
-                'date_created' => $date_range,
-            ]);
+        static $runtime = [];
+        if (isset($runtime[$cache_key])) {
+            return $runtime[$cache_key];
+        }
 
-            return is_array($orders) ? $orders : [];
+        $order_ids = get_transient($cache_key);
+        if (!is_array($order_ids)) {
+            $order_ids = csa_order_ids_for_products($product_ids, $date_range);
+            if (!is_array($order_ids)) {
+                $order_ids = [];
+            }
+            set_transient($cache_key, $order_ids, 2 * MINUTE_IN_SECONDS);
         }
 
         $allowed_statuses = ['processing', 'on-hold'];
         $orders = [];
         foreach ($order_ids as $order_id) {
-            $order = wc_get_order($order_id);
+            $order = wc_get_order((int) $order_id);
             if (!$order || !is_object($order) || !method_exists($order, 'get_status')) {
                 continue;
             }
@@ -184,6 +221,8 @@ if (!function_exists('csa_get_orders_for_products')) {
             $orders[] = $order;
         }
 
+        $runtime[$cache_key] = $orders;
+
         return $orders;
     }
 }
@@ -191,18 +230,46 @@ if (!function_exists('csa_get_orders_for_products')) {
 if (!function_exists('csa_order_ids_for_products')) {
     function csa_order_ids_for_products(array $product_ids, $date_range = null)
     {
+        $ids = csa_order_ids_from_lookup($product_ids, $date_range);
+        if ($ids !== null) {
+            return $ids;
+        }
+
+        return csa_order_ids_from_itemmeta($product_ids, $date_range) ?: [];
+    }
+}
+
+if (!function_exists('csa_order_ids_from_lookup')) {
+    function csa_order_ids_from_lookup(array $product_ids, $date_range = null)
+    {
         global $wpdb;
 
         $placeholders = implode(',', array_fill(0, count($product_ids), '%d'));
         $lookup_table = $wpdb->prefix . 'wc_order_product_lookup';
         $params = array_merge($product_ids, $product_ids);
-        $sql = "SELECT DISTINCT order_id FROM {$lookup_table} WHERE product_id IN ({$placeholders}) OR variation_id IN ({$placeholders})";
+        list($start, $end) = csa_parse_date_range($date_range);
 
-        if ($date_range && strpos($date_range, '...') !== false) {
-            list($start, $end) = explode('...', $date_range, 2);
-            $sql .= ' AND date_created >= %s AND date_created <= %s';
-            $params[] = $start . ' 00:00:00';
-            $params[] = $end . ' 23:59:59';
+        if (csa_hpos_enabled()) {
+            $orders_table = $wpdb->prefix . 'wc_orders';
+            $sql = "SELECT DISTINCT lookup.order_id
+                FROM {$lookup_table} lookup
+                INNER JOIN {$orders_table} orders ON orders.id = lookup.order_id
+                WHERE (lookup.product_id IN ({$placeholders}) OR lookup.variation_id IN ({$placeholders}))
+                  AND orders.status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.type = 'shop_order'";
+        } else {
+            $sql = "SELECT DISTINCT lookup.order_id
+                FROM {$lookup_table} lookup
+                INNER JOIN {$wpdb->posts} orders ON orders.ID = lookup.order_id
+                WHERE (lookup.product_id IN ({$placeholders}) OR lookup.variation_id IN ({$placeholders}))
+                  AND orders.post_status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.post_type = 'shop_order'";
+        }
+
+        if ($start && $end) {
+            $sql .= ' AND lookup.date_created >= %s AND lookup.date_created <= %s';
+            $params[] = $start;
+            $params[] = $end;
         }
 
         $wpdb->last_error = '';
@@ -210,6 +277,59 @@ if (!function_exists('csa_order_ids_for_products')) {
 
         if ($wpdb->last_error) {
             return null;
+        }
+
+        return array_map('intval', (array) $order_ids);
+    }
+}
+
+if (!function_exists('csa_order_ids_from_itemmeta')) {
+    function csa_order_ids_from_itemmeta(array $product_ids, $date_range = null)
+    {
+        global $wpdb;
+
+        $placeholders = implode(',', array_fill(0, count($product_ids), '%s'));
+        $params = array_map('strval', $product_ids);
+        list($start, $end) = csa_parse_date_range($date_range);
+        $items = $wpdb->prefix . 'woocommerce_order_items';
+        $itemmeta = $wpdb->prefix . 'woocommerce_order_itemmeta';
+
+        if (csa_hpos_enabled()) {
+            $orders_table = $wpdb->prefix . 'wc_orders';
+            $sql = "SELECT DISTINCT oi.order_id
+                FROM {$items} oi
+                INNER JOIN {$itemmeta} oim ON oi.order_item_id = oim.order_item_id
+                INNER JOIN {$orders_table} orders ON orders.id = oi.order_id
+                WHERE oim.meta_key IN ('_product_id', '_variation_id')
+                  AND oim.meta_value IN ({$placeholders})
+                  AND orders.status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.type = 'shop_order'";
+            if ($start && $end) {
+                $sql .= ' AND orders.date_created_gmt >= %s AND orders.date_created_gmt <= %s';
+                $params[] = gmdate('Y-m-d H:i:s', strtotime($start));
+                $params[] = gmdate('Y-m-d H:i:s', strtotime($end));
+            }
+        } else {
+            $sql = "SELECT DISTINCT oi.order_id
+                FROM {$items} oi
+                INNER JOIN {$itemmeta} oim ON oi.order_item_id = oim.order_item_id
+                INNER JOIN {$wpdb->posts} orders ON orders.ID = oi.order_id
+                WHERE oim.meta_key IN ('_product_id', '_variation_id')
+                  AND oim.meta_value IN ({$placeholders})
+                  AND orders.post_status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.post_type = 'shop_order'";
+            if ($start && $end) {
+                $sql .= ' AND orders.post_date >= %s AND orders.post_date <= %s';
+                $params[] = $start;
+                $params[] = $end;
+            }
+        }
+
+        $wpdb->last_error = '';
+        $order_ids = $wpdb->get_col($wpdb->prepare($sql, $params));
+
+        if ($wpdb->last_error) {
+            return [];
         }
 
         return array_map('intval', (array) $order_ids);
@@ -354,3 +474,8 @@ if (!function_exists('csa_winter_items_for_location')) {
         return $matches;
     }
 }
+
+add_action('woocommerce_order_status_changed', 'csa_flush_list_cache');
+add_action('woocommerce_new_order', 'csa_flush_list_cache');
+add_action('woocommerce_trash_order', 'csa_flush_list_cache');
+add_action('woocommerce_delete_order', 'csa_flush_list_cache');
