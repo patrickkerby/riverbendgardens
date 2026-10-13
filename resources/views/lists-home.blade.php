@@ -57,9 +57,6 @@ global $wpdb, $woocommerce;
   $week14_row = $rows[13];
   $week14 = 'Week 14: ' . $week14_row['week'];
 
-  $week15_row = $rows[14];
-  $week15 = 'Week 15: ' . $week15_row['week']; 
-
 // Get current week of the year, check if it's even or odd. Biweekly only delivers on odd weeks.
   $currentWeek = date('W');
   $currentCSAWeek = $currentWeek - 27;
@@ -151,7 +148,6 @@ if (in_array($week_in_season, $half_summer_weeks)) {
             <option value="week12">Week Twelve</option>
             <option value="week13">Week Thirteen</option>
             <option value="week14">Week Fourteen</option>
-            <option value="week15">Week Fifteen</option>
           </select>
           <input type="submit" class="acf-button button button-primary button-large" value="Update">
         </form>
@@ -228,11 +224,6 @@ if (in_array($week_in_season, $half_summer_weeks)) {
                 @case("week14")
                 @php $weekDate = date('F d, Y', strtotime($week14_row['week'])); @endphp
                 Week 14: {{ $weekDate }}
-                @break
-
-                @case("week15")
-                @php $weekDate = date('F d, Y', strtotime($week15_row['week'])); @endphp
-                Week 15: {{ $weekDate }}
                 @break
 
               @default
