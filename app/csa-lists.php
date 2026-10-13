@@ -183,8 +183,33 @@ if (!function_exists('csa_parse_date_range')) {
     }
 }
 
+if (!function_exists('csa_prefixed_statuses')) {
+    function csa_prefixed_statuses(array $statuses)
+    {
+        $prefixed = [];
+        foreach ($statuses as $status) {
+            $status = ltrim((string) $status, 'wc-');
+            if ($status === '') {
+                continue;
+            }
+            $prefixed[] = 'wc-' . $status;
+        }
+
+        return array_values(array_unique($prefixed));
+    }
+}
+
+if (!function_exists('csa_plain_statuses')) {
+    function csa_plain_statuses(array $statuses)
+    {
+        return array_map(function ($status) {
+            return ltrim((string) $status, 'wc-');
+        }, $statuses);
+    }
+}
+
 if (!function_exists('csa_get_orders_for_products')) {
-    function csa_get_orders_for_products(array $product_ids, $date_range = null)
+    function csa_get_orders_for_products(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
     {
         $product_ids = array_values(array_unique(array_filter(array_map('intval', $product_ids))));
         if (empty($product_ids) || !function_exists('wc_get_order')) {
@@ -192,7 +217,8 @@ if (!function_exists('csa_get_orders_for_products')) {
         }
 
         $date_range = $date_range ?: csa_order_date_range('winter');
-        $cache_key = 'csa_oids_' . csa_list_cache_version() . '_' . md5(implode(',', $product_ids) . '|' . $date_range);
+        $plain_statuses = csa_plain_statuses($statuses);
+        $cache_key = 'csa_oids_' . csa_list_cache_version() . '_' . md5(implode(',', $product_ids) . '|' . $date_range . '|' . implode(',', $plain_statuses));
 
         static $runtime = [];
         if (isset($runtime[$cache_key])) {
@@ -201,21 +227,20 @@ if (!function_exists('csa_get_orders_for_products')) {
 
         $order_ids = get_transient($cache_key);
         if (!is_array($order_ids)) {
-            $order_ids = csa_order_ids_for_products($product_ids, $date_range);
+            $order_ids = csa_order_ids_for_products($product_ids, $date_range, $plain_statuses);
             if (!is_array($order_ids)) {
                 $order_ids = [];
             }
             set_transient($cache_key, $order_ids, 2 * MINUTE_IN_SECONDS);
         }
 
-        $allowed_statuses = ['processing', 'on-hold'];
         $orders = [];
         foreach ($order_ids as $order_id) {
             $order = wc_get_order((int) $order_id);
             if (!$order || !is_object($order) || !method_exists($order, 'get_status')) {
                 continue;
             }
-            if (!in_array($order->get_status(), $allowed_statuses, true)) {
+            if (!in_array($order->get_status(), $plain_statuses, true)) {
                 continue;
             }
             $orders[] = $order;
@@ -228,25 +253,30 @@ if (!function_exists('csa_get_orders_for_products')) {
 }
 
 if (!function_exists('csa_order_ids_for_products')) {
-    function csa_order_ids_for_products(array $product_ids, $date_range = null)
+    function csa_order_ids_for_products(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
     {
-        $ids = csa_order_ids_from_lookup($product_ids, $date_range);
+        $ids = csa_order_ids_from_lookup($product_ids, $date_range, $statuses);
         if ($ids !== null) {
             return $ids;
         }
 
-        return csa_order_ids_from_itemmeta($product_ids, $date_range) ?: [];
+        return csa_order_ids_from_itemmeta($product_ids, $date_range, $statuses) ?: [];
     }
 }
 
 if (!function_exists('csa_order_ids_from_lookup')) {
-    function csa_order_ids_from_lookup(array $product_ids, $date_range = null)
+    function csa_order_ids_from_lookup(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
     {
         global $wpdb;
 
         $placeholders = implode(',', array_fill(0, count($product_ids), '%d'));
+        $prefixed = csa_prefixed_statuses($statuses);
+        if (empty($prefixed)) {
+            return [];
+        }
+        $status_placeholders = implode(',', array_fill(0, count($prefixed), '%s'));
         $lookup_table = $wpdb->prefix . 'wc_order_product_lookup';
-        $params = array_merge($product_ids, $product_ids);
+        $params = array_merge($product_ids, $product_ids, $prefixed);
         list($start, $end) = csa_parse_date_range($date_range);
 
         if (csa_hpos_enabled()) {
@@ -255,14 +285,14 @@ if (!function_exists('csa_order_ids_from_lookup')) {
                 FROM {$lookup_table} lookup
                 INNER JOIN {$orders_table} orders ON orders.id = lookup.order_id
                 WHERE (lookup.product_id IN ({$placeholders}) OR lookup.variation_id IN ({$placeholders}))
-                  AND orders.status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.status IN ({$status_placeholders})
                   AND orders.type = 'shop_order'";
         } else {
             $sql = "SELECT DISTINCT lookup.order_id
                 FROM {$lookup_table} lookup
                 INNER JOIN {$wpdb->posts} orders ON orders.ID = lookup.order_id
                 WHERE (lookup.product_id IN ({$placeholders}) OR lookup.variation_id IN ({$placeholders}))
-                  AND orders.post_status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.post_status IN ({$status_placeholders})
                   AND orders.post_type = 'shop_order'";
         }
 
@@ -284,12 +314,17 @@ if (!function_exists('csa_order_ids_from_lookup')) {
 }
 
 if (!function_exists('csa_order_ids_from_itemmeta')) {
-    function csa_order_ids_from_itemmeta(array $product_ids, $date_range = null)
+    function csa_order_ids_from_itemmeta(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
     {
         global $wpdb;
 
         $placeholders = implode(',', array_fill(0, count($product_ids), '%s'));
-        $params = array_map('strval', $product_ids);
+        $prefixed = csa_prefixed_statuses($statuses);
+        if (empty($prefixed)) {
+            return [];
+        }
+        $status_placeholders = implode(',', array_fill(0, count($prefixed), '%s'));
+        $params = array_merge(array_map('strval', $product_ids), $prefixed);
         list($start, $end) = csa_parse_date_range($date_range);
         $items = $wpdb->prefix . 'woocommerce_order_items';
         $itemmeta = $wpdb->prefix . 'woocommerce_order_itemmeta';
@@ -302,7 +337,7 @@ if (!function_exists('csa_order_ids_from_itemmeta')) {
                 INNER JOIN {$orders_table} orders ON orders.id = oi.order_id
                 WHERE oim.meta_key IN ('_product_id', '_variation_id')
                   AND oim.meta_value IN ({$placeholders})
-                  AND orders.status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.status IN ({$status_placeholders})
                   AND orders.type = 'shop_order'";
             if ($start && $end) {
                 $sql .= ' AND orders.date_created_gmt >= %s AND orders.date_created_gmt <= %s';
@@ -316,7 +351,7 @@ if (!function_exists('csa_order_ids_from_itemmeta')) {
                 INNER JOIN {$wpdb->posts} orders ON orders.ID = oi.order_id
                 WHERE oim.meta_key IN ('_product_id', '_variation_id')
                   AND oim.meta_value IN ({$placeholders})
-                  AND orders.post_status IN ('wc-processing', 'wc-on-hold')
+                  AND orders.post_status IN ({$status_placeholders})
                   AND orders.post_type = 'shop_order'";
             if ($start && $end) {
                 $sql .= ' AND orders.post_date >= %s AND orders.post_date <= %s';
@@ -333,6 +368,97 @@ if (!function_exists('csa_order_ids_from_itemmeta')) {
         }
 
         return array_map('intval', (array) $order_ids);
+    }
+}
+
+if (!function_exists('csa_pickup_term_by_slug')) {
+    function csa_pickup_term_by_slug($slug)
+    {
+        static $cache = [];
+        $slug = csa_meta_string($slug);
+        if ($slug === '') {
+            return null;
+        }
+        if (!array_key_exists($slug, $cache)) {
+            $term = get_term_by('slug', $slug, 'pa_pickup-location');
+            $cache[$slug] = ($term && !is_wp_error($term)) ? $term : null;
+        }
+
+        return $cache[$slug];
+    }
+}
+
+if (!function_exists('csa_summer_location_counts')) {
+    function csa_summer_location_counts($orders, $display_biwk = true, $display_halfsummer = false)
+    {
+        $blank = [
+            'biweekly' => 0,
+            'full_bigger' => 0,
+            'full_smaller' => 0,
+            'half_bigger' => 0,
+            'half_smaller' => 0,
+            'fullyear' => 0,
+            'fullyear_bigger' => 0,
+        ];
+        $counts = [];
+        $full_id = (int) csa_product_id('fullseason');
+        $biwk_id = (int) csa_product_id('biwk');
+        $half_id = (int) csa_product_id('halfsummer');
+
+        foreach ((array) $orders as $order) {
+            if (!is_object($order) || !method_exists($order, 'get_items')) {
+                continue;
+            }
+
+            foreach ($order->get_items() as $item) {
+                $pid = (int) $item->get_product_id();
+                $qty = (int) $item->get_quantity();
+                $size = $item->get_meta('size');
+                $bundle_mode = $item->get_meta('_bundle_group_mode', true);
+                $location = csa_meta_string($item->get_meta('pa_pickup-location'));
+
+                if ($location !== '' && !isset($counts[$location])) {
+                    $counts[$location] = $blank;
+                }
+
+                if ($location !== '' && $pid === $biwk_id && $display_biwk) {
+                    $counts[$location]['biweekly'] += $qty;
+                } elseif ($location !== '' && $pid === $full_id && $bundle_mode !== 'parent') {
+                    if ($size === 'Bigger') {
+                        $counts[$location]['full_bigger'] += $qty;
+                    } elseif ($size === 'Smaller') {
+                        $counts[$location]['full_smaller'] += $qty;
+                    }
+                } elseif ($location !== '' && $pid === $half_id && $bundle_mode !== 'parent' && $display_halfsummer) {
+                    if ($size === 'Bigger') {
+                        $counts[$location]['half_bigger'] += $qty;
+                    } elseif ($size === 'Smaller') {
+                        $counts[$location]['half_smaller'] += $qty;
+                    }
+                }
+
+                if ($bundle_mode === 'parent') {
+                    $bundled = $item->get_meta('_stamp', true);
+                    $summer_loc = '';
+                    if (is_array($bundled)) {
+                        foreach ($bundled as $value) {
+                            if (!empty($value['attributes']['attribute_pa_pickup-location'])) {
+                                $summer_loc = $value['attributes']['attribute_pa_pickup-location'];
+                            }
+                        }
+                    }
+                    if ($summer_loc !== '') {
+                        if (!isset($counts[$summer_loc])) {
+                            $counts[$summer_loc] = $blank;
+                        }
+                        $counts[$summer_loc]['fullyear_bigger'] += $qty;
+                        $counts[$summer_loc]['fullyear']++;
+                    }
+                }
+            }
+        }
+
+        return $counts;
     }
 }
 

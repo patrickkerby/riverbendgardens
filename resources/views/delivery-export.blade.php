@@ -28,29 +28,10 @@
     return $temp_array;
 }
 
-// Users query
-$user_ids = (array) get_users([
-      'role'       => 'customer',
-      'number'     => -1,
-      'fields'     => 'ID',
-  ]);
-
-// Get order data!
-  $query = new WC_Order_Query( array(  
-      'limit' => -1,
-      // 'orderby' => 'name',
-      // 'order' => 'asc',
-      'status' => array('wc-processing'),
-  ) );
-  $results = $query->get_orders();
-  
-//Create filtered list of orders based on the date selected on list page.
-  $filtered_orders = array();
-  $filtered_orders_print = array();
-
-  foreach ( $results as $daily_results ) {    
-    $order_id = $daily_results->get_id();
-  }
+  $filtered_orders = csa_get_orders_for_products(
+    [csa_product_id('delivery')],
+    csa_order_date_range('summer')
+  );
 
 // $unique_array = unique_multidim_array($filtered_orders,'_timeslot');
 

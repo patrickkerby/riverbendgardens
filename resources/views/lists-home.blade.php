@@ -124,9 +124,7 @@ if (in_array($week_in_season, $half_summer_weeks)) {
     [$product_id_15wk, $product_id_biwk, $product_id_halfsummer, $product_id_fullyear],
     csa_order_date_range('summer')
   );
-
-  $filtered_order_ids_biwk = array();
-  $filtered_order_ids_15wk = array();
+  $location_counts = csa_summer_location_counts($order_ids, $displayBiwk, $displayHalfsummer);
 
 @endphp
 
@@ -264,85 +262,26 @@ if (in_array($week_in_season, $half_summer_weeks)) {
             @endphp
 							@foreach ($select_locations_index as $item)
                 @php
-
-                  $biweekly_count = 0;
-                  $full_summer_smaller_count = 0;
-                  $full_summer_bigger_count = 0;
-                  $fullyear_count = 0;
-                  $full_year_bigger_count = 0;
-                  $half_summer_bigger_count = 0;
-                  $half_summer_smaller_count = 0;
-                  $summer_item_location = '';
-                  $winter_item_location = '';
+                  if (empty($item['location']) || !is_object($item['location'])) {
+                    continue;
+                  }
 
                   $location = $item['location']->slug;
-									$location_name = $item['location']->name;
-									
-									$extras = $item['extras'];
-									
-                  if ($extras === true) {
-										$extras = 1;
-									}
-                  else {
-                    $extras = 0;
-									}
-              
-                  foreach ($order_ids as $order) {
-                    if (!is_object($order) || !method_exists($order, 'get_items')) {
-                      $order = wc_get_order($order);
-                    }
-                    $order_items = $order->get_items();
-
-                    foreach ($order_items as $order_item) {
-                      $filtered_location = $order_item->get_meta('pa_pickup-location'); //biweekly uses global attributes                      
-                      $filtered_size = $order_item->get_meta('size'); //15 wk uses custom attributes
-                      $filtered_quantity = $order_item->get_quantity();
-                      $bundle_mode = $order_item->get_meta( '_bundle_group_mode', true);
-
-                      if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location && $displayBiwk) {
-                        $biweekly_count += $filtered_quantity;
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Bigger' && $bundle_mode !== 'parent') {
-                        $full_summer_bigger_count += $filtered_quantity;
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent') {
-                        $full_summer_smaller_count += $filtered_quantity;
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Bigger' && $bundle_mode !== 'parent' && $displayHalfsummer) {
-                        $half_summer_bigger_count += $filtered_quantity;
-                      }
-                      elseif ($order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size === 'Smaller' && $bundle_mode !== 'parent' && $displayHalfsummer) {
-                        $half_summer_smaller_count += $filtered_quantity;
-                      }
-                      else {
-                        //do nothing                        
-                      }
-
-                      if ($bundle_mode == 'parent') {
-                        $bundled_order = $order_item->get_meta( '_stamp', true);
-                        
-                        foreach($bundled_order as $key => $value) {
-                          if ($value['attributes']['attribute_pa_pickup-location']) {
-                            $summer_item_location = $value['attributes']['attribute_pa_pickup-location'];
-                          }
-                          elseif ($value['attributes']['attribute_location']) {
-                            $winter_item_location = $value['attributes']['attribute_location'];
-                          }
-                          else {
-                            //do nothing
-                          }                                                    
-                        }
-
-                        if ($bundle_mode == 'parent' && $summer_item_location == $location) {
-                          $full_year_bigger_count += $filtered_quantity;
-                          $fullyear_count++;
-                        }
-                      }
-                      else {
-                        //do nothing
-                      }
-                    }
-                  }
+                  $counts = $location_counts[$location] ?? [
+                    'biweekly' => 0,
+                    'full_bigger' => 0,
+                    'full_smaller' => 0,
+                    'half_bigger' => 0,
+                    'half_smaller' => 0,
+                    'fullyear' => 0,
+                  ];
+                  $biweekly_count = $counts['biweekly'];
+                  $full_summer_bigger_count = $counts['full_bigger'];
+                  $full_summer_smaller_count = $counts['full_smaller'];
+                  $half_summer_bigger_count = $counts['half_bigger'];
+                  $half_summer_smaller_count = $counts['half_smaller'];
+                  $fullyear_count = $counts['fullyear'];
+                  $extras = !empty($item['extras']) ? 1 : 0;
                   $total_bigger_count = $full_summer_bigger_count + $biweekly_count + $extras + $half_summer_bigger_count;
                   $total_smaller_count = $full_summer_smaller_count + $half_summer_smaller_count;
 									$total_location_count = $total_bigger_count + $total_smaller_count;

@@ -123,6 +123,7 @@ function getPickupLocationAddress($location_term) {
   $product_id_halfsummer = csa_product_id('halfsummer');
 
   $winter_counts = [];
+  $summer_counts = [];
   if ($is_winter_csa) {
     $orders = csa_get_orders_for_products([$product_id_winter], csa_order_date_range('winter'));
     $winter_counts = csa_winter_counts_by_location(csa_winter_line_items($orders));
@@ -131,6 +132,7 @@ function getPickupLocationAddress($location_term) {
       [$product_id_15wk, $product_id_biwk, $product_id_halfsummer],
       csa_order_date_range('summer')
     );
+    $summer_counts = csa_summer_location_counts($orders, $displayBiwk, $displayHalfsummer);
   }
 
   $route_rows = [];
@@ -189,25 +191,16 @@ function getPickupLocationAddress($location_term) {
       $fullseason_bigger_count = $winter_counts[$location]['Bigger'] ?? 0;
       $fullseason_smaller_count = $winter_counts[$location]['Smaller'] ?? 0;
     } else {
-      foreach ($orders as $order) {
-        foreach ($order->get_items() as $order_item) {
-          $filtered_size = $order_item->get_meta('size');
-          $filtered_quantity = $order_item->get_quantity();
-          $filtered_location = $order_item->get_meta('pa_pickup-location');
-
-          if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
-            $biweekly_total_count += $filtered_quantity;
-          } elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {
-            $fullseason_bigger_count += $filtered_quantity;
-          } elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Smaller') {
-            $fullseason_smaller_count += $filtered_quantity;
-          } elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Bigger') {
-            $fullseason_bigger_count += $filtered_quantity;
-          } elseif ($order_item->get_product_id() == $product_id_15wk && $filtered_location == $location && $filtered_size == 'Smaller') {
-            $fullseason_smaller_count += $filtered_quantity;
-          }
-        }
-      }
+      $counts = $summer_counts[$location] ?? [
+        'biweekly' => 0,
+        'full_bigger' => 0,
+        'full_smaller' => 0,
+        'half_bigger' => 0,
+        'half_smaller' => 0,
+      ];
+      $biweekly_total_count = $counts['biweekly'];
+      $fullseason_bigger_count = $counts['full_bigger'] + $counts['half_bigger'];
+      $fullseason_smaller_count = $counts['full_smaller'] + $counts['half_smaller'];
     }
 
     if ($displayBiwk == true) {
