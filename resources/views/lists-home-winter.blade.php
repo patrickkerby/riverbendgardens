@@ -59,7 +59,7 @@
 						</tr>
 					@empty
             <tr>
-              <td colspan="5">No processing or on-hold Late Season orders found for 2026.</td>
+              <td colspan="5">No processing Late Season orders found for {{ date('Y') }}.</td>
             </tr>
 					@endforelse
 				</tbody>

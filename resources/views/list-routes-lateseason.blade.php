@@ -16,14 +16,8 @@
   $route_rows = [];
 
   foreach ($select_locations as $item) {
-    $has_location = isset($item['location']) && is_object($item['location']);
-    $has_custom = isset($item['custom_location_name']) && !empty($item['custom_location_name']);
-
-    if ($has_location) {
-      $location_name = $item['location']->name;
-    } elseif ($has_custom) {
-      $location_name = $item['custom_location_name'];
-    } else {
+    $location_name = csa_acf_location_name($item);
+    if ($location_name === '') {
       continue;
     }
 

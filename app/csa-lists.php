@@ -114,14 +114,31 @@ if (!function_exists('csa_order_item_location')) {
     }
 }
 
+if (!function_exists('csa_acf_custom_location_name')) {
+    /**
+     * Custom location text is only valid when "Custom Location?" is checked
+     * and the name field is filled. ACF keeps hidden-field values, so leftover
+     * text must be ignored when the checkbox is off.
+     */
+    function csa_acf_custom_location_name($item)
+    {
+        if (empty($item['custom_location'])) {
+            return '';
+        }
+
+        return trim((string) ($item['custom_location_name'] ?? ''));
+    }
+}
+
 if (!function_exists('csa_acf_location_name')) {
     function csa_acf_location_name($item)
     {
+        $custom = csa_acf_custom_location_name($item);
+        if ($custom !== '') {
+            return $custom;
+        }
         if (!empty($item['location']) && is_object($item['location'])) {
             return $item['location']->name;
-        }
-        if (!empty($item['custom_location_name'])) {
-            return $item['custom_location_name'];
         }
 
         return '';
@@ -209,7 +226,7 @@ if (!function_exists('csa_plain_statuses')) {
 }
 
 if (!function_exists('csa_get_orders_for_products')) {
-    function csa_get_orders_for_products(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
+    function csa_get_orders_for_products(array $product_ids, $date_range = null, array $statuses = ['processing'])
     {
         $product_ids = array_values(array_unique(array_filter(array_map('intval', $product_ids))));
         if (empty($product_ids) || !function_exists('wc_get_order')) {
@@ -253,7 +270,7 @@ if (!function_exists('csa_get_orders_for_products')) {
 }
 
 if (!function_exists('csa_order_ids_for_products')) {
-    function csa_order_ids_for_products(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
+    function csa_order_ids_for_products(array $product_ids, $date_range = null, array $statuses = ['processing'])
     {
         $ids = csa_order_ids_from_lookup($product_ids, $date_range, $statuses);
         if ($ids !== null) {
@@ -265,7 +282,7 @@ if (!function_exists('csa_order_ids_for_products')) {
 }
 
 if (!function_exists('csa_order_ids_from_lookup')) {
-    function csa_order_ids_from_lookup(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
+    function csa_order_ids_from_lookup(array $product_ids, $date_range = null, array $statuses = ['processing'])
     {
         global $wpdb;
 
@@ -314,7 +331,7 @@ if (!function_exists('csa_order_ids_from_lookup')) {
 }
 
 if (!function_exists('csa_order_ids_from_itemmeta')) {
-    function csa_order_ids_from_itemmeta(array $product_ids, $date_range = null, array $statuses = ['processing', 'on-hold'])
+    function csa_order_ids_from_itemmeta(array $product_ids, $date_range = null, array $statuses = ['processing'])
     {
         global $wpdb;
 

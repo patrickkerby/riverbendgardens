@@ -149,20 +149,21 @@ function getPickupLocationAddress($location_term) {
 
     if ($is_winter_csa) {
       $has_location = isset($item['location']) && is_object($item['location']);
-      $has_custom = isset($item['custom_location_name']) && !empty($item['custom_location_name']);
+      $custom_name = csa_acf_custom_location_name($item);
+      $has_custom = $custom_name !== '';
 
-      if ($has_location && $has_custom) {
-        $warning_html = "<tr style='background: orange; color: black;'><td colspan='4'><strong>WARNING:</strong> ACF row has BOTH location term ('{$item['location']->name}') AND custom_location_name ('{$item['custom_location_name']}'). Using location term. Please clear one field in WordPress.</td></tr>";
-      }
-
-      if ($has_location) {
+      if ($has_custom) {
+        $location_name = $custom_name;
+        $location = csa_normalize_location($location_name);
+        if ($has_location) {
+          $location_term = $item['location'];
+          $location_address = getPickupLocationAddress($location_term);
+        }
+      } elseif ($has_location) {
         $location_term = $item['location'];
         $location_name = $item['location']->name;
         $location = csa_normalize_location($location_name);
         $location_address = getPickupLocationAddress($location_term);
-      } elseif ($has_custom) {
-        $location_name = $item['custom_location_name'];
-        $location = csa_normalize_location($location_name);
       } else {
         $route_rows[] = [
           'is_error' => true,
