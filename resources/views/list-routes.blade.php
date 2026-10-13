@@ -12,29 +12,10 @@ global $wpdb, $woocommerce;
 // Get selected product from ACF (returns WP_Post object)
 $selected_product_obj = get_field('product');
 $selected_product = $selected_product_obj ? $selected_product_obj->ID : null;
-$product_id_winter = '5484';
+$product_id_winter = csa_product_id('winter');
 
 // Check if this is Winter CSA mode
 $is_winter_csa = ($selected_product == $product_id_winter);
-
-// Location name normalization for Winter CSA (consolidates variants)
-function normalizeLocationName($location) {
-  $location_map = [
-    'Catch of the Week!' => 'Catch of the Week',
-    'Confetti Sweets (Sherwood Park)' => 'Confetti Sweets',
-    "D'arcy's Meat Market (St Albert Location)" => "D'Arcy's Meats (St Albert)",
-    "D'arcy's Meat Market (Whitemud Crossing Location)" => "D'Arcy's Meats (Whitemud Crossing)",
-    'Remedy (109th St)' => 'Remedy (109St Location)',
-    'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
-    'Ribeye Butcher Shop (Manning Location)' => 'Ribeye Butcher Shop (Manning) - delivered by Janelle',
-    'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
-    'Jasper Ave Location (TBD)' => 'OBJ3CTS',
-    'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
-    'Highlands Area Pick Up' => 'Candid Coffee - Highlands',
-  ];
-  
-  return $location_map[$location] ?? $location;
-}
 
 function parseDeliveryTime($time) {
   $parsed = strtotime('today ' . trim($time));
@@ -137,25 +118,20 @@ function getPickupLocationAddress($location_term) {
   }
 
 
-//** Query the orders! 
-  // Adjust date range based on product type
-  $date_range = $is_winter_csa ? '2026-01-01...2026-10-31' : '2026-01-01...2026-09-31';
-  
-  $args = array(
-      'orderby' => 'date',
-      'order' => 'DESC',
-      'limit' => -1,
-      'status' => array('wc-processing', 'wc-on-hold'),
-      'date_created' => $date_range,
-  );
+  $product_id_15wk = csa_product_id('fullseason');
+  $product_id_biwk = csa_product_id('biwk');
+  $product_id_halfsummer = csa_product_id('halfsummer');
 
-  $product_id_15wk = '5958';
-  $product_id_biwk = '87354';
-  $product_id_halfsummer = '103905';
-
-  //first get all the order ids
-  $query = new WC_Order_Query( $args );
-  $orders = $query->get_orders();
+  $winter_counts = [];
+  if ($is_winter_csa) {
+    $orders = csa_get_orders_for_products([$product_id_winter], csa_order_date_range('winter'));
+    $winter_counts = csa_winter_counts_by_location(csa_winter_line_items($orders));
+  } else {
+    $orders = csa_get_orders_for_products(
+      [$product_id_15wk, $product_id_biwk, $product_id_halfsummer],
+      csa_order_date_range('summer')
+    );
+  }
 
   $route_rows = [];
   $select_locations = $select_locations ?? [];
@@ -179,12 +155,12 @@ function getPickupLocationAddress($location_term) {
 
       if ($has_location) {
         $location_term = $item['location'];
-        $location_name = normalizeLocationName($item['location']->name);
-        $location = $location_name;
+        $location_name = $item['location']->name;
+        $location = csa_normalize_location($location_name);
         $location_address = getPickupLocationAddress($location_term);
       } elseif ($has_custom) {
-        $location_name = normalizeLocationName($item['custom_location_name']);
-        $location = $location_name;
+        $location_name = $item['custom_location_name'];
+        $location = csa_normalize_location($location_name);
       } else {
         $route_rows[] = [
           'is_error' => true,
@@ -209,26 +185,16 @@ function getPickupLocationAddress($location_term) {
 
     $extras = $item['extras'] ? 1 : 0;
 
-    foreach ($orders as $order) {
-      foreach ($order->get_items() as $order_item) {
-        $filtered_size = $order_item->get_meta('size');
-        $filtered_quantity = $order_item->get_quantity();
-
-        if ($is_winter_csa) {
-          $filtered_location = normalizeLocationName($order_item->get_meta('location'));
-        } else {
+    if ($is_winter_csa) {
+      $fullseason_bigger_count = $winter_counts[$location]['Bigger'] ?? 0;
+      $fullseason_smaller_count = $winter_counts[$location]['Smaller'] ?? 0;
+    } else {
+      foreach ($orders as $order) {
+        foreach ($order->get_items() as $order_item) {
+          $filtered_size = $order_item->get_meta('size');
+          $filtered_quantity = $order_item->get_quantity();
           $filtered_location = $order_item->get_meta('pa_pickup-location');
-        }
 
-        if ($is_winter_csa) {
-          if ($order_item->get_product_id() == $product_id_winter && $filtered_location == $location) {
-            if ($filtered_size == 'Bigger') {
-              $fullseason_bigger_count += $filtered_quantity;
-            } elseif ($filtered_size == 'Smaller') {
-              $fullseason_smaller_count += $filtered_quantity;
-            }
-          }
-        } else {
           if ($order_item->get_product_id() == $product_id_biwk && $filtered_location == $location) {
             $biweekly_total_count += $filtered_quantity;
           } elseif ($displayHalfsummer && $order_item->get_product_id() == $product_id_halfsummer && $filtered_location == $location && $filtered_size == 'Bigger') {

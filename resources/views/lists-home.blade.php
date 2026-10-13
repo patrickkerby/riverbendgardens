@@ -109,27 +109,21 @@ if (in_array($week_in_season, $half_summer_weeks)) {
   $smaller_crates_total = 0;
   $bigger_crates_total = 0;
   $extras_count_total = 0;
+  $half_summer_bigger_total = 0;
+  $half_summer_smaller_total = 0;
+  $total_biweekly = 0;
+  $fullyear_total = 0;
 
-////********** Query the orders! 
-  $args = array(
-      'orderby' => 'date',
-      'order' => 'DESC',
-      'limit' => 2000,
-      'return' => 'ids',
-      'type' => 'shop_order',
-      'status' => array('wc-processing', 'wc-on-hold'),
-      'date_created' => '2026-01-01...2026-09-25'
+  $product_id_15wk = csa_product_id('fullseason');
+  $product_id_biwk = csa_product_id('biwk');
+  $product_id_lateseason = csa_product_id('winter');
+  $product_id_fullyear = csa_product_id('fullyear');
+  $product_id_halfsummer = csa_product_id('halfsummer');
+
+  $order_ids = csa_get_orders_for_products(
+    [$product_id_15wk, $product_id_biwk, $product_id_halfsummer, $product_id_fullyear],
+    csa_order_date_range('summer')
   );
-
-  $product_id_15wk = '5958';
-  $product_id_biwk = '87354';
-  $product_id_lateseason = '5484';
-  $product_id_fullyear = '103898';
-  $product_id_halfsummer = '103905';
-
-//first get all the order ids
-  $query = new WC_Order_Query( $args );
-  $order_ids = $query->get_orders();
 
   $filtered_order_ids_biwk = array();
   $filtered_order_ids_15wk = array();
@@ -275,8 +269,11 @@ if (in_array($week_in_season, $half_summer_weeks)) {
                   $full_summer_smaller_count = 0;
                   $full_summer_bigger_count = 0;
                   $fullyear_count = 0;
+                  $full_year_bigger_count = 0;
                   $half_summer_bigger_count = 0;
                   $half_summer_smaller_count = 0;
+                  $summer_item_location = '';
+                  $winter_item_location = '';
 
                   $location = $item['location']->slug;
 									$location_name = $item['location']->name;
@@ -290,8 +287,10 @@ if (in_array($week_in_season, $half_summer_weeks)) {
                     $extras = 0;
 									}
               
-                  foreach ($order_ids as $order_id) {
-                    $order = wc_get_order($order_id);
+                  foreach ($order_ids as $order) {
+                    if (!is_object($order) || !method_exists($order, 'get_items')) {
+                      $order = wc_get_order($order);
+                    }
                     $order_items = $order->get_items();
 
                     foreach ($order_items as $order_item) {

@@ -109,122 +109,84 @@
 
   // Get location, set by ACF in page
   $product = get_field('product');
-  $product_title = $product->post_title;
+  $product_title = $product ? $product->post_title : '';
   $location_term = get_field('location');
-  $school_location = get_field('school_location');	
+  $school_location = get_field('school_location');
   $winter_location = get_field('select_location_winter');
   $is_delivery = get_field('is_delivery');
 
-  if( $location_term ): 				
+  $location_name = '';
+  $location_slug = '';
+  $weekly = '';
+
+  if( $location_term ):
     $location_name = $location_term->name;
     $weekly = $location_term->slug;
     $location_slug = $location_term->slug;
-  elseif ( $school_location ): 				
+  elseif ( $school_location ):
     $location_name = $school_location;
     $weekly = '';
-  elseif ( $winter_location ): 		
-    $location_name = $winter_location;      		
-  else:
-  endif; 
+  elseif ( $winter_location ):
+    $location_name = csa_normalize_location($winter_location);
+  endif;
 
   // Counters
   $seasonal_count = 0;
   $seasonal_count_bigger = 0;
-  $seasonal_count_smaller = 0;	
-  $biwk_order_count = 0; 
+  $seasonal_count_smaller = 0;
+  $biwk_order_count = 0;
   $biwk_count = 0;
   $week_in_season = 0;
   $winter_count = 0;
   $winter_count_bigger = 0;
-  $winter_count_smaller = 0;	
+  $winter_count_smaller = 0;
+  $winter_rows = [];
 
-  // 15 week query
-  // (all orders with a location of X and a product of Y. Product and Location is set via ACF on a Page.
+  $product_id_fullseason = csa_product_id('fullseason');
+  $product_id_biwk = csa_product_id('biwk');
+  $product_id_winter = csa_product_id('winter');
+  $product_id_halfsummer = csa_product_id('halfsummer');
 
-  global $wpdb;
-  
-  $order_items = 'wp_woocommerce_order_items';
-  $order_meta = 'wp_woocommerce_order_itemmeta';
-  $order_data = $wpdb->prefix . 'posts';
-  $customer_meta = $wpdb->prefix . 'postmeta';
+  $delivery_list = (bool) $is_delivery;
 
+  $filtered_order_ids_biwk = array();
+  $filtered_order_ids_fullseason = array();
+  $filtered_order_ids_winter = array();
+  $filtered_order_ids_halfsummer = array();
 
-////********** Query the orders! 
-/// might need to tweak for winter csa. later.
+  if ($winter_location) {
+    $orders = csa_get_orders_for_products([$product_id_winter], csa_order_date_range('winter'));
+    $winter_rows = csa_winter_items_for_location(csa_winter_line_items($orders), $location_name);
+  } else {
+    $orders = csa_get_orders_for_products(
+      [$product_id_fullseason, $product_id_biwk, $product_id_halfsummer],
+      csa_order_date_range('summer')
+    );
 
-$args = array(
-    'orderby' => 'name',
-    'order' => 'ASC',
-    'limit' => -1,
-    // 'status' => 'wc-processing'
-    'status' => array('wc-processing', 'wc-on-hold'),
-    'date_created' => '2026-01-01...2026-10-31',
-);
-$product_id_fullseason = '5958';
-$product_id_biwk = '87354';
-$product_id_winter = '5484';
-$product_id_halfsummer = '103905';
+    foreach ($orders as $order) {
+      foreach ($order->get_items() as $item) {
+        $filtered_location = $item->get_meta('pa_pickup-location');
 
-// if ($product->ID == $product_id_delivery) {
-if ($is_delivery) {
-  $delivery_list = true;
-}
-else {
-  $delivery_list = false;
-}
-
-//first get all the order ids
-$query = new WC_Order_Query( $args );
-$order_ids = $query->get_orders();
-
-$filtered_order_ids_biwk = array();
-$filtered_order_ids_fullseason = array();
-$filtered_order_ids_winter = array();
-$filtered_order_ids_halfsummer = array();
-
-foreach ($order_ids as $order_id) {
-  $order = wc_get_order($order_id);
-  $order_items = $order->get_items();
-  $name = $order->get_billing_first_name();
-
-  //iterate through an order's items
-  foreach ($order_items as $item) {
-    $filtered_location = $item->get_meta('pa_pickup-location'); //biweekly and weekly use global attributes
-    $filtered_location_winter = $item->get_meta('location');
-
-    //if one item has the product id with appropriate pickup location, add it to the array and exit the loop
-    if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
-      if ($is_delivery && $displayBiwk) {
-        array_push($filtered_order_ids_fullseason, $order_id);
+        if ($item->get_product_id() == $product_id_biwk && $filtered_location == $location_slug) {
+          if ($is_delivery && $displayBiwk) {
+            $filtered_order_ids_fullseason[] = $order;
+          } else {
+            $filtered_order_ids_biwk[] = $order;
+          }
+        }
+        if ($item->get_product_id() == $product_id_halfsummer && $filtered_location == $location_slug) {
+          if ($is_delivery && $displayHalfsummer) {
+            $filtered_order_ids_fullseason[] = $order;
+          } else {
+            $filtered_order_ids_halfsummer[] = $order;
+          }
+        }
+        if ($item->get_product_id() == $product_id_fullseason && $filtered_location == $location_slug) {
+          $filtered_order_ids_fullseason[] = $order;
+        }
       }
-      else {
-        array_push($filtered_order_ids_biwk, $order_id);
-      }
-      // break;
-    }
-    if ($item->get_product_id() == $product_id_halfsummer && $filtered_location == $location_slug) {
-      if ($is_delivery && $displayHalfsummer) {
-        array_push($filtered_order_ids_fullseason, $order_id);
-      }
-      else {
-        array_push($filtered_order_ids_halfsummer, $order_id);
-      }
-      // break;
-    }
-    if ($item->get_product_id() == $product_id_fullseason && $filtered_location == $location_slug) {
-      array_push($filtered_order_ids_fullseason, $order_id);
-      // break;
-    }
-    if ($item->get_product_id() == $product_id_winter && $filtered_location_winter == $location_name) {
-      array_push($filtered_order_ids_winter, $order_id);
-      // break;
-    }
-    
-    else {
-      
     }
   }
-}
 @endphp
 
 @section('content')
@@ -245,6 +207,7 @@ foreach ($order_ids as $order_id) {
       @endunless
       <section class="{{ $currentCSAWeek }}">
         @if($winter_location)
+          <h2>{{ $location_name }}</h2>
           <strong>LATE SEASON SUBSCRIBERS GET 2 BAGS EACH</strong>
           <p>Smaller = 2 White  |  Bigger = 2 Clear</p>
         @endif
@@ -362,31 +325,28 @@ foreach ($order_ids as $order_id) {
             @endunless
 
             @if($winter_location)
-              @foreach ($filtered_order_ids_winter as $details)		
-                @php 
+              @foreach ($winter_rows as $row)
+                @php
+                  $details = $row['order'];
                   $first_name = $details->get_billing_first_name();
-                  $last_name = $details->get_billing_last_name();                
-                  $customer_note = $details->get_customer_note();
+                  $last_name = $details->get_billing_last_name();
                   $address = $details->get_shipping_address_1();
                   $city = $details->get_shipping_city();
                   $alternate_pickup_names = $details->get_meta('Pickup Name(s)');
+                  $quantity = $row['quantity'];
+                  $size = $row['size'];
 
-                  foreach ($details->get_items() as $item_id => $item) {
-                    $quantity = $item->get_quantity();
-                    $size = $item->get_meta( 'size', true );
+                  $winter_count++;
+
+                  if ($size == 'Bigger') {
+                    $winter_count_bigger += $quantity;
+                    $size = "2 CLEAR bags";
                   }
 
-                $winter_count++;	
-
-                if ($size == 'Bigger') {
-                  $winter_count_bigger += $quantity;
-                  $size = "2 CLEAR bags";
-                }
-
-                if ($size == 'Smaller') {
-                  $winter_count_smaller += $quantity; 
-                  $size = "2 WHITE bags";             
-                }
+                  if ($size == 'Smaller') {
+                    $winter_count_smaller += $quantity;
+                    $size = "2 WHITE bags";
+                  }
                 @endphp
                 <tr>
                   <td class="name">
@@ -397,7 +357,7 @@ foreach ($order_ids as $order_id) {
                     @endif
                   <td>{{ $size }}</td>
                   <td>{{ $quantity }}</td>
-                  <td>{{ $customer_note }}</td>
+                  <td class="note">{{ $alternate_pickup_names }}</td>
                 </tr>
               @endforeach
             @endif
@@ -565,16 +525,18 @@ foreach ($order_ids as $order_id) {
         <section class="count_box week2">
           @php
             $total_bigger = $winter_count_bigger;
-            $total_smaller = $winter_count_smaller;              
-            $total = $total_bigger + $total_smaller;
+            $total_smaller = $winter_count_smaller;
+            $extras = csa_winter_extras_for_location($location_name);
+            $total = $total_bigger + $total_smaller + $extras;
           @endphp
           <h4>Totals:</h4>
           <ul>
             <li><strong>Total:</strong> {{ $total }}</li>
             <li><strong>Bigger:</strong> {{ $total_bigger }}</li>
             <li><strong>Smaller:</strong> {{ $total_smaller }}</li>
+            <li><strong>Extras:</strong> {{ $extras }}</li>
           </ul>
-        </section> 
+        </section>
       @endif
    
       @if ($delivery_list)

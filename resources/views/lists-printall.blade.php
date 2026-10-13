@@ -10,25 +10,6 @@
   // Check if this is a Winter CSA list (set via ACF on the page)
   $winter_csa_mode = get_field('winter_csa_mode');
 
-  // Location name normalization for Winter CSA (consolidates variants)
-  function normalizeLocationName($location) {
-    $location_map = [
-      'Catch of the Week!' => 'Catch of the Week',
-      'Confetti Sweets (Sherwood Park)' => 'Confetti Sweets',
-      "D'arcy's Meat Market (St Albert Location)" => "D'Arcy's Meats (St Albert)",
-      "D'arcy's Meat Market (Whitemud Crossing Location)" => "D'Arcy's Meats (Whitemud Crossing)",
-      'Remedy (109th St)' => 'Remedy (109St Location)',
-      'Remedy (Terwillegar)' => 'Remedy (Terwillegar Location)',
-      'Ribeye Butcher Shop (Manning Center)' => 'Ribeye Butcher Shop (Manning Location)',
-      'Ribeye Butcher Shop (St Albert Erin Ridge)' => 'Ribeye Butcher Shop (St Albert)',
-      'Remedy (124 St Location)' => 'Remedy (124 St Location)',
-      'Home Delivery (Edmonton & Sherwood Park only)' => 'Delivery',
-      'Highlands Area Pick Up' => 'Candid Coffee Roasters',
-    ];
-    
-    return $location_map[$location] ?? $location;
-  }
-
   function weekCheck($prevWeek, $nextWeek) {
       // Check current date, set select value to selected if current date is between week x and y.
       // Function arguments are supplied by ACF in Ymd format
@@ -144,31 +125,26 @@ if($currentCSAWeek > 14) {
   $order_data = $wpdb->prefix . 'posts';
   $customer_meta = $wpdb->prefix . 'postmeta';
 
-  $product_id_15wk = '5958';
-  $product_id_biwk = '87354';
-  $product_id_delivery= '102902';
-  $product_id_winter = '5484';
-  $product_id_halfsummer = '103905';
+  $product_id_15wk = csa_product_id('fullseason');
+  $product_id_biwk = csa_product_id('biwk');
+  $product_id_delivery= csa_product_id('delivery');
+  $product_id_winter = csa_product_id('winter');
+  $product_id_halfsummer = csa_product_id('halfsummer');
 
   $has_biwk = false;
 
   $active_locations = array();
 
-  // Adjust date range based on list type
-  // $date_range = $winter_csa_mode ? '2024-10-01...2025-04-30' : '2025-01-01...2025-09-31';
-  $date_range = '2026-01-01...2026-10-31';
-  
-  $args = array(
-    'orderby' => 'name',
-    'order' => 'ASC',
-    'limit' => -1,
-    'status' => array('wc-processing', 'wc-on-hold'),
-    'date_created' => $date_range,
-  );
-  $query = new WC_Order_Query( $args );
-  $orders = $query->get_orders();
+  if ($winter_csa_mode) {
+    $orders = csa_get_orders_for_products([$product_id_winter], csa_order_date_range('winter'));
+  } else {
+    $orders = csa_get_orders_for_products(
+      [$product_id_15wk, $product_id_biwk, $product_id_halfsummer, $product_id_delivery],
+      csa_order_date_range('summer')
+    );
+  }
 
-//Build base struture of all order data we need
+$orders_formatted = [];
 
 foreach ($orders as $order) {
 
@@ -203,7 +179,7 @@ foreach ($orders as $order) {
       $extras_setting = get_field('extras', $location_object);
     }
     elseif($location_name_winter) {
-      $location = normalizeLocationName($location_name_winter);
+      $location = csa_normalize_location($location_name_winter);
       $location_slug = $location;
       $extras_setting = 1;
     }
@@ -335,16 +311,20 @@ foreach ($orders as $order) {
             $location_object = get_term_by( 'slug', $location, 'pa_pickup-location' );
           }
           
-          $extras_setting = is_object($location_object) ? get_field('extras', $location_object) : 1;
-                 
-          if($extras_setting == true) {
-            $extras = 1;
-          }
-          else {
-            $extras = 0;
-          }
-          if($late_season) {
-            $extras = 1;
+          if ($winter_csa_mode) {
+            $extras = csa_winter_extras_for_location($location);
+          } else {
+            $extras_setting = is_object($location_object) ? get_field('extras', $location_object) : 1;
+
+            if($extras_setting == true) {
+              $extras = 1;
+            }
+            else {
+              $extras = 0;
+            }
+            if($late_season) {
+              $extras = 1;
+            }
           }
         @endphp
         @unless($location == 'Delivery')
