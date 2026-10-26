@@ -618,7 +618,127 @@ if (!function_exists('csa_winter_items_for_location')) {
     }
 }
 
+if (!function_exists('csa_ordered_location_keys')) {
+    /**
+     * Order location keys using an ACF repeater. Listed locations print first
+     * (in repeater order); any remaining order locations append alphabetically.
+     */
+    function csa_ordered_location_keys(array $items_by_location, array $acf_locations = [])
+    {
+        $available = $items_by_location;
+        $ordered = [];
+
+        foreach ($acf_locations as $item) {
+            $name = csa_acf_location_name($item);
+            $canonical = csa_normalize_location($name);
+            if ($canonical === '' || strcasecmp($canonical, 'Delivery') === 0) {
+                continue;
+            }
+
+            if (!array_key_exists($canonical, $available) && array_key_exists($name, $available)) {
+                $canonical = $name;
+            }
+            if (!array_key_exists($canonical, $available) || isset($ordered[$canonical])) {
+                continue;
+            }
+
+            $ordered[$canonical] = true;
+            unset($available[$canonical]);
+        }
+
+        $rest = array_keys($available);
+        natcasesort($rest);
+
+        return array_merge(array_keys($ordered), array_values($rest));
+    }
+}
+
 add_action('woocommerce_order_status_changed', 'csa_flush_list_cache');
 add_action('woocommerce_new_order', 'csa_flush_list_cache');
 add_action('woocommerce_trash_order', 'csa_flush_list_cache');
 add_action('woocommerce_delete_order', 'csa_flush_list_cache');
+
+add_action('acf/init', function () {
+    if (!function_exists('acf_add_local_field_group')) {
+        return;
+    }
+
+    $winter_conditional = 0;
+    if (function_exists('acf_get_field')) {
+        $winter_mode = acf_get_field('winter_csa_mode');
+        if (!empty($winter_mode['key'])) {
+            $winter_conditional = [[
+                [
+                    'field' => $winter_mode['key'],
+                    'operator' => '==',
+                    'value' => '1',
+                ],
+            ]];
+        }
+    }
+
+    acf_add_local_field_group([
+        'key' => 'group_csa_printall_location_order',
+        'title' => 'Late Season Print Order',
+        'fields' => [
+            [
+                'key' => 'field_csa_printall_location_order',
+                'label' => 'Location order',
+                'name' => 'printall_location_order',
+                'type' => 'repeater',
+                'instructions' => 'Drag rows to set the Late Season Print All order. Locations with orders that are not listed still print at the end. Use Custom Location when the pickup is not in the dropdown.',
+                'required' => 0,
+                'conditional_logic' => $winter_conditional,
+                'layout' => 'table',
+                'button_label' => 'Add location',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_csa_printall_location_term',
+                        'label' => 'Location',
+                        'name' => 'location',
+                        'type' => 'taxonomy',
+                        'taxonomy' => 'pa_pickup-location',
+                        'field_type' => 'select',
+                        'allow_null' => 1,
+                        'add_term' => 0,
+                        'save_terms' => 0,
+                        'load_terms' => 0,
+                        'return_format' => 'object',
+                        'multiple' => 0,
+                    ],
+                    [
+                        'key' => 'field_csa_printall_custom_location',
+                        'label' => 'Custom Location?',
+                        'name' => 'custom_location',
+                        'type' => 'true_false',
+                        'default_value' => 0,
+                        'ui' => 0,
+                    ],
+                    [
+                        'key' => 'field_csa_printall_custom_location_name',
+                        'label' => 'Custom Location',
+                        'name' => 'custom_location_name',
+                        'type' => 'text',
+                        'conditional_logic' => [[
+                            [
+                                'field' => 'field_csa_printall_custom_location',
+                                'operator' => '==',
+                                'value' => '1',
+                            ],
+                        ]],
+                    ],
+                ],
+            ],
+        ],
+        'location' => [[
+            [
+                'param' => 'page_template',
+                'operator' => '==',
+                'value' => 'views/lists-printall.blade.php',
+            ],
+        ]],
+        'position' => 'normal',
+        'style' => 'default',
+        'active' => true,
+    ]);
+});

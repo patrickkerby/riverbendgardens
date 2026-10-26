@@ -228,8 +228,11 @@ foreach ($orders as $order) {
 
       @php
         if ($winter_csa_mode) {
-          $active_locations = array_keys($items_by_location);
-          sort($active_locations);
+          $acf_order = $printall_location_order ?? get_field('printall_location_order');
+          $active_locations = csa_ordered_location_keys(
+            $items_by_location,
+            is_array($acf_order) ? $acf_order : []
+          );
         } else {
           $active_locations = [
             'highlands-community-league',
